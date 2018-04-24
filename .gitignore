@@ -3,9 +3,12 @@
 *.py[cod]
 
 # Se omiten las bases locales
+<<<<<<< HEAD
 *.sqlite3
 
 # C extensions
+=======
+>>>>>>> Se borran archivos a ignorar
 *.sqlite3
 
 # C extensions
