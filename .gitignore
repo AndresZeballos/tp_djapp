@@ -3,6 +3,9 @@
 *.py[cod]
 
 # C extensions
+*.sqlite3
+
+# C extensions
 *.so
 
 # Distribution / packaging
