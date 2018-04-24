@@ -4,28 +4,52 @@ from datetime import datetime
 
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
     
 class FormaPago(models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
     
 class Comodidad(models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
     
 class RedSocial(models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
     
 class Motivo(models.Model):
     nombre = models.CharField(max_length=50)
 
+    def __str__(self):
+        return "%s" % (self.nombre)
+
 class Barrio(models.Model):
     nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s" % (self.nombre)
     
 class Centro(models.Model):
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return "%s" % (self.nombre)
+
 class Materia(models.Model):
     nombre = models.CharField(max_length=50)
     centro = models.ForeignKey(Centro, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "%s - %s" % (self.centro, self.nombre)
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
@@ -54,9 +78,15 @@ class Instituto(models.Model):
     facilidades = models.ManyToManyField(Facilidad)
     centros = models.ManyToManyField(Centro)
 
+    def __str__(self):
+        return "%s" % (self.nombre)
+
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "%s - %s" % (self.instituto, self.nombre)
 
 class Enlace(models.Model):
     instituto = models.OneToOneField(Instituto, on_delete=models.PROTECT)
@@ -66,12 +96,18 @@ class Enlace(models.Model):
     class Meta:
         unique_together = (('instituto', 'redSocial'),)
 
+    def __str__(self):
+        return "%s - %s" % (self.instituto, self.redSocial)
+
 class Transporte(models.Model):
     distancia = models.IntegerField(default=0)
     lineas = models.CharField(max_length=200)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "%s - %s" % (self.instituto, self.lineas)
     
-class Mensajes(models.Model):
+class Mensaje(models.Model):
     fecha = models.DateTimeField()
     nombre = models.CharField(max_length=200)
     telefono = models.CharField(max_length=20)
@@ -80,4 +116,7 @@ class Mensajes(models.Model):
     motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, null=True)
     centro = models.ForeignKey(Centro, on_delete=models.PROTECT, null=True)
+
+    def __str__(self):
+        return "%s - %s" % (self.fecha, self.nombre)
     
