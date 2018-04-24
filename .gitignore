@@ -6,6 +6,9 @@
 *.sqlite3
 
 # C extensions
+*.sqlite3
+
+# C extensions
 *.so
 
 # Distribution / packaging
