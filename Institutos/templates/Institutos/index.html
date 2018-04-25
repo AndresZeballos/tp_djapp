@@ -1,0 +1,9 @@
+{% if institutos_list %}
+    <ul>
+    {% for instituto in institutos_list %}
+        <li><a href="{% url 'perfil' instituto.id %}">{{ instituto.nombre }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay institutos registrados.</p>
+{% endif %}
