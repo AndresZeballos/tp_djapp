@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Página principal del sitio")
 
 def on_login(request):
     if request.user.is_authenticated:
@@ -19,4 +19,6 @@ def on_login(request):
 
 @login_required(login_url='/login')
 def perfil(request):
+    if request.user.is_staff:
+        return HttpResponseRedirect(reverse('admin:index'))
     return render(request, 'Institutos/perfil.html')
