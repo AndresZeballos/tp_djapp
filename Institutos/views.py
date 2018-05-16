@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+from . import models
+
 # Create your views here.
 
 def index(request):
@@ -22,3 +24,6 @@ def perfil(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
     return render(request, 'Institutos/perfil.html')
+
+def buscar(request):
+    return render(request, 'Institutos/Institutos.html', {'list': models.Instituto.objects.all()})
