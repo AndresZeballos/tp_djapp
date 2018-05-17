@@ -77,6 +77,7 @@ class Instituto(models.Model):
     barrios = models.ManyToManyField(Barrio)
     facilidades = models.ManyToManyField(Facilidad)
     centros = models.ManyToManyField(Centro)
+    materias = models.ManyToManyField(Materia)
 
     def __str__(self):
         return "%s" % (self.nombre)
@@ -113,9 +114,9 @@ class Mensaje(models.Model):
     telefono = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
     mensaje = models.CharField(max_length=4000)
-    motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT)
-    instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, null=True)
-    centro = models.ForeignKey(Centro, on_delete=models.PROTECT, null=True)
+    motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT, blank=True, null=True)
+    instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, blank=True, null=True)
+    centro = models.ForeignKey(Centro, on_delete=models.PROTECT, blank=True, null=True)
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)

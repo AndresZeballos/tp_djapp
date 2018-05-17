@@ -2,7 +2,7 @@
 **/__pycache__/
 *.py[cod]
 
-# C extensions
+# Se omiten las bases locales
 *.sqlite3
 
 # C extensions

@@ -1,3 +1,9 @@
-{% for item in list %}
-    {% include "Institutos/Instituto_Mini.html" with instituto=item %}
-{% endfor %}
+{% if institutos_list %}
+    <ul>
+    {% for instituto in institutos_list %}
+        {% include "Institutos/Instituto_Mini.html" with instituto=instituto %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay institutos registrados.</p>
+{% endif %}

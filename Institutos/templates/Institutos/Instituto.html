@@ -1,0 +1,19 @@
+<h1>{{ instituto.nombre }}</h1>
+<h2>{{ instituto.descripcion }}</h2>
+<ul>
+{% for f in instituto.facilidades.all %}
+    <li>{{ f.nombre }}</li>
+{% endfor %}
+</ul>
+
+
+<h2>Mensaje</h2>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
+    {% csrf_token %}
+    <label for="nombre">Nombre: </label>
+    <input id="nombre" type="text" name="nombre" value="">
+
+<input type="submit" value="Enviar" />
+</form>
