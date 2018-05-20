@@ -1,5 +1,13 @@
+{% load staticfiles %}
+<script src="{% static "Institutos/telefono.js" %}"></script>
+
 <h1>{{ instituto.nombre }}</h1>
 <h2>{{ instituto.descripcion }}</h2>
+
+
+<h2>Datos</h2>
+<div>Teléfono: <div id="telefono" style="display: none;">{{ instituto.telefono }}</div><a id="link" href="#" onclick="clickTelefono()">Ver teléfono</a> </div>
+
 <h3>Materias</h3>
 <ul>
 {% for f in instituto.materias.all %}
