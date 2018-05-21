@@ -11,4 +11,5 @@ urlpatterns = [
     path('buscar', views.buscar, name='buscar'),
     path('Instituto/<int:instituto_id>/', views.instituto, name='instituto'),
     path('Instituto/<int:instituto_id>/nuevo_mensaje', views.nuevo_mensaje, name='nuevo_mensaje'),
+    path('contacto', views.contacto, name='contacto'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

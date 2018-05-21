@@ -34,11 +34,18 @@ def instituto(request, instituto_id):
     return render(request, 'Institutos/Instituto.html', {'instituto': instituto})
 
 def nuevo_mensaje(request, instituto_id):
-    instituto = get_object_or_404(Instituto, pk=instituto_id)
     m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
     m.telefono = request.POST['telefono']
     m.email = request.POST['email']
     m.mensaje = request.POST['mensaje']
-    m.instituto = instituto
+    if instituto_id != 0:
+        instituto = get_object_or_404(Instituto, pk=instituto_id)
+        m.instituto = instituto
     m.save()
-    return HttpResponseRedirect(reverse('instituto', args=(instituto.id,)))
+    if instituto_id != 0:
+        return HttpResponseRedirect(reverse('instituto', args=(instituto.id,)))
+    else:
+        return HttpResponseRedirect(reverse('contacto'))
+    
+def contacto(request):
+    return render(request, 'Institutos/Contacto.html')

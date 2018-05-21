@@ -45,16 +45,4 @@
 <h2>Mensaje</h2>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
-    {% csrf_token %}
-    <label for="nombre">Nombre: </label>
-    <input id="nombre" type="text" name="nombre" value="">
-    <label for="telefono">Telefono: </label>
-    <input id="telefono" type="text" name="telefono" value="">
-    <label for="email">Email: </label>
-    <input id="email" type="text" name="email" value="">
-    <label for="mensaje">Mensaje: </label>
-    <input id="mensaje" type="text" name="mensaje" value="">
-
-<input type="submit" value="Enviar" />
-</form>
+{% include "Institutos/MensajeForm.html" with id=instituto.id %}
