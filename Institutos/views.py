@@ -49,3 +49,6 @@ def nuevo_mensaje(request, instituto_id):
     
 def contacto(request):
     return render(request, 'Institutos/Contacto.html')
+
+def sobre_nosotros(request):
+    return render(request, 'Institutos/Sobre-Nosotros.html')
