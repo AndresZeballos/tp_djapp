@@ -5,6 +5,9 @@
 # Se omiten las bases locales
 *.sqlite3
 
+# Se omiten los .env para evitar subir datos sensibles a github
+.env
+
 # C extensions
 *.so
 
