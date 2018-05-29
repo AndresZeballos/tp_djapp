@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+from decouple import config
 import os
 
-MAPS_API_KEY = "Agregar la api key de google maps"
+MAPS_API_KEY = config('MAPS_API_KEY')
 
 LOGIN_REDIRECT_URL = 'on_login'
 LOGOUT_REDIRECT_URL = 'index'
@@ -28,10 +29,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&e-&3u8mumy9m)a%#i$&$8*!f1_3h+w)&zc*m@6%bf267j^sq('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
