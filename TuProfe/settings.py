@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+MAPS_API_KEY = "Agregar la api key de google maps"
+
 LOGIN_REDIRECT_URL = 'on_login'
 LOGOUT_REDIRECT_URL = 'index'
 
