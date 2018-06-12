@@ -5,10 +5,20 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
+from django.contrib.auth.forms import AuthenticationForm
+
 from .models import Instituto, Mensaje
 
 def index(request):
     return render(request, 'Institutos/Index.html')
+
+def login(request):
+    print('ENTRO AL LOGIN MANUAL')
+    if request.method == 'POST':
+        return render(request, 'Institutos/Index.html')
+    else:
+        form = AuthenticationForm()
+        return render(request, 'registration/login.html', {'form': form})
 
 def on_login(request):
     if request.user.is_authenticated:
