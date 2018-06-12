@@ -501,6 +501,10 @@
     <index_tablespace />
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.zeroDateTimeBehavior</code>
+        <attribute>convertToNull</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -619,7 +623,44 @@
       <schema_name />
     </partitioning>
     <connection>TuProfeMy</connection>
-    <sql>SELECT * FROM institutos</sql>
+    <sql>SELECT
+  id_instituto
+, id_referencia
+, id_tipo_perfil
+, id_estado_perfil
+, posicionamiento
+, nombre
+, subtitulo
+, profesores
+, username
+, password
+/*, token_password_lost
+  , expiracion_password */
+, email
+, id_pais
+, id_departamento
+, id_ciudad
+, id_barrio_1
+, id_barrio_2
+, telefono
+, celular
+, direccion
+, localizacion
+, descripcion
+, descripcion_corta
+, logo
+, transporte_200m
+, transporte_500m
+, sitio_web
+, social_facebook
+, social_twitter
+, social_google
+, social_linkedin
+/*, fecha_creado
+  , fecha_actualizado
+  , last_ip */ 
+FROM institutos
+</sql>
     <limit>0</limit>
     <lookup />
     <execute_each_row>N</execute_each_row>

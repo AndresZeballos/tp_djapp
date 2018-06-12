@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+class UsuarioLegado(models.Model):
+    username = models.CharField(max_length=30)
+    email = models.CharField(max_length=50)
+    password = models.CharField(max_length=32)
+
+    def __str__(self):
+        return "%s" % (self.username)
+    
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
 
