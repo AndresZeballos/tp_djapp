@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Facilidad, FormaPago, Comodidad, RedSocial, Motivo, Barrio, Centro, Materia, Profesor, Enlace, Transporte, Mensaje, Instituto
+from .models import Facilidad, FormaPago, Comodidad, RedSocial, Motivo, Barrio, Centro, Materia, Profesor, Enlace, Transporte, Mensaje, Instituto, UsuarioLegado
 
 admin.site.register(Facilidad)
 admin.site.register(FormaPago)
@@ -15,3 +15,4 @@ admin.site.register(Enlace)
 admin.site.register(Transporte)
 admin.site.register(Mensaje)
 admin.site.register(Instituto)
+admin.site.register(UsuarioLegado)

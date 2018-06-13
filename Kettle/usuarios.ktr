@@ -501,6 +501,10 @@
     <index_tablespace />
     <attributes>
       <attribute>
+        <code>EXTRA_OPTION_MYSQL.zeroDateTimeBehavior</code>
+        <attribute>convertToNull</attribute>
+      </attribute>
+      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -544,13 +548,127 @@
   </connection>
   <order>
     <hop>
-      <from>institutos</from>
-      <to>Insertar / Actualizar</to>
+      <from>Add constants</from>
+      <to>Get System Info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get System Info</from>
+      <to>Insertar / Actualizar User</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>institutos - Usuarios</from>
+      <to>Add constants</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Insertar / Actualizar</name>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>pass</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>pbkdf2_sha256$100000$3SmUkSuQ8JRN$v/PYcDGtRJs0m/I61PgMuMQPMmGTzyaNZi0LGYhj5W8=</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>false</name>
+        <type>Boolean</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>false</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>true</name>
+        <type>Boolean</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>true</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>names</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>-</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Get System Info</name>
+    <type>SystemInfo</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>current_date</name>
+        <type>today start</type>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insertar / Actualizar User</name>
     <type>InsertUpdate</type>
     <description />
     <distribute>Y</distribute>
@@ -567,16 +685,11 @@
       <schema />
       <table>auth_user</table>
       <key>
-        <name>id_instituto</name>
-        <field>id</field>
+        <name>username</name>
+        <field>username</field>
         <condition>=</condition>
         <name2 />
       </key>
-      <value>
-        <name>id</name>
-        <rename>id_instituto</rename>
-        <update>N</update>
-      </value>
       <value>
         <name>username</name>
         <rename>username</rename>
@@ -585,7 +698,42 @@
       <value>
         <name>email</name>
         <rename>email</rename>
-        <update>N</update>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>password</name>
+        <rename>pass</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>is_superuser</name>
+        <rename>false</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>first_name</name>
+        <rename>names</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>is_staff</name>
+        <rename>false</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>is_active</name>
+        <rename>true</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>date_joined</name>
+        <rename>current_date</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>last_name</name>
+        <rename>names</rename>
+        <update>Y</update>
       </value>
     </lookup>
     <cluster_schema />
@@ -596,13 +744,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
+      <xloc>624</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>institutos</name>
+    <name>institutos - Usuarios</name>
     <type>TableInput</type>
     <description />
     <distribute>Y</distribute>
@@ -613,7 +761,15 @@
       <schema_name />
     </partitioning>
     <connection>TuProfeMy</connection>
-    <sql>SELECT * FROM institutos</sql>
+    <sql>SELECT
+  username
+, password
+, case when email IS NULL or email = ''
+            then 'email@dominio.com'
+            else email
+       end as email 
+FROM institutos
+where username != ''</sql>
     <limit>0</limit>
     <lookup />
     <execute_each_row>N</execute_each_row>

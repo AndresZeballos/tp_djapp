@@ -4,11 +4,11 @@ from datetime import datetime
 
 class UsuarioLegado(models.Model):
     username = models.CharField(max_length=30)
-    email = models.CharField(max_length=50)
-    password = models.CharField(max_length=32)
+    email = models.CharField(max_length=50, null=True)
+    password = models.CharField(max_length=32, null=True)
 
     def __str__(self):
-        return "%s" % (self.username)
+        return "%s - %s" % (self.username, self.email)
     
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
@@ -61,7 +61,7 @@ class Materia(models.Model):
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
-    id_legado = models.IntegerField(default=0)
+    referencia = models.IntegerField(default=0)
     logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=100, default='')
@@ -69,7 +69,6 @@ class Instituto(models.Model):
     descripcion_corta = models.CharField(max_length=100, default='')
     telefono = models.CharField(max_length=20, null=True)
     celular = models.CharField(max_length=20, null=True)
-    email_contacto = models.CharField(max_length=100, default='')
     direccion = models.CharField(max_length=100, default='')
     ciudad = models.CharField(max_length=50, default='Montevideo')
     departamento = models.CharField(max_length=50, default='Montevideo')
