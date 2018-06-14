@@ -591,6 +591,11 @@
         <rename>password</rename>
         <update>Y</update>
       </value>
+      <value>
+        <name>activo</name>
+        <rename>activo</rename>
+        <update>Y</update>
+      </value>
     </lookup>
     <cluster_schema />
     <remotesteps>
@@ -624,6 +629,10 @@
             then 'email@dominio.com'
             else email
        end as email 
+, case when id_estado_perfil = 1
+            then 1
+            else 0
+       end as activo 
 FROM institutos
 where username != ''</sql>
     <limit>0</limit>
