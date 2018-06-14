@@ -304,7 +304,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
+      <xloc>32</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -340,7 +340,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>192</xloc>
+      <xloc>128</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -376,7 +376,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>320</xloc>
+      <xloc>240</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -412,7 +412,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>448</xloc>
+      <xloc>352</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -448,7 +448,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>560</xloc>
+      <xloc>464</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -484,7 +484,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>688</xloc>
+      <xloc>576</xloc>
       <yloc>32</yloc>
     </entry>
     <entry>
@@ -494,8 +494,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>928</xloc>
-      <yloc>352</yloc>
+      <xloc>880</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
       <name>Usuarios Legados</name>
@@ -530,8 +530,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
-      <yloc>160</yloc>
+      <xloc>704</xloc>
+      <yloc>32</yloc>
     </entry>
     <entry>
       <name>Users</name>
@@ -566,8 +566,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>560</xloc>
-      <yloc>160</yloc>
+      <xloc>832</xloc>
+      <yloc>32</yloc>
     </entry>
     <entry>
       <name>Institutos</name>
@@ -602,16 +602,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>688</xloc>
+      <xloc>112</xloc>
       <yloc>160</yloc>
     </entry>
     <entry>
-      <name>instituto_x_centro</name>
+      <name>Web</name>
       <description />
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id />
-      <filename>${Internal.Entry.Current.Directory}/instituto_x_centro.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/enlaces1.ktr</filename>
       <transname />
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -639,15 +639,15 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>240</xloc>
-      <yloc>352</yloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>instituto_x_materia</name>
+      <name>FB</name>
       <description />
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id />
-      <filename>${Internal.Entry.Current.Directory}/instituto_x_materia.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/enlaces2.ktr</filename>
       <transname />
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -674,16 +674,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>384</xloc>
-      <yloc>352</yloc>
+      <xloc>320</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>instituto_x_comodidad</name>
+      <name>TW</name>
       <description />
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id />
-      <filename>${Internal.Entry.Current.Directory}/instituto_x_comodidad.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/enlaces3.ktr</filename>
       <transname />
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -710,16 +710,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>528</xloc>
-      <yloc>352</yloc>
+      <xloc>400</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>instituto_x_facilidad</name>
+      <name>G+</name>
       <description />
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id />
-      <filename>${Internal.Entry.Current.Directory}/instituto_x_facilidad.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/enlaces4.ktr</filename>
       <transname />
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -746,16 +746,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
-      <yloc>352</yloc>
+      <xloc>480</xloc>
+      <yloc>160</yloc>
     </entry>
     <entry>
-      <name>instituto_x_forma</name>
+      <name>LI</name>
       <description />
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id />
-      <filename>${Internal.Entry.Current.Directory}/instituto_x_forma.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/enlaces5.ktr</filename>
       <transname />
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -782,8 +782,80 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>800</xloc>
-      <yloc>352</yloc>
+      <xloc>560</xloc>
+      <yloc>160</yloc>
+    </entry>
+    <entry>
+      <name>Profesores</name>
+      <description />
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id />
+      <filename>${Internal.Entry.Current.Directory}/profesores.ktr</filename>
+      <transname />
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile />
+      <logext />
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name />
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>640</xloc>
+      <yloc>160</yloc>
+    </entry>
+    <entry>
+      <name>Transporte</name>
+      <description />
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id />
+      <filename>${Internal.Entry.Current.Directory}/transporte.ktr</filename>
+      <transname />
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile />
+      <logext />
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name />
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>752</xloc>
+      <yloc>160</yloc>
     </entry>
   </entries>
   <hops>
@@ -861,7 +933,7 @@
     </hop>
     <hop>
       <from>Institutos</from>
-      <to>instituto_x_centro</to>
+      <to>Web</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -869,8 +941,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>instituto_x_centro</from>
-      <to>instituto_x_materia</to>
+      <from>Web</from>
+      <to>FB</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -878,8 +950,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>instituto_x_materia</from>
-      <to>instituto_x_comodidad</to>
+      <from>FB</from>
+      <to>TW</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -887,8 +959,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>instituto_x_comodidad</from>
-      <to>instituto_x_facilidad</to>
+      <from>TW</from>
+      <to>G+</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -896,8 +968,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>instituto_x_facilidad</from>
-      <to>instituto_x_forma</to>
+      <from>G+</from>
+      <to>LI</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -905,7 +977,25 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>instituto_x_forma</from>
+      <from>LI</from>
+      <to>Profesores</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Profesores</from>
+      <to>Transporte</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Transporte</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

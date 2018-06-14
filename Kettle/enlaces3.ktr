@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>usuarios</name>
+    <name>enlaces3</name>
     <description />
     <extended_description />
     <trans_version />
@@ -501,10 +501,6 @@
     <index_tablespace />
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.zeroDateTimeBehavior</code>
-        <attribute>convertToNull</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -548,21 +544,21 @@
   </connection>
   <order>
     <hop>
-      <from>institutos - Usuarios</from>
-      <to>Add constants</to>
+      <from>TW</from>
+      <to>Id 3</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Add constants</from>
-      <to>Insertar / Actualizar User</to>
+      <from>Id 3</from>
+      <to>Insertar / Actualizar TW</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Add constants</name>
+    <name>Id 3</name>
     <type>Constant</type>
     <description />
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution />
     <copies>1</copies>
     <partitioning>
@@ -571,61 +567,13 @@
     </partitioning>
     <fields>
       <field>
-        <name>pass</name>
-        <type>String</type>
+        <name>redSocial_id</name>
+        <type>Number</type>
         <format />
         <currency />
         <decimal />
         <group />
-        <nullif>pbkdf2_sha256$100000$3SmUkSuQ8JRN$v/PYcDGtRJs0m/I61PgMuMQPMmGTzyaNZi0LGYhj5W8=</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>false</name>
-        <type>Boolean</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>false</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>true</name>
-        <type>Boolean</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>true</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>names</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>-</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>joined</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>2018-05-18T22:31:55.597Z</nullif>
+        <nullif>3</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -639,13 +587,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>96</yloc>
+      <xloc>192</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Insertar / Actualizar User</name>
+    <name>Insertar / Actualizar TW</name>
     <type>InsertUpdate</type>
     <description />
     <distribute>Y</distribute>
@@ -660,56 +608,32 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema />
-      <table>auth_user</table>
+      <table>Institutos_enlace</table>
       <key>
-        <name>username</name>
-        <field>username</field>
+        <name>id_instituto</name>
+        <field>instituto_id</field>
+        <condition>=</condition>
+        <name2 />
+      </key>
+      <key>
+        <name>redSocial_id</name>
+        <field>redSocial_id</field>
         <condition>=</condition>
         <name2 />
       </key>
       <value>
-        <name>username</name>
-        <rename>username</rename>
-        <update>N</update>
-      </value>
-      <value>
-        <name>email</name>
-        <rename>email</rename>
+        <name>instituto_id</name>
+        <rename>id_instituto</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>password</name>
-        <rename>pass</rename>
+        <name>redSocial_id</name>
+        <rename>redSocial_id</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>is_superuser</name>
-        <rename>false</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>first_name</name>
-        <rename>names</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>is_staff</name>
-        <rename>false</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>is_active</name>
-        <rename>true</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>date_joined</name>
-        <rename>joined</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>last_name</name>
-        <rename>names</rename>
+        <name>link</name>
+        <rename>social_twitter</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -721,13 +645,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>96</yloc>
+      <xloc>368</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>institutos - Usuarios</name>
+    <name>TW</name>
     <type>TableInput</type>
     <description />
     <distribute>Y</distribute>
@@ -739,14 +663,11 @@
     </partitioning>
     <connection>TuProfeMy</connection>
     <sql>SELECT
-  username
-, password
-, case when email IS NULL or email = ''
-            then 'email@dominio.com'
-            else email
-       end as email 
+  id_instituto
+, social_twitter
 FROM institutos
-where username != ''</sql>
+where username!=''
+  and social_twitter!=''</sql>
     <limit>0</limit>
     <lookup />
     <execute_each_row>N</execute_each_row>
@@ -760,8 +681,8 @@ where username != ''</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>96</yloc>
+      <xloc>48</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -75,8 +75,8 @@ class Instituto(models.Model):
     pais = models.CharField(max_length=50, default='Uruguay')
     latitud = models.FloatField(default=0)
     longitud = models.FloatField(default=0)
-    creado = models.DateTimeField(default=datetime.now)
-    modificado = models.DateTimeField(default=datetime.now)
+    creado = models.DateTimeField(default=datetime.now, null=True)
+    modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
     facilidades = models.ManyToManyField(Facilidad)
     formasPago = models.ManyToManyField(FormaPago)
@@ -97,13 +97,10 @@ class Profesor(models.Model):
         return "%s - %s" % (self.instituto, self.nombre)
 
 class Enlace(models.Model):
-    instituto = models.OneToOneField(Instituto, on_delete=models.PROTECT)
-    redSocial = models.OneToOneField(RedSocial, on_delete=models.PROTECT)
+    instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
+    redSocial = models.ForeignKey(RedSocial, on_delete=models.PROTECT)
     link = models.CharField(max_length=200)
     
-    class Meta:
-        unique_together = (('instituto', 'redSocial'),)
-
     def __str__(self):
         return "%s - %s" % (self.instituto, self.redSocial)
 
