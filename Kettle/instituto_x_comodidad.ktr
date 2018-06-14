@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>instituto_x_centro</name>
+    <name>instituto_x_comodidad</name>
     <description />
     <extended_description />
     <trans_version />
@@ -548,13 +548,13 @@
   </connection>
   <order>
     <hop>
-      <from>institutos_x_centro</from>
-      <to>Insertar / Actualizar Instituto_x_centro</to>
+      <from>institutos_x_comodidad</from>
+      <to>Insertar / Actualizar Instituto_x_comodidad</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Insertar / Actualizar Instituto_x_centro</name>
+    <name>Insertar / Actualizar Instituto_x_comodidad</name>
     <type>InsertUpdate</type>
     <description />
     <distribute>Y</distribute>
@@ -569,7 +569,7 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema />
-      <table>Institutos_instituto_centros</table>
+      <table>Institutos_instituto_comodidades</table>
       <key>
         <name>id_instituto</name>
         <field>instituto_id</field>
@@ -577,8 +577,8 @@
         <name2 />
       </key>
       <key>
-        <name>id_centro_estudio</name>
-        <field>centro_id</field>
+        <name>id_comodidad</name>
+        <field>comodidad_id</field>
         <condition>=</condition>
         <name2 />
       </key>
@@ -588,8 +588,8 @@
         <update>Y</update>
       </value>
       <value>
-        <name>centro_id</name>
-        <rename>id_centro_estudio</rename>
+        <name>comodidad_id</name>
+        <rename>id_comodidad</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -607,7 +607,7 @@
     </GUI>
   </step>
   <step>
-    <name>institutos_x_centro</name>
+    <name>institutos_x_comodidad</name>
     <type>TableInput</type>
     <description />
     <distribute>N</distribute>
@@ -619,12 +619,12 @@
     </partitioning>
     <connection>TuProfeMy</connection>
     <sql>SELECT ic.*, i.username, c.nombre
-FROM institutosxcentro_estudios ic
+FROM institutosxcomodidades ic
    , institutos i
-   , centro_estudios c
+   , comodidades c
 where i.username != ''
   and i.id_instituto = ic.id_instituto
-  and c.id_centro_estudio = ic.id_centro_estudio</sql>
+  and c.id_comodidad = ic.id_comodidad</sql>
     <limit>0</limit>
     <lookup />
     <execute_each_row>N</execute_each_row>
