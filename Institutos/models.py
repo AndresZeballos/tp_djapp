@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+import hashlib
 
 class UsuarioLegado(models.Model):
     username = models.CharField(max_length=30)
@@ -10,6 +11,14 @@ class UsuarioLegado(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.username, self.email)
+
+    def check_password(self, password):
+        m = hashlib.md5()
+        m.update(password.encode('utf-8'))
+        return self.password==m.hexdigest()
+
+    def is_active(self):
+        return self.activo
     
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
