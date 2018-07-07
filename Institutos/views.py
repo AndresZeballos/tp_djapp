@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate
 from .models import Instituto, Mensaje, UsuarioLegado
 from django.contrib.auth.models import User
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def index(request):
     return render(request, 'Institutos/Index.html')
 
@@ -51,8 +53,25 @@ def perfil(request):
     return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
 
 def buscar(request):
-    institutos = Instituto.objects.order_by('-posicionamiento')[:5]
-    return render(request, 'Institutos/Institutos.html', {'institutos_list': institutos})
+    lat = float(request.GET['lat'])
+    lng = float(request.GET['lng'])
+    page = int(request.GET.get('page', 1))
+    #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
+    institutos = list(Instituto.objects.all())
+
+    paginator = Paginator(institutos, 10)
+
+    institutos.sort(key=lambda instituto: instituto.distancia(lat, lng))
+    institutos = institutos[(page-1)*10:page*10]
+    institutos.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
+    
+    try:
+        inst_page = paginator.page(page)
+    except PageNotAnInteger:
+        inst_page = paginator.page(1)
+    except EmptyPage:
+        inst_page = paginator.page(paginator.num_pages)
+    return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)

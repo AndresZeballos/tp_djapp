@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 import hashlib
+import math
 
 class UsuarioLegado(models.Model):
     username = models.CharField(max_length=30)
@@ -95,6 +96,18 @@ class Instituto(models.Model):
     facilidades = models.ManyToManyField(Facilidad)
     centros = models.ManyToManyField(Centro)
     materias = models.ManyToManyField(Materia)
+    ultima_distancia = 0
+
+    def distancia(self, lat, lng):
+        radius = 6371 # km
+        dlat = math.radians(lat-self.latitud)
+        dlon = math.radians(lng-self.longitud)
+        a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(self.latitud)) \
+            * math.cos(math.radians(lat)) * math.sin(dlon/2) * math.sin(dlon/2)
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        d = radius * c
+        self.ultima_distancia = d
+        return d
 
     def __str__(self):
         return "%s" % (self.nombre)
