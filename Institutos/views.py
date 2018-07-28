@@ -14,6 +14,9 @@ from django.contrib.auth.models import User
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from decouple import config
+DEBUG = config('DEBUG', cast=bool)
+
 def index(request):
     return render(request, 'Institutos/Index.html')
 
@@ -65,6 +68,7 @@ def buscar(request):
     #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
     posicionados = list(filter(lambda i: i.ultima_distancia <= 1, posicionados))
     #posicionados = posicionados.filter(ultima_distancia__lte=1)
+    posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
     organicos = list(Instituto.objects.filter(posicionamiento=0))
@@ -72,7 +76,7 @@ def buscar(request):
     for i in organicos:
         i.distancia(lat, lng)
     organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
-    organicos.sort(key=lambda instituto: instituto.ultima_distancia, reverse=True)
+    organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
     
@@ -86,7 +90,10 @@ def buscar(request):
         inst_page = paginator.page(1)
     except EmptyPage:
         inst_page = paginator.page(paginator.num_pages)
-    return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+    if (DEBUG):
+        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+    else:
+        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)

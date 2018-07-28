@@ -1,0 +1,8 @@
+<li>
+    <a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a>
+    <div>Logo: {{ instituto.logo }}</div>
+    <div>Dirección: {{ instituto.direccion }}</div>
+    <div>Posicionamiento: {{ instituto.posicionamiento }}</div>
+    <div>Distancia: {{ instituto.ultima_distancia|floatformat:1 }} Km</div>
+    <div>Horario: 9:00 a 20:00</div>
+</li>
