@@ -57,14 +57,29 @@ def buscar(request):
     lng = float(request.GET['lng'])
     page = int(request.GET.get('page', 1))
     #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
-    institutos = list(Instituto.objects.all())
 
-    paginator = Paginator(institutos, 10)
-
-    institutos.sort(key=lambda instituto: instituto.distancia(lat, lng))
-    institutos = institutos[(page-1)*10:page*10]
-    institutos.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
+    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0))
+    #map(lambda instituto: instituto.distancia(lat, lng), posicionados)
+    for i in posicionados:
+        i.distancia(lat, lng)
+    #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
+    posicionados = list(filter(lambda i: i.ultima_distancia <= 1, posicionados))
+    #posicionados = posicionados.filter(ultima_distancia__lte=1)
+    posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
+    organicos = list(Instituto.objects.filter(posicionamiento=0))
+    #map(lambda instituto: instituto.distancia(lat, lng), organicos)
+    for i in organicos:
+        i.distancia(lat, lng)
+    organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
+    organicos.sort(key=lambda instituto: instituto.ultima_distancia, reverse=True)
+
+    institutos = posicionados + organicos
+    
+    paginator = Paginator(institutos, 10)
+    
+    # Calculo la pagina actual
+    institutos = institutos[(page-1)*10:page*10]
     try:
         inst_page = paginator.page(page)
     except PageNotAnInteger:
