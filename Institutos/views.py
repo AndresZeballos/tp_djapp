@@ -75,7 +75,8 @@ def buscar(request):
     #map(lambda instituto: instituto.distancia(lat, lng), organicos)
     for i in organicos:
         i.distancia(lat, lng)
-    organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
+    # El filtro de radio de 1 km no aplica a los resultados organicos - 30/07/18
+    #organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
