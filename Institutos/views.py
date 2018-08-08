@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -8,8 +8,11 @@ from django.utils import timezone
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 
 from .models import Instituto, Mensaje, UsuarioLegado
+from .forms import SignUpForm
+
 from django.contrib.auth.models import User
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -47,6 +50,23 @@ def on_login(request):
             return HttpResponseRedirect(reverse('perfil'))
     else:
         return HttpResponseRedirect(reverse('login'))
+
+def registro(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            auth_login(request, user)
+            i = Instituto(usuario=user) #, otro=request.POST['nombre'], fecha=timezone.now())
+            #m.telefono = request.POST['telefono']
+            i.save()
+            return redirect('on_login')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/registro.html', {'form': form})
 
 @login_required(login_url='/login')
 def perfil(request):
