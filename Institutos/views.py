@@ -17,6 +17,9 @@ from django.contrib.auth.models import User
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.core.mail import send_mail
+
+
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
 
@@ -138,4 +141,8 @@ def contacto(request):
     return render(request, 'Institutos/Contacto.html')
 
 def sobre_nosotros(request):
+    return render(request, 'Institutos/Sobre-Nosotros.html')
+
+def prueba_correo(request):
+    send_mail(request.GET['asunto'], request.GET['mensaje'], 'prueba@tuprofe.com.uy', [request.GET['email'], ])
     return render(request, 'Institutos/Sobre-Nosotros.html')

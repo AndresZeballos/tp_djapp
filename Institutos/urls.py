@@ -15,4 +15,5 @@ urlpatterns = [
     path('Instituto/<int:instituto_id>/Nuevo-Mensaje', views.nuevo_mensaje, name='nuevo_mensaje'),
     path('Contacto', views.contacto, name='contacto'),
     path('Sobre-Nosotros', views.sobre_nosotros, name='sobre_nosotros'),
+    path('PruebaCorreo', views.prueba_correo, name='prueba_correo'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
