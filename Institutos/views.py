@@ -146,3 +146,10 @@ def sobre_nosotros(request):
 def prueba_correo(request):
     send_mail(request.GET['asunto'], request.GET['mensaje'], 'prueba@tuprofe.com.uy', [request.GET['email'], ])
     return render(request, 'Institutos/Sobre-Nosotros.html')
+
+
+
+
+
+def mensajes(request):
+    return render(request, 'admin/mensajes.html')
