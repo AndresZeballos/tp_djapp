@@ -152,4 +152,6 @@ def prueba_correo(request):
 
 
 def mensajes(request):
-    return render(request, 'admin/mensajes.html')
+    
+    mensajes = list(Mensaje.objects.filter(leido=False).filter(instituto=None))
+    return render(request, 'admin/mensajes.html', {'mensajes': mensajes})

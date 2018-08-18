@@ -144,6 +144,8 @@ class Mensaje(models.Model):
     motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT, blank=True, null=True)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, blank=True, null=True)
     centro = models.ForeignKey(Centro, on_delete=models.PROTECT, blank=True, null=True)
+    leido = models.BooleanField(default=False)
+    linkEnviado = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)
