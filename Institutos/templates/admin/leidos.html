@@ -1,20 +1,27 @@
 {% extends "admin/base_site.html" %}
-
+{% load staticfiles %}
 
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+  <style>
+        .link-True {
+        }
+        .link-False {
+            background: green !important;
+        }
+    </style>
 {% endblock %}
 
 
-{% block title %}Mensajes Nuevos{% endblock %}
+{% block title %}Mensajes Leidos{% endblock %}
 
 {% block coltype %}flex{% endblock %}
 
 
 {% block content %}
   <div id="content-main">
-      <h1>Mensajes Nuevos</h1>
+      <h1>Mensajes Leidos</h1>
       <div id="content-main">
     
         
@@ -23,8 +30,8 @@
           
           
     
-      <!--    <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="ij8QQE5L74NpNy71APFqqPhlBYTYYcxeWLiBSyOVnZEVK52DDuxMNHqgZLZWHw2u">
-      -->
+       <!--   <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="ij8QQE5L74NpNy71APFqqPhlBYTYYcxeWLiBSyOVnZEVK52DDuxMNHqgZLZWHw2u">
+       -->   
     
     <!--
         
@@ -94,9 +101,9 @@
                     <th class="field-__str__"><a href="#">{{ mensaje.email }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.mensaje }}</a></th>
                     <th class="field-__str__">
-                        <form action="{% url 'marcar_leido' mensaje.id %}" method="post">
+                        <form action="{% url 'mandar_link' mensaje.id %}" method="post">
                             {% csrf_token %}
-                            <input type="submit" value="Leido" />
+                            <input type="submit" class="link-{{ mensaje.linkEnviado }}" value="Enviar Link" />
                         </form>
                     </th>
                 </tr>
@@ -110,7 +117,7 @@
     </div>
     
     
-      <!--    </form> -->
+       <!--   </form>   -->
         </div>
       </div>
   </div>

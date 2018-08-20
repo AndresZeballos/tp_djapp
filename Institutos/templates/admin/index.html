@@ -13,11 +13,15 @@
 <div id="content-main">
         <div class="module">
             <table summary="{% blocktrans with name="mensajes" %}Models available in the preferences application.{% endblocktrans %}">
-                <caption><a href="mensajes" class="section">{% blocktrans with name="preferences" %}Mensajes Recibidos{% endblocktrans %}</a></caption>
-                    <tr>
-                        <th scope="row"><a href="mensajes">Mensajes Recibidos</a></th>
-                        <td><a href="mensajes" class="changelink">{% trans 'Change' %}</a></td>
-                    </tr>
+                <caption><a href="mensajes" class="section">{% blocktrans with name="preferences" %}Mensajes{% endblocktrans %}</a></caption>
+                <tr>
+                    <th scope="row"><a href="mensajes">Mensajes Nuevos</a></th>
+                    <td><a href="mensajes" class="changelink">{% trans 'Change' %}</a></td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="leidos">Mensajes Leidos</a></th>
+                    <td><a href="leidos" class="changelink">{% trans 'Change' %}</a></td>
+                </tr>
             </table>
         </div>
 

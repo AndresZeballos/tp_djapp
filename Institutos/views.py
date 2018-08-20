@@ -148,10 +148,33 @@ def prueba_correo(request):
     return render(request, 'Institutos/Sobre-Nosotros.html')
 
 
-
-
-
+### Admin site requests
 def mensajes(request):
-    
     mensajes = list(Mensaje.objects.filter(leido=False).filter(instituto=None))
     return render(request, 'admin/mensajes.html', {'mensajes': mensajes})
+
+def leidos(request):
+    mensajes = list(Mensaje.objects.filter(leido=True).filter(instituto=None))
+    return render(request, 'admin/leidos.html', {'mensajes': mensajes})
+
+def marcar_leido(request, mensaje_id):
+    m = get_object_or_404(Mensaje, pk=mensaje_id)
+    m.leido = True
+    m.save()
+    return HttpResponseRedirect(reverse('mensajes'))
+
+def mandar_link(request, mensaje_id):
+    m = get_object_or_404(Mensaje, pk=mensaje_id)
+    m.update_hash()
+    send_mail('Verificación de Correo', \
+        'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://127.0.0.1:8000/Activar/' + m.hash_id + '/', \
+        'prueba@tuprofe.com.uy', [m.email, ])
+    m.linkEnviado = True
+    m.save()
+    return HttpResponseRedirect(reverse('leidos'))
+
+def activar(request, hash_id):
+    m = list(Mensaje.objects.filter(hash_id=hash_id))[0]
+    m.emailVerificado = True
+    m.save()
+    return HttpResponseRedirect(reverse('registro'))

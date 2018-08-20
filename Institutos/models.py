@@ -146,6 +146,13 @@ class Mensaje(models.Model):
     centro = models.ForeignKey(Centro, on_delete=models.PROTECT, blank=True, null=True)
     leido = models.BooleanField(default=False)
     linkEnviado = models.BooleanField(default=False)
+    emailVerificado = models.BooleanField(default=False)
+    hash_id = models.CharField(max_length=32, null=True)
+
+    def update_hash(self):
+        m = hashlib.md5()
+        m.update(self.email.encode('utf-8'))
+        self.hash_id = m.hexdigest()
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)
