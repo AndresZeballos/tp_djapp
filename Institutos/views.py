@@ -22,7 +22,8 @@ def on_login(request):
 def perfil(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
-    return render(request, 'Institutos/perfil.html')
+    instituto = Instituto.objects.get(usuario=request.user)
+    return render(request, 'Institutos/perfil.html', {'instituto': instituto})
 
 def buscar(request):
     institutos = Instituto.objects.order_by('-posicionamiento')[:5]
@@ -35,9 +36,9 @@ def instituto(request, instituto_id):
 def nuevo_mensaje(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
     m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
-    m.telefono = ""
-    m.email = ""
-    m.mensaje = ""
+    m.telefono = request.POST['telefono']
+    m.email = request.POST['email']
+    m.mensaje = request.POST['mensaje']
     m.instituto = instituto
     m.save()
-    return HttpResponseRedirect(reverse('perfil', args=(instituto.id,)))
+    return HttpResponseRedirect(reverse('instituto', args=(instituto.id,)))

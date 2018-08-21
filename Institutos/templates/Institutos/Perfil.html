@@ -2,4 +2,13 @@
 
 <div>En esta página se mostrará la información del istituto para su modificación y otros datos que se definan en el diseño</div>
 
-<a href="{% url 'logout' %}">Salir</a>
+<h3>Mensajes</h3>
+<ul>
+{% for m in instituto.mensaje_set.all %}
+    <li>{{ m.fecha|date:"d/M/Y H:i" }} - {{ m.nombre }} - {{ m.telefono }} - {{ m.email }} - {{ m.mensaje }}</li>
+{% endfor %}
+</ul>
+
+<div>
+    <a href="{% url 'logout' %}">Salir</a>
+</div>
