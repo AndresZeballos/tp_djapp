@@ -7,7 +7,7 @@ from django.utils import timezone
 from .models import Instituto, Mensaje
 
 def index(request):
-    return HttpResponse("Página principal del sitio")
+    return render(request, 'Institutos/Index.html')
 
 def on_login(request):
     if request.user.is_authenticated:

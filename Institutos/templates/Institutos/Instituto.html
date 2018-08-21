@@ -1,11 +1,40 @@
+{% load staticfiles %}
+<script src="{% static "Institutos/telefono.js" %}"></script>
+
 <h1>{{ instituto.nombre }}</h1>
-<h2>{{ instituto.descripcion }}</h2>
+<div>Distancia: 1.5 Km</div>
+<div>Horario: 9:00 a 20:00</div>
+
+<h2>Descripción</h2>
+<div>{{ instituto.descripcion }}</div>
+
+<div>Logo: {{ instituto.logo }}</div>
+
+<h2>Contacto</h2>
+<div>Teléfono: <div id="telefono" style="display: none;">{{ instituto.telefono }}</div><a id="link" href="#" onclick="clickTelefono()">Ver teléfono</a> </div>
+<div>Dirección: {{ instituto.direccion }}</div>
+
 <h3>Materias</h3>
 <ul>
 {% for f in instituto.materias.all %}
     <li>{{ f.nombre }}</li>
 {% endfor %}
 </ul>
+
+<h3>Medios de Pago</h3>
+<ul>
+{% for f in instituto.formasPago.all %}
+    <li>{{ f.nombre }}</li>
+{% endfor %}
+</ul>
+
+<h3>Comodidades</h3>
+<ul>
+{% for f in instituto.comodidades.all %}
+    <li>{{ f.nombre }}</li>
+{% endfor %}
+</ul>
+
 <h3>Facilidades</h3>
 <ul>
 {% for f in instituto.facilidades.all %}
