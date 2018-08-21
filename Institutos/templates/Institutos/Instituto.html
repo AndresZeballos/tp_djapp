@@ -1,5 +1,6 @@
 {% load staticfiles %}
 <script src="{% static "Institutos/telefono.js" %}"></script>
+<!--script src="{% static "Institutos/css/style.css" %}"></script-->
 
 <h1>{{ instituto.nombre }}</h1>
 <div>Distancia: 1.5 Km</div>
@@ -45,16 +46,30 @@
 <h2>Mensaje</h2>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
-    {% csrf_token %}
-    <label for="nombre">Nombre: </label>
-    <input id="nombre" type="text" name="nombre" value="">
-    <label for="telefono">Telefono: </label>
-    <input id="telefono" type="text" name="telefono" value="">
-    <label for="email">Email: </label>
-    <input id="email" type="text" name="email" value="">
-    <label for="mensaje">Mensaje: </label>
-    <input id="mensaje" type="text" name="mensaje" value="">
+{% include "Institutos/MensajeForm.html" with id=instituto.id %}
 
-<input type="submit" value="Enviar" />
-</form>
+<h2>Dirección</h2>
+
+<input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
+<input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
+
+<div id="map" style="height: 600px; width: 800px;"></div>
+
+<script>
+    function initMap() {
+        var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: position
+        });
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map
+        });
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+</script>
+
