@@ -133,9 +133,5 @@ class Migration(migrations.Migration):
             model_name='enlace',
             name='redSocial',
             field=models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, to='Institutos.RedSocial'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='enlace',
-            unique_together={('instituto', 'redSocial')},
-        ),
+        )
     ]

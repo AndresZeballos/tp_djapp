@@ -1,0 +1,10 @@
+TuProfe/type=javax.sql.DataSource
+TuProfe/driver=com.mysql.jdbc.Driver
+TuProfe/url=jdbc:mysql://www.tuprofe.com.uy:3306/tuprofe_tuprofe?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=America/Chicago
+TuProfe/user=
+TuProfe/password=
+LiteLocal/type=javax.sql.DataSource
+LiteLocal/driver=org.sqlite.JDBC
+LiteLocal/url=jdbc:sqlite:C:/Users/Andres/Desktop/TuProfe/db.sqlite3
+LiteLocal/user=
+LiteLocal/password=

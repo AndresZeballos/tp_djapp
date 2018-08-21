@@ -1,7 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+import hashlib
 
+class UsuarioLegado(models.Model):
+    username = models.CharField(max_length=30)
+    email = models.CharField(max_length=50, null=True)
+    password = models.CharField(max_length=32, null=True)
+    activo = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "%s - %s" % (self.username, self.email)
+
+    def check_password(self, password):
+        m = hashlib.md5()
+        m.update(password.encode('utf-8'))
+        return self.password==m.hexdigest()
+
+    def is_active(self):
+        return self.activo
+    
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
 
@@ -53,7 +71,7 @@ class Materia(models.Model):
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
-    id_legado = models.IntegerField(default=0)
+    referencia = models.IntegerField(default=0)
     logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=100, default='')
@@ -61,15 +79,14 @@ class Instituto(models.Model):
     descripcion_corta = models.CharField(max_length=100, default='')
     telefono = models.CharField(max_length=20, null=True)
     celular = models.CharField(max_length=20, null=True)
-    email_contacto = models.CharField(max_length=100, default='')
     direccion = models.CharField(max_length=100, default='')
     ciudad = models.CharField(max_length=50, default='Montevideo')
     departamento = models.CharField(max_length=50, default='Montevideo')
     pais = models.CharField(max_length=50, default='Uruguay')
     latitud = models.FloatField(default=0)
     longitud = models.FloatField(default=0)
-    creado = models.DateTimeField(default=datetime.now)
-    modificado = models.DateTimeField(default=datetime.now)
+    creado = models.DateTimeField(default=datetime.now, null=True)
+    modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
     facilidades = models.ManyToManyField(Facilidad)
     formasPago = models.ManyToManyField(FormaPago)
@@ -90,13 +107,10 @@ class Profesor(models.Model):
         return "%s - %s" % (self.instituto, self.nombre)
 
 class Enlace(models.Model):
-    instituto = models.OneToOneField(Instituto, on_delete=models.PROTECT)
-    redSocial = models.OneToOneField(RedSocial, on_delete=models.PROTECT)
+    instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
+    redSocial = models.ForeignKey(RedSocial, on_delete=models.PROTECT)
     link = models.CharField(max_length=200)
     
-    class Meta:
-        unique_together = (('instituto', 'redSocial'),)
-
     def __str__(self):
         return "%s - %s" % (self.instituto, self.redSocial)
 

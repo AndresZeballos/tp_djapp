@@ -5,10 +5,34 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
-from .models import Instituto, Mensaje
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
+
+from .models import Instituto, Mensaje, UsuarioLegado
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'Institutos/Index.html')
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        legado = UsuarioLegado.objects.filter(username=username).first()
+        user = User.objects.filter(username=username).first()
+        if legado == None:
+            return auth_views.login(request)
+        if legado != None and legado.is_active() and legado.check_password(password):
+            user.set_password(password)
+            user.is_active = True
+            user.save()
+            return auth_views.login(request)
+        form = AuthenticationForm()
+        return render(request, 'registration/login.html', {'form': form})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'registration/login.html', {'form': form})
 
 def on_login(request):
     if request.user.is_authenticated:
