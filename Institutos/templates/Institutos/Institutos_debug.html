@@ -5,7 +5,7 @@
 {% if institutos %}
     <ul>
     {% for instituto in institutos %}
-        {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}
+        {% include "Institutos/Instituto_Mini_debug.html" with instituto=instituto lat=lat lng=lng %}
     {% endfor %}
     </ul>
 {% else %}

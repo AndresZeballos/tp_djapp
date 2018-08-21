@@ -5,6 +5,41 @@
     <div>Página principal del sitio</div>
 
     <div id="mensaje"></div>
+
+    <form name="buscar" action="{% url 'buscar' %}" method="get">
+        <label for="address">Dirección: </label>
+        <input id="address" type="text" name="address" value="">
+
+        <input id="lat" name="lat" type="number" value="" hidden>
+        <input id="lng" name="lng" type="number" value="" hidden>
+
+        <input id="btnSubmit" type="button" value="Enviar" />
+    </form>
+    
 </body>
 
+<script>
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+        document.getElementById('btnSubmit').addEventListener('click', function() {
+            geocodeAddress(geocoder);
+        });
+    }
+
+    function geocodeAddress(geocoder) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
+            if (status === 'OK') {
+                document.getElementById('lat').value = results[0].geometry.location.lat();
+                document.getElementById('lng').value = results[0].geometry.location.lng();
+                document.buscar.submit();
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
+</script>
 

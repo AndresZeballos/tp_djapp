@@ -12,6 +12,11 @@ from django.contrib.auth import authenticate
 from .models import Instituto, Mensaje, UsuarioLegado
 from django.contrib.auth.models import User
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from decouple import config
+DEBUG = config('DEBUG', cast=bool)
+
 def index(request):
     return render(request, 'Institutos/Index.html')
 
@@ -51,8 +56,45 @@ def perfil(request):
     return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
 
 def buscar(request):
-    institutos = Instituto.objects.order_by('-posicionamiento')[:5]
-    return render(request, 'Institutos/Institutos.html', {'institutos_list': institutos})
+    lat = float(request.GET['lat'])
+    lng = float(request.GET['lng'])
+    page = int(request.GET.get('page', 1))
+    #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
+
+    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0))
+    #map(lambda instituto: instituto.distancia(lat, lng), posicionados)
+    for i in posicionados:
+        i.distancia(lat, lng)
+    #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
+    posicionados = list(filter(lambda i: i.ultima_distancia <= 1, posicionados))
+    #posicionados = posicionados.filter(ultima_distancia__lte=1)
+    posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
+    posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
+    
+    organicos = list(Instituto.objects.filter(posicionamiento=0))
+    #map(lambda instituto: instituto.distancia(lat, lng), organicos)
+    for i in organicos:
+        i.distancia(lat, lng)
+    # El filtro de radio de 1 km no aplica a los resultados organicos - 30/07/18
+    #organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
+    organicos.sort(key=lambda instituto: instituto.ultima_distancia)
+
+    institutos = posicionados + organicos
+    
+    paginator = Paginator(institutos, 10)
+    
+    # Calculo la pagina actual
+    institutos = institutos[(page-1)*10:page*10]
+    try:
+        inst_page = paginator.page(page)
+    except PageNotAnInteger:
+        inst_page = paginator.page(1)
+    except EmptyPage:
+        inst_page = paginator.page(paginator.num_pages)
+    if (DEBUG):
+        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+    else:
+        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
