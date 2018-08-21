@@ -1,6 +1,6 @@
 {% block content %}
   <h2>Registro</h2>
-  <form method="post">
+  <form action="/Registro" method="post">
     {% csrf_token %}
     {% for field in form %}
       <p>

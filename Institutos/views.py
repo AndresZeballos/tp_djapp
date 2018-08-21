@@ -177,4 +177,5 @@ def activar(request, hash_id):
     m = list(Mensaje.objects.filter(hash_id=hash_id))[0]
     m.emailVerificado = True
     m.save()
-    return HttpResponseRedirect(reverse('registro'))
+    form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
+    return render(request, 'registration/registro.html', {'form': form})
