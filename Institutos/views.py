@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
 from .models import Instituto, Mensaje, UsuarioLegado
-from .forms import SignUpForm
+from .forms import SignUpForm, PerfilForm
 
 from django.contrib.auth.models import User
 
@@ -75,8 +75,15 @@ def registro(request):
 def perfil(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
+    if request.method == 'POST':
+        form = PerfilForm(request.POST)
+        form.is_valid()
+        Instituto.objects.filter(usuario=request.user).update(**form.cleaned_data)
     instituto = Instituto.objects.get(usuario=request.user)
-    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
+    form = PerfilForm(instance=instituto)
+    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+
+    
 
 def buscar(request):
     lat = float(request.GET['lat'])

@@ -10,6 +10,27 @@
 </ul>
 
 
+<form action="/Perfil" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        
+        {% comment %}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% endcomment %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Guardar</button>
+  </form>
+
+
 <h2>Dirección</h2>
 
 <input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
