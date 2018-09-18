@@ -78,12 +78,19 @@ def perfil(request):
     if request.method == 'POST':
         form = PerfilForm(request.POST)
         form.is_valid()
-        Instituto.objects.filter(usuario=request.user).update(**form.cleaned_data)
+        instituto = Instituto.objects.filter(usuario=request.user)
+        instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
+            'subtitulo', 'descripcion', 'descripcion_corta', 'telefono','celular','direccion','ciudad',) if k in form.cleaned_data})
+        instituto = Instituto.objects.get(usuario=request.user)
+        instituto.updateRelation(instituto.centros, form.cleaned_data['centros'])
+        instituto.updateRelation(instituto.facilidades, form.cleaned_data['facilidades'])
+        instituto.updateRelation(instituto.formasPago, form.cleaned_data['formasPago'])
+        instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
+        instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
+        instituto.save()
     instituto = Instituto.objects.get(usuario=request.user)
     form = PerfilForm(instance=instituto)
     return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
-
-    
 
 def buscar(request):
     lat = float(request.GET['lat'])

@@ -109,6 +109,13 @@ class Instituto(models.Model):
         self.ultima_distancia = d
         return d
 
+    def updateRelation(self, attribute, ids):
+        elems = attribute.all()
+        for e in elems:
+            attribute.remove(e)
+        for i in ids.all():
+            attribute.add(i)
+
     def __str__(self):
         return "%s" % (self.nombre)
 
