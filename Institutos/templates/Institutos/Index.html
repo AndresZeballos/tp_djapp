@@ -1,11 +1,42 @@
-{% load staticfiles %}
-<script src="{% static "Institutos/script.js" %}"></script>
+{% extends "Institutos/base.html" %}
 
+{% block content %}
+
+<section class="home">
+    <article>
+        <h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
+        <p>Buscá al profesor que necesitas ahora</p>
+        <div class="full">
+            <div class="tree">
+                <p><img src="theme/img/h1.png" alt="Es Fácil"></p>
+                <span>Es Fácil</span>
+                <p>¡Un par de clicks y listo!</p>
+            </div>
+            <div class="tree">
+                <p><img src="theme/img/h2.png" alt="Es Rápido"></p>
+                <span>Es Rápido</span>
+                <p>Encontrar a tu profe te toma 1 minuto</p>
+            </div>
+            <div class="tree">
+                <p><img src="theme/img/h3.png" alt="Es Efectivo"></p>
+                <span>Es Efectivo</span>
+                <p>Lo que buscás lo encontrás acá</p>
+            </div>
+        </div>
+    </article>      
+</section>
+<aside class="home">
+    <div class="bottomHome">
+        <h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
+        <h4>Miles de estudiantes nos visitan en TuProfe.com.uy</h4>
+        <a href="{% url 'registro' %}">¡Registrate Ya!</a>
+    </div>
+</aside>
+
+<!--
 <body onload="onLoad()">
     <div>Página principal del sitio</div>
     
-    <a href="{% url 'ingresar' %}">Ingresar</a>
-    <a href="{% url 'registro' %}">Registrarse</a>
 
     <div id="mensaje"></div>
 
@@ -21,28 +52,8 @@
     
 </body>
 
-<script>
-    function initMap() {
-        var geocoder = new google.maps.Geocoder();
-        document.getElementById('btnSubmit').addEventListener('click', function() {
-            geocodeAddress(geocoder);
-        });
-    }
 
-    function geocodeAddress(geocoder) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
-            if (status === 'OK') {
-                document.getElementById('lat').value = results[0].geometry.location.lat();
-                document.getElementById('lng').value = results[0].geometry.location.lng();
-                document.buscar.submit();
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-</script>
+-->
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
-</script>
 
+{% endblock %}

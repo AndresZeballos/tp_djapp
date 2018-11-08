@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia
 from .forms import SignUpForm, PerfilForm
 
 from django.contrib.auth.models import User
@@ -24,7 +24,9 @@ from decouple import config
 DEBUG = config('DEBUG', cast=bool)
 
 def index(request):
-    return render(request, 'Institutos/Index.html')
+    centros = list(Centro.objects.all())
+    materias = list(Materia.objects.all())
+    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias})
 
 def login(request):
     if request.method == 'POST':
@@ -93,22 +95,26 @@ def perfil(request):
     return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 def buscar(request):
-    lat = float(request.GET['lat'])
-    lng = float(request.GET['lng'])
-    page = int(request.GET.get('page', 1))
+    lat = float(request.POST['lat'])
+    lng = float(request.POST['lng'])
+    page = int(request.POST.get('page', 1))
+
+    centro = request.POST.get('centro', "")
+    materia = request.POST.get('materia', "")
+
     #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
 
-    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0))
+    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
     #map(lambda instituto: instituto.distancia(lat, lng), posicionados)
     for i in posicionados:
         i.distancia(lat, lng)
     #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
-    posicionados = list(filter(lambda i: i.ultima_distancia <= 1, posicionados))
+    posicionados = list(filter(lambda i: i.ultima_distancia <= 1.5, posicionados))
     #posicionados = posicionados.filter(ultima_distancia__lte=1)
     posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
-    organicos = list(Instituto.objects.filter(posicionamiento=0))
+    organicos = list(Instituto.objects.filter(posicionamiento=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
     #map(lambda instituto: instituto.distancia(lat, lng), organicos)
     for i in organicos:
         i.distancia(lat, lng)
@@ -129,9 +135,9 @@ def buscar(request):
     except EmptyPage:
         inst_page = paginator.page(paginator.num_pages)
     if (DEBUG):
-        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
     else:
-        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="theme/js/jquery.min.js"></script>
+		<script src="theme/js/tuprofe.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header style="height: 626px;">
+			<div class="max head headTop">
+				<div class="logo">
+					<a href="#">
+						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+					</a>
+				</div>
+				<div class="menuHead">
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+				</div>
+			</div>
+			<div class="max head center">
+				<h1>Todos los profesores particulares en una web</h1>
+				<div class="formularios">
+					<form method="post" action="#">
+						<div class="formulario">
+							<input list="browsers" name="browser" class="boxCombo" placeholder="Centro de estudio">
+							<datalist id="browsers">
+								<option value="Opcion1"></option>
+								<option value="Opcion2"></option>
+								<option value="Opcion3"></option>
+								<option value="Opcion4"></option>
+								<option value="Opcion5"></option>
+								<option value="Opcion6"></option>
+								<option value="Opcion7"></option>
+							</datalist>
+							 <input list="browsers2" name="browser2" class="boxCombo" placeholder="Materia">
+							 <datalist id="browsers2">
+								<option value="Opcion 1"></option>
+								<option value="Opcion 2"></option>
+								<option value="Opcion 3"></option>
+								<option value="Opcion 4"></option>
+							</datalist>
+							 <input type="text" name="dir" class="dir" placeholder="Dirección - Ej: Rio Negro 1234">
+							 <div class="search" id="popUpSearch1" onclick="javascript:popUp();">Buscar</div>
+						</div>
+					</form>
+					<h3>¿Ya conoces al profe que estás buscando?</h3>
+					<div class="formulario2">
+						<form method="post" action="#">
+							<input type="text" name="profe" class="profe" placeholder="Nombre del profesor">
+							<div class="search" id="popUpSearch2" onclick="javascript:popUp();">Buscar</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- popUpSearch content -->
+			<div id="popUpContent">
+				<div class="popUpContentBox">
+					<div class="close" id="close" onclick="javascript:closed();">&times;</div>
+					<h3>Ingresá tu dirección</h3>
+					<div class="formularioPop">
+						<form method="post" action="#">
+							<input type="text" name="dirPop" id="dirPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
+							<input type="submit" value="Buscar" class="search" id="searchDirPop">
+						</form>
+					</div>
+					<div class="separador">&nbsp;</div>
+					<h3>Busca por mi geolocalización</h3>
+					<div class="formularioPop">
+						<form method="post" action="#">
+							<input type="submit" value="Buscar" class="search" id="searchPop">
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+    <section class="home">
+		<article>
+			<h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
+			<p>Buscá al profesor que necesitas ahora</p>
+			<div class="full">
+				<div class="tree">
+					<p><img src="theme/img/h1.png" alt="Es Fácil"></p>
+					<span>Es Fácil</span>
+					<p>¡Un par de clicks y listo!</p>
+				</div>
+				<div class="tree">
+					<p><img src="theme/img/h2.png" alt="Es Rápido"></p>
+					<span>Es Rápido</span>
+					<p>Encontrar a tu profe te toma 1 minuto</p>
+				</div>
+				<div class="tree">
+					<p><img src="theme/img/h3.png" alt="Es Efectivo"></p>
+					<span>Es Efectivo</span>
+					<p>Lo que buscás lo encontrás acá</p>
+				</div>
+			</div>
+		</article>      
+    </section>
+    <aside class="home">
+		<div class="bottomHome">
+			<h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
+			<h4>Miles de estudiantes nos visitan en TuProfe.com.uy</h4>
+			<a href="#">¡Registrate Ya!</a>
+		</div>
+	</aside>
+    <footer>
+		<hr>
+		<div class="max head">
+			<div class="logo">
+				<a href="#">
+					<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+				</a>
+			</div>
+			<div class="menuFoot">
+				<a href="#">Nosotros</a>
+				<a href="#">Contáctenos</a>
+				<a href="#">Ingreso</a>
+				<a href="#">Registro</a>
+			</div>
+		</div>
+    </footer>
+</body></html>
