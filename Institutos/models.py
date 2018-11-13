@@ -89,6 +89,7 @@ class Instituto(models.Model):
     creado = models.DateTimeField(default=datetime.now, null=True)
     modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
+    esDestacado = models.BooleanField(default=False)
     facilidades = models.ManyToManyField(Facilidad)
     formasPago = models.ManyToManyField(FormaPago)
     comodidades = models.ManyToManyField(Comodidad)

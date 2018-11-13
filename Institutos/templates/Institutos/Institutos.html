@@ -2,7 +2,17 @@
 
 {% bootstrap_css %}
 
+{% if destacados %}
+    <div>Destacados</div>
+    <ul>
+    {% for instituto in destacados %}
+        {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}
+    {% endfor %}
+    </ul>
+{% endif %}
+
 {% if institutos %}
+    <div>Resultados</div>
     <ul>
     {% for instituto in institutos %}
         {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}

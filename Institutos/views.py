@@ -102,28 +102,25 @@ def buscar(request):
     centro = request.POST.get('centro', "")
     materia = request.POST.get('materia', "")
 
-    #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
+    destacados = list(Instituto.objects.filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
 
     posicionados = list(Instituto.objects.filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
-    #map(lambda instituto: instituto.distancia(lat, lng), posicionados)
+
     for i in posicionados:
         i.distancia(lat, lng)
-    #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
+
     posicionados = list(filter(lambda i: i.ultima_distancia <= 1.5, posicionados))
-    #posicionados = posicionados.filter(ultima_distancia__lte=1)
     posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
     organicos = list(Instituto.objects.filter(posicionamiento=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
-    #map(lambda instituto: instituto.distancia(lat, lng), organicos)
+
     for i in organicos:
         i.distancia(lat, lng)
     # El filtro de radio de 1 km no aplica a los resultados organicos - 30/07/18
-    #organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
-    
     paginator = Paginator(institutos, 10)
     
     # Calculo la pagina actual
@@ -135,9 +132,9 @@ def buscar(request):
     except EmptyPage:
         inst_page = paginator.page(paginator.num_pages)
     if (DEBUG):
-        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
+        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'destacados': destacados, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
     else:
-        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
+        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'destacados': destacados, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
