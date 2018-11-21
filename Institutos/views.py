@@ -19,10 +19,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.core.mail import send_mail
 
-import urllib
+import urllib.request
+import json
 
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
+MAPS_API_KEY = config('MAPS_API_KEY')
 
 def index(request):
     centros = list(Centro.objects.all())
@@ -36,12 +38,12 @@ def login(request):
         legado = UsuarioLegado.objects.filter(username=username).first()
         user = User.objects.filter(username=username).first()
         if legado == None:
-            return auth_views.login(request)
+            return auth_views.LoginView(request)
         if legado != None and legado.is_active() and legado.check_password(password):
             user.set_password(password)
             user.is_active = True
             user.save()
-            return auth_views.login(request)
+            return auth_views.LoginView(request)
         form = AuthenticationForm()
         return render(request, 'registration/login.html', {'form': form})
     else:
@@ -205,9 +207,12 @@ def paradas(request):
 def paradasCoords(request):
     paradas = list(Parada.objects.all())
     
-    response = urllib.urlopen('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
-    js  = json.load(response)
-    print(js['results'][0]['geometry']['location'])
+    req = urllib.request.Request('https://maps.googleapis.com/maps/api/geocode/json?key=' + MAPS_API_KEY + '&address=AV+JOSE+BELLONI+y+CNO+BENITO+BERGES,montevideo,uruguay')
+    response = urllib.request.urlopen(req)
+    j = json.loads(response.read())
+
+    print(j['results'][0]['geometry']['location']['lat'])
+    print(j['results'][0]['geometry']['location']['lng'])
 
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 

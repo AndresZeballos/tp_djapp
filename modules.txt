@@ -1,0 +1,3 @@
+python-decouple
+django-bootstrap4
+pip install Pillow
