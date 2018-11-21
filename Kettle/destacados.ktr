@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>institutos</name>
+    <name>destacados</name>
     <description />
     <extended_description />
     <trans_version />
@@ -501,10 +501,6 @@
     <index_tablespace />
     <attributes>
       <attribute>
-        <code>EXTRA_OPTION_MYSQL.zeroDateTimeBehavior</code>
-        <attribute>convertToNull</attribute>
-      </attribute>
-      <attribute>
         <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
         <attribute>N</attribute>
       </attribute>
@@ -548,74 +544,19 @@
   </connection>
   <order>
     <hop>
-      <from>Busco Id del User</from>
-      <to>Valores por defecto</to>
+      <from>web</from>
+      <to>A�adir constantes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Valores por defecto</from>
-      <to>Agrego fecha actual</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Agrego fecha actual</from>
-      <to>Insertar / Actualizar Instituto</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>institutos</from>
-      <to>Quito parentesis</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Quito parentesis</from>
-      <to>Separo coordenadas</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Separo coordenadas</from>
-      <to>Casteo coordenadas</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Casteo coordenadas</from>
-      <to>Busco Id del User</to>
+      <from>A�adir constantes</from>
+      <to>Actualizar</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Agrego fecha actual</name>
-    <type>SystemInfo</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <name>hoy</name>
-        <type>today start</type>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>560</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Busco Id del User</name>
-    <type>DBLookup</type>
+    <name>Actualizar</name>
+    <type>Update</type>
     <description />
     <distribute>Y</distribute>
     <custom_distribution />
@@ -625,113 +566,11 @@
       <schema_name />
     </partitioning>
     <connection>LiteLocal</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema />
-      <table>auth_user</table>
-      <orderby />
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>username</name>
-        <field>username</field>
-        <condition>=</condition>
-        <name2 />
-      </key>
-      <value>
-        <name>id</name>
-        <rename>id_usuario</rename>
-        <default />
-        <type>Number</type>
-      </value>
-    </lookup>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>192</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Casteo coordenadas</name>
-    <type>ScriptValueMod</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>//Script here
-
-var lat = parseFloat(lat_str);
-var long = parseFloat(long_str);
-
-
-
-</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>lat</name>
-        <rename>lat</rename>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>long</name>
-        <rename>long</rename>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>624</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Insertar / Actualizar Instituto</name>
-    <type>InsertUpdate</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>LiteLocal</connection>
+    <skip_lookup>N</skip_lookup>
     <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
+    <use_batch>Y</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field />
     <lookup>
       <schema />
       <table>Institutos_instituto</table>
@@ -744,102 +583,10 @@ var long = parseFloat(long_str);
       <value>
         <name>id</name>
         <rename>id_instituto</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>usuario_id</name>
-        <rename>id_usuario</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>celular</name>
-        <rename>celular</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ciudad</name>
-        <rename>ciudad</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>creado</name>
-        <rename>hoy</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>departamento</name>
-        <rename>departamento</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>descripcion</name>
-        <rename>descripcion</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>descripcion_corta</name>
-        <rename>descripcion_corta</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>direccion</name>
-        <rename>direccion</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>latitud</name>
-        <rename>lat</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>longitud</name>
-        <rename>long</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>modificado</name>
-        <rename>hoy</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nombre</name>
-        <rename>nombre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>pais</name>
-        <rename>pais</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>posicionamiento</name>
-        <rename>posicionamiento</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>subtitulo</name>
-        <rename>subtitulo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>telefono</name>
-        <rename>telefono</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>referencia</name>
-        <rename>id_referencia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>logo</name>
-        <rename>logo</rename>
-        <update>Y</update>
       </value>
       <value>
         <name>esDestacado</name>
-        <rename>destacado</rename>
-        <update>Y</update>
+        <rename>true</rename>
       </value>
     </lookup>
     <cluster_schema />
@@ -850,196 +597,14 @@ var long = parseFloat(long_str);
       </output>
     </remotesteps>
     <GUI>
-      <xloc>752</xloc>
-      <yloc>192</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Quito parentesis</name>
-    <type>ReplaceString</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>localizacion</in_stream_name>
-        <out_stream_name>localizacion_sp</out_stream_name>
-        <use_regex>yes</use_regex>
-        <replace_string>([()])</replace_string>
-        <replace_by_string />
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string />
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Separo coordenadas</name>
-    <type>FieldSplitter</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <splitfield>localizacion_sp</splitfield>
-    <delimiter>,</delimiter>
-    <enclosure />
-    <fields>
-      <field>
-        <name>lat_str</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>both</trimtype>
-      </field>
-      <field>
-        <name>long_str</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>both</trimtype>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Valores por defecto</name>
-    <type>Constant</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <name>ciudad</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>Montevideo</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>departamento</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>Montevideo</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>pais</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>Uruguay</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>logo</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>images/profile_pics/blank-profile.jpg</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>destacado</name>
-        <type>Boolean</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>0</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
       <xloc>384</xloc>
-      <yloc>192</yloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>institutos</name>
-    <type>TableInput</type>
+    <name>A�adir constantes</name>
+    <type>Constant</type>
     <description />
     <distribute>N</distribute>
     <custom_distribution />
@@ -1048,36 +613,49 @@ var long = parseFloat(long_str);
       <method>none</method>
       <schema_name />
     </partitioning>
+    <fields>
+      <field>
+        <name>true</name>
+        <type>Boolean</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>true</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>web</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
     <connection>TuProfeMy</connection>
-    <sql>SELECT
-  id_instituto
-, id_referencia
-, id_tipo_perfil
-, id_estado_perfil
-, case when posicionamiento IS NULL or posicionamiento = ''
-            then 0
-            else posicionamiento
-       end as posicionamiento 
-, nombre
-, case when subtitulo IS NULL or subtitulo = ''
-            then '-'
-            else subtitulo
-       end as subtitulo 
-, username
-, telefono
-, celular
-, direccion
-, localizacion
-, case when descripcion IS NULL or descripcion = ''
-            then '-'
-            else descripcion
-       end as descripcion 
-, case when descripcion_corta IS NULL or descripcion_corta = ''
-            then '-'
-            else descripcion_corta
-       end as descripcion_corta 
-FROM institutos
-where username != ''</sql>
+    <sql>SELECT institutos.id_instituto
+FROM institutos, destacados
+where institutos.id_instituto = destacados.id_instituto and 
+estado=1</sql>
     <limit>0</limit>
     <lookup />
     <execute_each_row>N</execute_each_row>
@@ -1091,8 +669,8 @@ where username != ''</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>64</yloc>
+      <xloc>48</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

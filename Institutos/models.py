@@ -72,7 +72,7 @@ class Materia(models.Model):
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
-    referencia = models.IntegerField(default=0)
+    referencia = models.IntegerField(default=0, null=True)
     logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=100, default='')
@@ -80,7 +80,7 @@ class Instituto(models.Model):
     descripcion_corta = models.CharField(max_length=100, default='')
     telefono = models.CharField(max_length=20, null=True)
     celular = models.CharField(max_length=20, null=True)
-    direccion = models.CharField(max_length=100, default='')
+    direccion = models.CharField(max_length=100, default='', null=True)
     ciudad = models.CharField(max_length=50, default='Montevideo')
     departamento = models.CharField(max_length=50, default='Montevideo')
     pais = models.CharField(max_length=50, default='Uruguay')
@@ -89,7 +89,7 @@ class Instituto(models.Model):
     creado = models.DateTimeField(default=datetime.now, null=True)
     modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
-    esDestacado = models.BooleanField(default=False)
+    esDestacado = models.NullBooleanField(default=False)
     facilidades = models.ManyToManyField(Facilidad)
     formasPago = models.ManyToManyField(FormaPago)
     comodidades = models.ManyToManyField(Comodidad)
@@ -164,4 +164,27 @@ class Mensaje(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)
-    
+
+
+class Calle(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+        
+class Omnibus(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Parada(models.Model):
+    latitud = models.FloatField(default=0)
+    longitud = models.FloatField(default=0)
+    calle = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='calle')
+    esquina = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='esquina')
+    lineas = models.ManyToManyField(Omnibus)
+
+    def __str__(self):
+        return self.nombre
+        

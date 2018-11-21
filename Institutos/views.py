@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada
 from .forms import SignUpForm, PerfilForm
 
 from django.contrib.auth.models import User
@@ -19,6 +19,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.core.mail import send_mail
 
+import urllib
 
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
@@ -196,3 +197,18 @@ def activar(request, hash_id):
     m.save()
     form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
     return render(request, 'registration/registro.html', {'form': form})
+
+def paradas(request):
+    paradas = list(Parada.objects.all())
+    return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+def paradasCoords(request):
+    paradas = list(Parada.objects.all())
+    
+    response = urllib.urlopen('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
+    js  = json.load(response)
+    print(js['results'][0]['geometry']['location'])
+
+    return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+
