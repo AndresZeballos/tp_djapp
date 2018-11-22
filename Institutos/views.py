@@ -19,10 +19,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.core.mail import send_mail
 
-import urllib
+import urllib.request
+import json
 
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
+MAPS_API_KEY = config('MAPS_API_KEY')
 
 def index(request):
     centros = list(Centro.objects.all())
@@ -204,10 +206,28 @@ def paradas(request):
 
 def paradasCoords(request):
     paradas = list(Parada.objects.all())
-    
-    response = urllib.urlopen('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA')
-    js  = json.load(response)
-    print(js['results'][0]['geometry']['location'])
+    for p in paradas:
+        parada = get_object_or_404(Parada, pk=p.id)
+        d = "{parada.calle!s} y {parada.esquina!s}".replace(' ', '+')
+        
+        req = urllib.request.Request('https://maps.googleapis.com/maps/api/geocode/json?key='+MAPS_API_KEY+'&address='+d+',montevideo,uruguay')
+        
+        
+        try:
+            response = urllib.request.urlopen(req)
+            #except Exception as inst:
+            #    print (type(inst))     # the exception instanc
+            #    print (inst.args )     # arguments stored in .args
+            #    print (inst       )
+            #if response 
+            j = json.loads(response.read())
+            parada.latitud = j['results'][0]['geometry']['location']['lat']
+            parada.longitud = j['results'][0]['geometry']['location']['lng']
+            parada.save()
+        except Exception as inst:
+            print (type(inst))     # the exception instanc
+            print (inst.args )     # arguments stored in .args
+            print (inst       )
 
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 
