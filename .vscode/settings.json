@@ -1,5 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "python.pythonPath": "C:\\Users\\azeballos\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
 }

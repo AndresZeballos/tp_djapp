@@ -38,13 +38,26 @@ def login(request):
         password = request.POST['password']
         legado = UsuarioLegado.objects.filter(username=username).first()
         user = User.objects.filter(username=username).first()
+        
+        u = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            auth_login(request, u)
+            print('punto 1')
+        else:
+            pass
+        
+        print('punto 2')
+
         if legado == None:
-            return auth_views.login(request)
+            print('punto 3')
+            return on_login(request) #auth_views.LoginView.as_view() #(request)
         if legado != None and legado.is_active() and legado.check_password(password):
             user.set_password(password)
             user.is_active = True
             user.save()
-            return auth_views.login(request)
+            print('punto 4')
+            return on_login(request) #auth_views.LoginView.as_view() #(request)
         form = AuthenticationForm()
         return render(request, 'registration/login.html', {'form': form})
     else:
