@@ -20,6 +20,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 
 import urllib.request
+from urllib.parse   import urlencode
 import json
 
 from decouple import config
@@ -202,19 +203,31 @@ def activar(request, hash_id):
 
 def paradas(request):
     paradas = list(Parada.objects.all())
+    print('Ã‘')
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 
 def paradasCoords(request):
     paradas = list(Parada.objects.all())
     for p in paradas:
         parada = get_object_or_404(Parada, pk=p.id)
-        d = "{parada.calle!s} y {parada.esquina!s}".replace(' ', '+')
-        
-        req = urllib.request.Request('https://maps.googleapis.com/maps/api/geocode/json?key='+MAPS_API_KEY+'&address='+d+',montevideo,uruguay')
-        
-        
         try:
+            #parada.calle.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.calle.nombre])
+            #parada.esquina.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.esquina.nombre])
+            parada.calle.nombre = parada.calle.nombre.replace('Ã‘', 'Ñ').replace('Â´', "'")
+            parada.esquina.nombre = parada.esquina.nombre.replace('Ã‘', 'Ñ').replace('Â´', "'")
+
+
+            d = (parada.calle.nombre + " y " + parada.esquina.nombre)#.replace(' ', '+')
+            
+            print(d)
+            query = dict(key=MAPS_API_KEY, address=d+',montevideo,uruguay')
+
+            #req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?key='+MAPS_API_KEY+'&address='+d+',montevideo,uruguay'))
+            req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?'+urlencode(query)))
+        
+        
             response = urllib.request.urlopen(req)
+            print('---------------------------------------------------------------------')
             #except Exception as inst:
             #    print (type(inst))     # the exception instanc
             #    print (inst.args )     # arguments stored in .args
@@ -223,6 +236,9 @@ def paradasCoords(request):
             j = json.loads(response.read())
             parada.latitud = j['results'][0]['geometry']['location']['lat']
             parada.longitud = j['results'][0]['geometry']['location']['lng']
+            
+            parada.calle.save()
+            parada.esquina.save()
             parada.save()
         except Exception as inst:
             print (type(inst))     # the exception instanc
