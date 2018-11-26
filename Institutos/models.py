@@ -72,6 +72,8 @@ class Materia(models.Model):
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
+    estado = models.IntegerField(default=0, null=True)
+    hash_id = models.CharField(max_length=32, null=True)
     referencia = models.IntegerField(default=0, null=True)
     logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
@@ -117,6 +119,11 @@ class Instituto(models.Model):
         for i in ids.all():
             attribute.add(i)
 
+    def update_hash(self):
+        m = hashlib.md5()
+        m.update(self.nombre.encode('utf-8'))
+        self.hash_id = m.hexdigest()
+
     def __str__(self):
         return "%s" % (self.nombre)
 
@@ -155,12 +162,6 @@ class Mensaje(models.Model):
     leido = models.BooleanField(default=False)
     linkEnviado = models.BooleanField(default=False)
     emailVerificado = models.BooleanField(default=False)
-    hash_id = models.CharField(max_length=32, null=True)
-
-    def update_hash(self):
-        m = hashlib.md5()
-        m.update(self.email.encode('utf-8'))
-        self.hash_id = m.hexdigest()
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)

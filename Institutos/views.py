@@ -64,13 +64,18 @@ def registro(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = User.objects.create_user(username=username, email=username, password=raw_password)
             auth_login(request, user)
-            i = Instituto(usuario=user) #, otro=request.POST['nombre'], fecha=timezone.now())
-            #m.telefono = request.POST['telefono']
+            i = Instituto(usuario=user) 
+            i.nombre = request.POST['name']
+            i.telefono = request.POST['cellphone']
+            
+            i.update_hash()
+            send_mail('Verificación de Correo', \
+                'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://127.0.0.1:8000/Activar/' + i.hash_id + '/', \
+                'prueba@tuprofe.com.uy', [username, ])
             i.save()
             return redirect('on_login')
     else:
@@ -195,15 +200,15 @@ def mandar_link(request, mensaje_id):
     return HttpResponseRedirect(reverse('leidos'))
 
 def activar(request, hash_id):
-    m = list(Mensaje.objects.filter(hash_id=hash_id))[0]
-    m.emailVerificado = True
+    m = list(Instituto.objects.filter(hash_id=hash_id))[0]
+    m.estado = 1
     m.save()
-    form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
-    return render(request, 'registration/registro.html', {'form': form})
+    #form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
+    #return render(request, 'registration/registro.html', {'form': form})
+    return HttpResponseRedirect(reverse('login'))
 
 def paradas(request):
     paradas = list(Parada.objects.all())
-    print('Ã‘')
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 
 def paradasCoords(request):
