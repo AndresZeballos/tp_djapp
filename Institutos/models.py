@@ -187,5 +187,5 @@ class Parada(models.Model):
     lineas = models.ManyToManyField(Omnibus)
 
     def __str__(self):
-        return self.nombre
+        return "%s - %s - %s" % (self.id, self.calle, self.esquina)
         
