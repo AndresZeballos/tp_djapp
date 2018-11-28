@@ -682,7 +682,7 @@
 var lat = parseFloat(lat_str);
 var long = parseFloat(long_str);
 
-
+var estado = id_estado_perfil + 1;
 
 </jsScript_script>
       </jsScript>
@@ -699,6 +699,14 @@ var long = parseFloat(long_str);
       <field>
         <name>long</name>
         <rename>long</rename>
+        <type>Number</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>estado</name>
+        <rename>estado</rename>
         <type>Number</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -839,6 +847,11 @@ var long = parseFloat(long_str);
       <value>
         <name>esDestacado</name>
         <rename>destacado</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>estado</name>
+        <rename>estado</rename>
         <update>Y</update>
       </value>
     </lookup>

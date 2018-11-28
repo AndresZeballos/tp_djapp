@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as auth_login
+#from django.contrib.auth import login as auth_login
 
 from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada
 from .forms import SignUpForm, PerfilForm
@@ -67,7 +67,7 @@ def registro(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = User.objects.create_user(username=username, email=username, password=raw_password)
-            auth_login(request, user)
+            #auth_login(request, user)
             i = Instituto(usuario=user) 
             i.nombre = request.POST['name']
             i.telefono = request.POST['cellphone']
@@ -77,7 +77,7 @@ def registro(request):
                 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://127.0.0.1:8000/Activar/' + i.hash_id + '/', \
                 'prueba@tuprofe.com.uy', [username, ])
             i.save()
-            return redirect('on_login')
+            return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta'})
     else:
         form = SignUpForm()
     return render(request, 'registration/registro.html', {'form': form})
@@ -189,6 +189,7 @@ def marcar_leido(request, mensaje_id):
     m.save()
     return HttpResponseRedirect(reverse('mensajes'))
 
+'''
 def mandar_link(request, mensaje_id):
     m = get_object_or_404(Mensaje, pk=mensaje_id)
     m.update_hash()
@@ -198,6 +199,8 @@ def mandar_link(request, mensaje_id):
     m.linkEnviado = True
     m.save()
     return HttpResponseRedirect(reverse('leidos'))
+'''
+
 
 def activar(request, hash_id):
     m = list(Instituto.objects.filter(hash_id=hash_id))[0]
@@ -207,9 +210,10 @@ def activar(request, hash_id):
     #return render(request, 'registration/registro.html', {'form': form})
     return HttpResponseRedirect(reverse('login'))
 
-def paradas(request):
-    paradas = list(Parada.objects.all())
-    return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+
+
+
 
 def paradasCoords(request):
     paradas = list(Parada.objects.all())

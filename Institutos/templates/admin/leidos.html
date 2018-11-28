@@ -101,10 +101,12 @@
                     <th class="field-__str__"><a href="#">{{ mensaje.email }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.mensaje }}</a></th>
                     <th class="field-__str__">
+                        <!--
                         <form action="{% url 'mandar_link' mensaje.id %}" method="post">
                             {% csrf_token %}
                             <input type="submit" class="link-{{ mensaje.linkEnviado }}" value="Enviar Link" />
                         </form>
+                        --> 
                     </th>
                 </tr>
                 
