@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="theme/js/jquery.min.js"></script>
+		<script src="theme/js/tuprofe.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="interna">
+			<div class="max head headTop">
+				<div class="internaHeadLeft">
+					<div class="logo">
+						<a href="index.html">
+							<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+						</a>
+					</div>
+					<h1 class="titleH1">Nombre profe</h1>
+				</div>
+				<div class="internaHeadRight">
+					<div class="menuHead">
+						<div class="menu">
+							<a href="#">Ingresar</a>
+							<a href="#">Contáctenos</a>
+						</div>
+						
+						<div class="hamburger">
+							<div class="_layer -top"></div>
+							<div class="_layer -mid"></div>
+							<div class="_layer -bottom"></div>
+						</div>
+						<div class="iconSearch">
+							<img src="theme/img/lupa_white.png" id="iconSearch">
+						</div>
+					</div>
+					<div class="buscador">
+						<form method="post" action="#">
+							<input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudio">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+							<div class="imgheadSearch" id="imgheadSearch" >
+								<img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+			<div class="bluePopUpContent">
+				<div class="max">
+					<div class="buscadorResponsive">
+						<form method="post" action="#">
+							<span>Centro de Estudio</span>
+							<input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudioRes">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<span>Materia</span>
+							<input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+							<datalist id="materiaRes">
+								<option value="Materia 1"></option>
+								<option value="Materia 2"></option>
+								<option value="Materia 3"></option>
+								<option value="Materia 4"></option>
+							</datalist>
+							<div class="bottomButtonRes">
+								<input type="submit" name="buscar" class="headSearch" value="Buscar">
+								<div class="limpiaFiltrosRes">Limpiar filtros</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Nombre Profesor</span>
+			</div>
+		</div>
+		<div class="max">
+			<div class="titleRes ajusteMargin"></div>
+		</div>
+		<section class="interna">
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Información b&aacute;sica</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="infoBasca_edit">
+						<img src="theme/img/ex_1.jpg">
+						<div class="reeadBoxInfo">
+							<span>Nombre Instituci&oacute;n</span>
+							<p>
+								<input type="text" name="nombre" class="dir" placeholder="Nombre Institución" value="Instituto Vedas">
+							</p>
+							<span>Nombre Instituci&oacute;n</span>
+							<p>
+								<input type="file" id="input">
+							</p>							
+							<span>Teléfono</span>
+							<p>
+								<input type="text" name="telefono" class="dir" placeholder="Teléfono" value="27093657">
+							</p>
+							<span>Email de contacto</span>
+							<p>
+								<input type="email" name="email" class="dir" placeholder="Correo electrónico" value="nombre@correo.com">
+							</p>
+							<span>Descripc&oacute;n</span>
+							<p>
+								<textarea rows="4" cols="50" placeholder="Ingrese su mensaje...">Como docentes, actuamos como facilitadores del proceso de enseñanza-aprendizaje, estimulando el desarrollo de las aptitudes individuales, acesorándote en las distintas tareas con el fin de mejorar su calidad, optimizando así tu tiempo y tus energías.</textarea>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Ubicaci&oacute;n</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="ubicacion_edit">
+						<div class="readLeftUbicacion">
+							<span>Direcci&oacute;n</span>
+							<p>
+								<input type="text" name="calle" class="dir" placeholder="Calle" value="21 de Setiembre">
+							</p>
+							<span>N&uacute;mero</span>
+							<p><input type="text" name="numero_calle" class="dir" placeholder="Números" value="1359"></p>
+						</div>
+						<div class="readRightUbicacion">
+							Ubicación en el mapa
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit full">
+					<div class="title">
+						<h2>Materias</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="materias_edit">
+						<div class="search" onclick="javascript:addMediosPago('referemciaAurl');">+ Agregar nuevo centro de estudio</div>
+						<div class="subrayado">
+							Mis centros de estudio
+						</div>
+						<p><span class="centroEstudio">Centro de estudio 1</span></p>
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar materia</div>
+						</div>
+						<div class="addButtonEdit">
+							<div class="boxBox" id="12">
+								<span>Diseño y desarrollo de aplicaciones Diseño y desarrollo de aplicaciones</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#12').remove();">
+							</div>
+							<div class="boxBox" id="223">
+								<span>Escuela de Tecnología</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#223').remove();">
+							</div>
+							<div class="boxBox" id="712">
+								<span>Algoritmos y estructuras de datos 2</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#712').remove();">
+							</div>
+							<div class="boxBox" id="213">
+								<span>Calculo 1</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#213').remove();">
+							</div>
+						</div>
+						<p><span class="centroEstudio">Centro de estudio 2</span></p>
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar materia</div>
+						</div>
+						<div class="addButtonEdit">
+							<div class="boxBox" id="111">
+								<span>FI-Bedelía Escuela de Tecnología</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#111').remove();">
+							</div>
+							<div class="boxBox" id="112">
+								<span>Algoritmos y estructuras de datos 2</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#112').remove();">
+							</div>
+							<div class="boxBox" id="22222">
+								<span>Calculo 1</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#22222').remove();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Medios de pago</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="mediosPago_edit">
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar medio de pago</div>
+						</div>
+						<div class="addButtonEdit">
+							<div class="boxBox" id="222">
+								<span>Contado</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#222').remove();">
+							</div>
+							<div class="boxBox" id="220">
+								<span>Descuento pago adelantado</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#220').remove();">
+							</div>
+							<div class="boxBox" id="231">
+								<span>Descuento grupal</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#231').remove();">
+							</div>
+							<div class="boxBox" id="250">
+								<span>Financiado en cuotas</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#250').remove();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Profesores</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="profesores_edit">
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar profe</div>
+						</div>
+						<div class="addButtonEdit">
+							<div class="boxBox" id="310">
+								<span>Juan Pablo Lopez</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#310').remove();">
+							</div>
+							<div class="boxBox" id="322">
+								<span>Descuento pago adelantado</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#322').remove();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Facilidades</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="facilidades_edit">
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar facilidad</div>
+						</div>
+						<div class="reeadBoxInfo">
+							<span class="paddTop">Sin datos ingreados a&uacute;n.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo_edit">
+					<div class="title">
+						<h2>Comodidades</h2>
+						<a href="#">Guardar</a>
+					</div>
+					<div class="reeadBox" id="comodidades_edit">
+						<div class="addButtonEdit">
+							<div class="search" onclick="">+ Agregar comodidad</div>
+						</div>
+						<div class="addButtonEdit">
+							<div class="boxBox" id="55">
+								<span>Wifi</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#55').remove();">
+							</div>
+							<div class="boxBox" id="58">
+								<span>Descuento pago adelantado</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#58').remove();">
+							</div>
+							<div class="boxBox" id="564">
+								<span>Descuento grupal</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#564').remove();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<hr>
+			<div class="max head">
+				<div class="logo">
+					<a href="#">
+						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+					</a>
+				</div>
+				<div class="menuFoot">
+					<a href="#">Nosotros</a>
+					<a href="#">Contáctenos</a>
+					<a href="#">Ingreso</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

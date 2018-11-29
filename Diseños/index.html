@@ -9,7 +9,7 @@
 		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<header style="height: 626px;">
+		<header class="home">
 			<div class="max head headTop">
 				<div class="logo">
 					<a href="#">
@@ -17,8 +17,24 @@
 					</a>
 				</div>
 				<div class="menuHead">
+					<div class="menu">
+						<a href="#">Ingresar</a>
+						<a href="#">Contáctenos</a>
+					</div>
+					<div class="hamburger">
+						<div class="_layer -top"></div>
+						<div class="_layer -mid"></div>
+						<div class="_layer -bottom"></div>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
 					<a href="#">Ingresar</a>
 					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
 				</div>
 			</div>
 			<div class="max head center">
@@ -36,8 +52,8 @@
 								<option value="Opcion6"></option>
 								<option value="Opcion7"></option>
 							</datalist>
-							 <input list="browsers2" name="browser2" class="boxCombo" placeholder="Materia">
-							 <datalist id="browsers2">
+							<input list="browsers2" name="browser2" class="boxCombo" placeholder="Materia">
+							<datalist id="browsers2">
 								<option value="Opcion 1"></option>
 								<option value="Opcion 2"></option>
 								<option value="Opcion 3"></option>
@@ -57,49 +73,49 @@
 				</div>
 			</div>
 			<!-- popUpSearch content -->
-			<div id="popUpContent">
-				<div class="popUpContentBox">
-					<div class="close" id="close" onclick="javascript:closed();">&times;</div>
-					<h3>Ingresá tu dirección</h3>
-					<div class="formularioPop">
-						<form method="post" action="#">
-							<input type="text" name="dirPop" id="dirPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
-							<input type="submit" value="Buscar" class="search" id="searchDirPop">
-						</form>
-					</div>
-					<div class="separador">&nbsp;</div>
-					<h3>Busca por mi geolocalización</h3>
-					<div class="formularioPop">
-						<form method="post" action="#">
-							<input type="submit" value="Buscar" class="search" id="searchPop">
-						</form>
-					</div>
+			
+			<div class="popUpContentBox">
+				<div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+				<h3>Ingresá tu dirección</h3>
+				<div class="formularioPop">
+					<form method="post" action="#">
+						<input type="text" name="dirPop" id="dirPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
+						<input type="submit" value="Buscar" name="search" class="search" id="searchDirPop">
+					</form>
+				</div>
+				<div class="separador">&nbsp;</div>
+				<h3>Busca por mi geolocalización</h3>
+				<div class="formularioPop">
+					<form method="post" action="#">
+						<input type="submit" value="Buscar" name="search" class="search" id="searchPop">
+					</form>
 				</div>
 			</div>
+			<div class="popUpContent">&nbsp;</div>
 		</header>
-    <section class="home">
-		<article>
-			<h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
-			<p>Buscá al profesor que necesitas ahora</p>
-			<div class="full">
-				<div class="tree">
-					<p><img src="theme/img/h1.png" alt="Es Fácil"></p>
-					<span>Es Fácil</span>
-					<p>¡Un par de clicks y listo!</p>
+		<section class="home">
+			<article>
+				<h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
+				<p>Buscá al profesor que necesitas ahora</p>
+				<div class="full">
+					<div class="tree">
+						<p><img src="theme/img/h1.png" alt="Es Fácil"></p>
+						<span>Es Fácil</span>
+						<p>¡Un par de clicks y listo!</p>
+					</div>
+					<div class="tree">
+						<p><img src="theme/img/h2.png" alt="Es Rápido"></p>
+						<span>Es Rápido</span>
+						<p>Encontrar a tu profe te toma 1 minuto</p>
+					</div>
+					<div class="tree">
+						<p><img src="theme/img/h3.png" alt="Es Efectivo"></p>
+						<span>Es Efectivo</span>
+						<p>Lo que buscás lo encontrás acá</p>
+					</div>
 				</div>
-				<div class="tree">
-					<p><img src="theme/img/h2.png" alt="Es Rápido"></p>
-					<span>Es Rápido</span>
-					<p>Encontrar a tu profe te toma 1 minuto</p>
-				</div>
-				<div class="tree">
-					<p><img src="theme/img/h3.png" alt="Es Efectivo"></p>
-					<span>Es Efectivo</span>
-					<p>Lo que buscás lo encontrás acá</p>
-				</div>
-			</div>
-		</article>      
-    </section>
+			</article>      
+		</section>
     <aside class="home">
 		<div class="bottomHome">
 			<h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
@@ -116,7 +132,7 @@
 				</a>
 			</div>
 			<div class="menuFoot">
-				<a href="#">Nosotros</a>
+				<a href="quienes_somos.html">Nosotros</a>
 				<a href="#">Contáctenos</a>
 				<a href="#">Ingreso</a>
 				<a href="#">Registro</a>

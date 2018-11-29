@@ -82,6 +82,14 @@ def registro(request):
         form = SignUpForm()
     return render(request, 'registration/registro.html', {'form': form})
 
+def activar(request, hash_id):
+    m = list(Instituto.objects.filter(estado=0).filter(hash_id=hash_id))[0]
+    m.estado = 1
+    m.save()
+    #form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
+    #return render(request, 'registration/registro.html', {'form': form})
+    return HttpResponseRedirect(reverse('login'))
+
 @login_required(login_url='/login')
 def perfil(request):
     if request.user.is_staff:
@@ -111,9 +119,9 @@ def buscar(request):
     centro = request.POST.get('centro', "")
     materia = request.POST.get('materia', "")
 
-    destacados = list(Instituto.objects.filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
+    destacados = list(Instituto.objects.filter(estado=2).filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
 
-    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
+    posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
 
     for i in posicionados:
         i.distancia(lat, lng)
@@ -122,7 +130,7 @@ def buscar(request):
     posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
-    organicos = list(Instituto.objects.filter(posicionamiento=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
+    organicos = list(Instituto.objects.filter(estado=2).filter(posicionamiento=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
 
     for i in organicos:
         i.distancia(lat, lng)
@@ -202,13 +210,25 @@ def mandar_link(request, mensaje_id):
 '''
 
 
-def activar(request, hash_id):
-    m = list(Instituto.objects.filter(hash_id=hash_id))[0]
-    m.estado = 1
+
+def pendientes(request):
+    pendientes = list(Instituto.objects.filter(estado=1))
+    return render(request, 'admin/Pendientes.html', {'pendientes': pendientes})
+
+
+def habilitarInstituto(request, id):
+    m = get_object_or_404(Instituto, pk=id)
+    m.estado = 2
     m.save()
-    #form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
-    #return render(request, 'registration/registro.html', {'form': form})
-    return HttpResponseRedirect(reverse('login'))
+    return render(request, 'admin/Pendientes.html')
+
+
+def deshabilitarInstituto(request, id):
+    m = get_object_or_404(Instituto, pk=id)
+    m.estado = 3
+    m.save()
+    return HttpResponseRedirect('admin/Institutos/instituto/')
+
 
 
 

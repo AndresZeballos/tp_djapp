@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="theme/js/jquery.min.js"></script>
+		<script src="theme/js/tuprofe.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="interna">
+			<div class="max head headTop">
+				<div class="internaHeadLeft">
+					<div class="logo">
+						<a href="index.html">
+							<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+						</a>
+					</div>
+					<h1 class="titleH1">Nombre profe</h1>
+				</div>
+				<div class="internaHeadRight">
+					<div class="menuHead">
+						<div class="menu">
+							<a href="#">Ingresar</a>
+							<a href="#">Contáctenos</a>
+						</div>
+						
+						<div class="hamburger">
+							<div class="_layer -top"></div>
+							<div class="_layer -mid"></div>
+							<div class="_layer -bottom"></div>
+						</div>
+						<div class="iconSearch">
+							<img src="theme/img/lupa_white.png" id="iconSearch">
+						</div>
+					</div>
+					<div class="buscador">
+						<form method="post" action="#">
+							<input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudio">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+							<div class="imgheadSearch" id="imgheadSearch" >
+								<img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+			<div class="bluePopUpContent">
+				<div class="max">
+					<div class="buscadorResponsive">
+						<form method="post" action="#">
+							<span>Centro de Estudio</span>
+							<input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudioRes">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<span>Materia</span>
+							<input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+							<datalist id="materiaRes">
+								<option value="Materia 1"></option>
+								<option value="Materia 2"></option>
+								<option value="Materia 3"></option>
+								<option value="Materia 4"></option>
+							</datalist>
+							<div class="bottomButtonRes">
+								<input type="submit" name="buscar" class="headSearch" value="Buscar">
+								<div class="limpiaFiltrosRes">Limpiar filtros</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Nombre Profesor</span>
+			</div>
+		</div>
+		<div class="max">
+			<div class="titleRes ajusteMargin"></div>
+		</div>
+		<section class="interna">
+			<div class="max">
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Información b&aacute;sica</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="infoBasca">
+						<img src="theme/img/ex_1.jpg">
+						<div class="reeadBoxInfo">
+							<span>Nombre Instituci&oacute;n</span>
+							<p>Instituto Vedas</p>
+							<span>Teléfono</span>
+							<p>27093657</p>
+							<span>Email de contacto</span>
+							<p>nombre@correo.com</p>
+							<span>Descripc&oacute;n</span>
+							<p>Como docentes, actuamos como facilitadores del proceso...</p>
+						</div>
+					</div>
+				</div>
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Ubicaci&oacute;n</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="ubicacion">
+						<div class="readLeftUbicacion">
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+							Ubicación en el mapa
+						</div>
+						<div class="readRightUbicacion">
+							<span>Direcci&oacute;n</span>
+							<p>21 de Setiembre 1359 </p>
+							<span>Transporte</span>
+							<p class="buses">
+								<span>117</span>
+								<span>121</span>
+								<span>191</span>
+								<span>192</span>
+								<span>199</span>
+								<span>582</span>
+								<span>17</span>
+								<span>76</span>
+								<span>382</span>
+								<span>329</span>
+								<span>17</span>
+								<span>76</span>
+								<span>382</span>
+								<span>329</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Medios de pago</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="mediosPago">
+						<p>
+							<div class="boxBox">Contado</div>
+							<div class="boxBox">Descuento pago adelantado</div>
+							<div class="boxBox">Descuento grupal</div>
+							<div class="boxBox">Financiado en cuotas</div>
+						</p>
+					</div>
+				</div>
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Profesores</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="profesores">
+						<p>
+							<div class="boxBox">Juan Pablo Lopez</div>
+							<div class="boxBox">Juan Carlos Gomez</div>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Facilidades</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="facilidades">
+						<div class="reeadBoxInfo">
+							<span>Sin datos ingreados a&uacute;n.</span>
+						</div>
+					</div>
+				</div>
+				<div class="reeadInfo">
+					<div class="title">
+						<h2>Comodidades</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="comodidades">
+						<p>
+							<div class="boxBox">Wifi</div>
+							<div class="boxBox">Descuento pago adelantado</div>
+							<div class="boxBox">Descuento grupal</div>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="max">
+				<div class="reeadInfoFull">
+					<div class="title">
+						<h2>Materias</h2>
+						<a href="#">Editar</a>
+					</div>
+					<div class="reeadBox" id="materias">
+						<p>
+							<span class="centroEstudio">Centro de estudio 1</span>
+							<div class="boxBox">Diseño y desarrollo de aplicaciones Diseño y desarrollo de aplicaciones</div>
+							<div class="boxBox">Escuela de Tecnología</div>
+							<div class="boxBox">Algoritmos y estructuras de datos 2</div>
+							<div class="boxBox">Calculo 1</div>
+						</p>
+						<p>
+							<span class="centroEstudio">Centro de estudio 2</span>
+							<div class="boxBox">FI-Bedelía Escuela de Tecnología</div>
+							<div class="boxBox">Algoritmos y estructuras de datos 2</div>
+							<div class="boxBox">Calculo 1</div>
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<hr>
+			<div class="max head">
+				<div class="logo">
+					<a href="#">
+						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+					</a>
+				</div>
+				<div class="menuFoot">
+					<a href="#">Nosotros</a>
+					<a href="#">Contáctenos</a>
+					<a href="#">Ingreso</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
