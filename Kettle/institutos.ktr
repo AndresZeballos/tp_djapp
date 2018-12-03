@@ -684,7 +684,9 @@ var long = parseFloat(long_str);
 
 var estado = id_estado_perfil + 1;
 
-</jsScript_script>
+if (materias == 0) {
+	estado = 3;
+} </jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -1089,7 +1091,8 @@ var estado = id_estado_perfil + 1;
             then '-'
             else descripcion_corta
        end as descripcion_corta 
-FROM institutos
+, (select count(*) from institutosxmaterias m where m.id_instituto=i.id_instituto) as materias
+FROM institutos i 
 where username != ''</sql>
     <limit>0</limit>
     <lookup />

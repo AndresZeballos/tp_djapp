@@ -125,7 +125,7 @@ class Instituto(models.Model):
         self.hash_id = m.hexdigest()
 
     def __str__(self):
-        return "%s" % (self.nombre)
+        return "%s - %s" % (self.id, self.nombre)
 
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
