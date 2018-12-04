@@ -1,1 +1,4 @@
 git update-index --assume-unchanged .env
+
+git cherry-pick django-2
+
