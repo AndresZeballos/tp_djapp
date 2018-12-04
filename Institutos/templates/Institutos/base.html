@@ -72,9 +72,9 @@
 
 					<h3>¿Ya conoces al profe que estás buscando?</h3>
 					<div class="formulario2">
-						<form method="post" action="#">
-							<input type="text" name="profe" class="profe" placeholder="Nombre del profesor">
-							<div class="search" id="popUpSearch2" onclick="javascript:popUp();">Buscar</div>
+						<form method="post" action="{% url 'buscar' %}">
+							<input type="text" name="texto" class="profe" placeholder="Nombre del profesor">
+							<input type="submit" id="popUpSearch2" name="buscar" class="search" value="Buscar">
 						</form>
 					</div>
 				</div>

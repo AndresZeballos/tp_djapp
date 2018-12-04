@@ -153,6 +153,22 @@ def buscar(request):
     else:
         return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'destacados': destacados, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
 
+def buscarProfe(request):
+    texto = request.POST['texto']
+
+    institutos = list(Instituto.objects.filter(estado=2).filter(nombre__contains=texto))
+    paginator = Paginator(institutos, 10)
+    
+    # Calculo la pagina actual
+    institutos = institutos[(page-1)*10:page*10]
+    try:
+        inst_page = paginator.page(page)
+    except PageNotAnInteger:
+        inst_page = paginator.page(1)
+    except EmptyPage:
+        inst_page = paginator.page(paginator.num_pages)
+    return render(request, 'Institutos/InstitutosSimple.html', {'institutos': institutos, 'pager': inst_page, 'texto': texto})
+
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
     return render(request, 'Institutos/Instituto.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})

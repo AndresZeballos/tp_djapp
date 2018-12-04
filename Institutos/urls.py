@@ -11,6 +11,7 @@ urlpatterns = [
     path('Registro', views.registro, name='registro'),
     path('Perfil', views.perfil, name='perfil'),
     path('Buscar', views.buscar, name='buscar'),
+    path('BuscarProfe', views.buscarProfe, name='buscarProfe'),
     path('Instituto/<int:instituto_id>/', views.instituto, name='instituto'),
     path('Instituto/<int:instituto_id>/Nuevo-Mensaje', views.nuevo_mensaje, name='nuevo_mensaje'),
     path('Contacto', views.contacto, name='contacto'),
