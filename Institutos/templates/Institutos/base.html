@@ -6,29 +6,46 @@
 		<meta name="title" content="Título de la WEB">
 		<meta name="description" content="Descripción de la WEB">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="theme/js/jquery.min.js"></script>
-		<script src="theme/js/tuprofe.js"></script>
-        <link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+		<script src="static/Institutos/theme/js/jquery.min.js"></script>
+		<script src="static/Institutos/theme/js/tuprofe.js"></script>
+        <link href="static/Institutos/theme/css/tuprofe.css" rel="stylesheet" type="text/css">
         
         <script src="{% static 'Institutos/script.js' %}"></script>
     </head>
 
 	<body>
-        <header style="height: 626px;">
-            <div class="max head headTop">
-                <div class="logo">
-                    <a href="#">
-                        <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
-                    </a>
-                </div>
-                <div class="menuHead">
+		<header class="home">
+			<div class="max head headTop">
+				<div class="logo">
+					<a href="{% url 'index' %}">
+						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+					</a>
+				</div>
+				<div class="menuHead">
+					<div class="menu">
+                        <a href="{% url 'ingresar' %}">Ingresar</a>
+                        <a href="{% url 'contacto' %}">Contáctenos</a>
+					</div>
+					<div class="hamburger">
+						<div class="_layer -top"></div>
+						<div class="_layer -mid"></div>
+						<div class="_layer -bottom"></div>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
                     <a href="{% url 'ingresar' %}">Ingresar</a>
-                    <a href="{% url 'registro' %}">Registrarse</a>
-                </div>
-            </div>
-            <div class="max head center">
-                <h1>Todos los profesores particulares en una web</h1>
-                <div class="formularios">
+                    <a href="{% url 'contacto' %}">Contáctenos</a>
+                    <a href="{% url 'nosotros' %}">Nosotros</a>
+                    <a href="{% url 'registro' %}">Registro</a>
+				</div>
+			</div>
+			<div class="max head center">
+				<h1>Todos los profesores particulares en una web</h1>
+				<div class="formularios">
+                
                     <form name="buscar" method="post" action="{% url 'buscar' %}">
                         {% csrf_token %}
                         <div class="formulario">
@@ -52,67 +69,103 @@
                             <div class="search" id="popUpSearch1" onclick="javascript:popUp();">Buscar</div>
                         </div>
                     </form>
-                    <h3>¿Ya conoces al profe que estás buscando?</h3>
-                    <div class="formulario2">
-                        <form method="post" action="#">
-                            <input type="text" name="profe" class="profe" placeholder="Nombre del profesor">
-                            <div class="search" id="popUpSearch2" onclick="javascript:popUp();">Buscar</div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- popUpSearch content -->
-            <div id="popUpContent">
-                <div class="popUpContentBox">
-                    <div class="close" id="close" onclick="javascript:closed();">&times;</div>
-                    <h3>Ingresá tu dirección</h3>
-                    <div class="formularioPop">
-                        <form method="post" action="#">
-                            <input type="text" name="dirPop" id="dirPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
-                            <input type="submit" value="Buscar" class="search" id="searchDirPop">
-                        </form>
-                    </div>
-                    <div class="separador">&nbsp;</div>
-                    <h3>Busca por mi geolocalización</h3>
-                    <div class="formularioPop">
-                        <form method="post" action="#">
-                            <input type="submit" value="Buscar" class="search" id="searchPop">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </header>
 
-        {% block content %}{% endblock %}
-
-        <footer>
-            <hr>
-            <div class="max head">
-                <div class="logo">
-                    <a href="#">
-                        <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
-                    </a>
-                </div>
-                <div class="menuFoot">
-                    <a href="#">Nosotros</a>
-                    <a href="#">Contáctenos</a>
-                    <a href="#">Ingreso</a>
-                    <a href="#">Registro</a>
-                </div>
-            </div>
-        </footer>
-
+					<h3>¿Ya conoces al profe que estás buscando?</h3>
+					<div class="formulario2">
+						<form method="post" action="#">
+							<input type="text" name="profe" class="profe" placeholder="Nombre del profesor">
+							<div class="search" id="popUpSearch2" onclick="javascript:popUp();">Buscar</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- popUpSearch content -->
+			
+			<div class="popUpContentBox">
+				<div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+				<h3>Ingresá tu dirección</h3>
+				<div class="formularioPop">
+					<div>
+						<input type="text" name="dirPop" id="addressPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
+						<input type="submit" value="Buscar" name="search" class="search" id="searchDirPop">
+					</div>
+				</div>
+				<div class="separador">&nbsp;</div>
+				<h3>Busca por mi geolocalización</h3>
+				<div class="formularioPop">
+					<div>
+						<input type="submit" value="Buscar" name="search" class="search" id="searchPop">
+					</div>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+		</header>
+		<section class="home">
+			<article>
+				<h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
+				<p>Buscá al profesor que necesitas ahora</p>
+				<div class="full">
+					<div class="tree">
+						<p><img src="static/Institutos/theme/img/h1.png" alt="Es Fácil"></p>
+						<span>Es Fácil</span>
+						<p>¡Un par de clicks y listo!</p>
+					</div>
+					<div class="tree">
+						<p><img src="static/Institutos/theme/img/h2.png" alt="Es Rápido"></p>
+						<span>Es Rápido</span>
+						<p>Encontrar a tu profe te toma 1 minuto</p>
+					</div>
+					<div class="tree">
+						<p><img src="static/Institutos/theme/img/h3.png" alt="Es Efectivo"></p>
+						<span>Es Efectivo</span>
+						<p>Lo que buscás lo encontrás acá</p>
+					</div>
+				</div>
+			</article>      
+		</section>
+    <aside class="home">
+		<div class="bottomHome">
+			<h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
+			<h4>Miles de estudiantes nos visitan en TuProfe.com.uy</h4>
+            <a href="{% url 'registro' %}">¡Registrate Ya!</a>
+		</div>
+	</aside>
+    <footer>
+		<hr>
+		<div class="max head">
+			<div class="logo">
+				<a href="{% url 'index' %}">
+					<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+				</a>
+			</div>
+			<div class="menuFoot">
+                <a href="{% url 'nosotros' %}">Nosotros</a>
+                <a href="{% url 'contacto' %}">Contáctenos</a>
+                <a href="{% url 'ingresar' %}">Ingreso</a>
+                <a href="{% url 'registro' %}">Registro</a>
+			</div>
+		</div>
+    </footer>
                 
         <script>
             function initMap() {
                 var geocoder = new google.maps.Geocoder();
                 document.getElementById('popUpSearch1').addEventListener('click', function() {
-                    geocodeAddress(geocoder);
+                    if (! jQuery(".hamburger").is(":visible")) {
+                        geocodeAddress(geocoder, 'address');
+                    }
                 });
+                document.getElementById('searchDirPop').addEventListener('click', function() {
+                    geocodeAddress(geocoder, 'addressPop');
+                });
+                document.getElementById('searchPop').addEventListener('click', function() {
+                    navigator.geolocation.getCurrentPosition(show_map);
+                });
+
             }
         
-            function geocodeAddress(geocoder) {
-                var address = document.getElementById('address').value;
+            function geocodeAddress(geocoder, elemId) {
+                var address = document.getElementById(elemId).value;
                 geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
                     if (status === 'OK') {
                         document.getElementById('lat').value = results[0].geometry.location.lat();
@@ -122,6 +175,14 @@
                         console.log('Geocode was not successful for the following reason: ' + status);
                     }
                 });
+            }
+
+            function show_map(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                document.getElementById('lat').value = latitude;
+                document.getElementById('lng').value = longitude;
+                document.buscar.submit();
             }
         </script>
         

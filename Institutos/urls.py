@@ -14,6 +14,7 @@ urlpatterns = [
     path('Instituto/<int:instituto_id>/', views.instituto, name='instituto'),
     path('Instituto/<int:instituto_id>/Nuevo-Mensaje', views.nuevo_mensaje, name='nuevo_mensaje'),
     path('Contacto', views.contacto, name='contacto'),
+    path('Quienes-Somos', views.contacto, name='nosotros'),
     path('Sobre-Nosotros', views.sobre_nosotros, name='sobre_nosotros'),
     path('PruebaCorreo', views.prueba_correo, name='prueba_correo'),
     path('admin/mensajes/', views.mensajes, name='mensajes'),

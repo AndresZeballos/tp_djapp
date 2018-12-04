@@ -104,6 +104,7 @@ jQuery(document).ready(function() {
 
 
 jQuery(window).resize(function() {
+	/*
 	//Muestro el titulo
 	getTitle();
 	//Hamburguesa
@@ -127,7 +128,7 @@ jQuery(window).resize(function() {
 	
 	//Ajusto alto/ancho de los box
 	//jQuery(".boxBox").css("display","block");
-	
+	*/
 	
 });
 
@@ -423,8 +424,10 @@ function anchoSearchHome2(search){
 }
 
 function popUp(){
-	jQuery(".popUpContent").css("display","block");
-	jQuery(".popUpContentBox").css("display","block");
+	if (jQuery(".hamburger").is(":visible")) {
+		jQuery(".popUpContent").css("display","block");
+		jQuery(".popUpContentBox").css("display","block");
+	}
 }
 
 function closed(){
