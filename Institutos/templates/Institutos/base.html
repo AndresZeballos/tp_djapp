@@ -72,7 +72,8 @@
 
 					<h3>¿Ya conoces al profe que estás buscando?</h3>
 					<div class="formulario2">
-						<form method="post" action="{% url 'buscar' %}">
+						<form method="post" action="{% url 'buscarProfe' %}">
+							{% csrf_token %}
 							<input type="text" name="texto" class="profe" placeholder="Nombre del profesor">
 							<input type="submit" id="popUpSearch2" name="buscar" class="search" value="Buscar">
 						</form>
