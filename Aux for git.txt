@@ -1,4 +1,5 @@
 git update-index --assume-unchanged .env
 
 git cherry-pick django-2
-
+git rebase Integracion-diseño
+git push origin django-2 --force
