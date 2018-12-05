@@ -1,7 +1,8 @@
 {% load staticfiles %}
 
 <html lang="es">
-    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>TuProfe.com</title>
 		<meta name="title" content="Título de la WEB">
 		<meta name="description" content="Descripción de la WEB">
@@ -14,139 +15,117 @@
     </head>
 
 	<body>
-		<header class="home">
-			<div class="max head headTop">
-				<div class="logo">
-					<a href="{% url 'index' %}">
-						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
-					</a>
-				</div>
-				<div class="menuHead">
-					<div class="menu">
-                        <a href="{% url 'ingresar' %}">Ingresar</a>
-                        <a href="{% url 'contacto' %}">Contáctenos</a>
-					</div>
-					<div class="hamburger">
-						<div class="_layer -top"></div>
-						<div class="_layer -mid"></div>
-						<div class="_layer -bottom"></div>
-					</div>
-				</div>
-			</div>
-			<div class="popUpMenu">
-				<div class="menuHeadResponsive">
-					<p>Men&uacute;</p>
-                    <a href="{% url 'ingresar' %}">Ingresar</a>
-                    <a href="{% url 'contacto' %}">Contáctenos</a>
-                    <a href="{% url 'nosotros' %}">Nosotros</a>
-                    <a href="{% url 'registro' %}">Registro</a>
-				</div>
-			</div>
-			<div class="max head center">
-				<h1>Todos los profesores particulares en una web</h1>
-				<div class="formularios">
-                
-                    <form name="buscar" method="post" action="{% url 'buscar' %}">
-                        {% csrf_token %}
-                        <div class="formulario">
-                            <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio">
-                            <datalist id="centros">
-                                {% for centro in centros %}
-                                    <option value="{{ centro.nombre }}"></option>
-                                {% endfor %}
-                            </datalist>
-                            <input list="materias" name="materia" class="boxCombo" placeholder="Materia">
-                            <datalist id="materias">
-                                {% for materia in materias %}
-                                    <option value="{{ materia.nombre }}"></option>
-                                {% endfor %}
-                            </datalist>
-                            <input id="address" type="text" name="dir" class="dir" placeholder="Dirección - Ej: Rio Negro 1234">
-
-                            <input id="lat" name="lat" type="number" value="" hidden>
-                            <input id="lng" name="lng" type="number" value="" hidden>
-
-                            <div class="search" id="popUpSearch1" onclick="javascript:popUp();">Buscar</div>
+    
+        {% block header %}
+            <header class="interna">
+                <div class="max head headTop">
+                    <div class="internaHeadLeft">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+                            </a>
                         </div>
-                    </form>
+                        <h1 class="titleH1">{% block titleH1 %} {% endblock %}</h1>
+                    </div>
+                    <div class="internaHeadRight">
+                        <div class="menuHead">
+                            <div class="menu">
+                                <a href="{% url 'ingresar' %}">Ingresar</a>
+                                <a href="{% url 'contacto' %}">Contáctenos</a>
+                            </div>
+                            
+                            <div class="hamburger">
+                                <div class="_layer -top"></div>
+                                <div class="_layer -mid"></div>
+                                <div class="_layer -bottom"></div>
+                            </div>
+                            <div class="iconSearch">
+                                <img src="theme/img/lupa_white.png" id="iconSearch">
+                            </div>
+                        </div>
+                        <div class="buscador">
+                            <form method="post" action="#">
+                                <input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+                                <datalist id="centroestudio">
+                                    <option value="Facu 1"></option>
+                                    <option value="Facu 2"></option>
+                                    <option value="Facu 3"></option>
+                                    <option value="Facu 4"></option>
+                                </datalist>
+                                <input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+                                <div class="imgheadSearch" id="imgheadSearch" >
+                                    <img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="popUpMenu">
+                    <div class="menuHeadResponsive">
+                        <p>Men&uacute;</p>
+                        <a href="{% url 'nosotros' %}">Nosotros</a>
+                        <a href="{% url 'contacto' %}">Contáctenos</a>
+                        <a href="{% url 'ingresar' %}">Ingreso</a>
+                        <a href="{% url 'registro' %}">Registro</a>
+                    </div>
+                </div>
+                <div class="popUpContent">&nbsp;</div>
+                <div class="bluePopUpContent">
+                    <div class="max">
+                        <div class="buscadorResponsive">
+                            <form method="post" action="#">
+                                <span>Centro de Estudio</span>
+                                <input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+                                <datalist id="centroestudioRes">
+                                    <option value="Facu 1"></option>
+                                    <option value="Facu 2"></option>
+                                    <option value="Facu 3"></option>
+                                    <option value="Facu 4"></option>
+                                </datalist>
+                                <span>Materia</span>
+                                <input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+                                <datalist id="materiaRes">
+                                    <option value="Materia 1"></option>
+                                    <option value="Materia 2"></option>
+                                    <option value="Materia 3"></option>
+                                    <option value="Materia 4"></option>
+                                </datalist>
+                                <div class="bottomButtonRes">
+                                    <input type="submit" name="buscar" class="headSearch" value="Buscar">
+                                    <div class="limpiaFiltrosRes">Limpiar filtros</div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-					<h3>¿Ya conoces al profe que estás buscando?</h3>
-					<div class="formulario2">
-						<form method="post" action="{% url 'buscarProfe' %}">
-							{% csrf_token %}
-							<input type="text" name="texto" class="profe" placeholder="Nombre del profesor">
-							<input type="submit" id="popUpSearch2" name="buscar" class="search" value="Buscar">
-						</form>
-					</div>
-				</div>
-			</div>
-			<!-- popUpSearch content -->
-			
-			<div class="popUpContentBox">
-				<div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
-				<h3>Ingresá tu dirección</h3>
-				<div class="formularioPop">
-					<div>
-						<input type="text" name="dirPop" id="addressPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
-						<input type="submit" value="Buscar" name="search" class="search" id="searchDirPop">
-					</div>
-				</div>
-				<div class="separador">&nbsp;</div>
-				<h3>Busca por mi geolocalización</h3>
-				<div class="formularioPop">
-					<div>
-						<input type="submit" value="Buscar" name="search" class="search" id="searchPop">
-					</div>
-				</div>
-			</div>
-			<div class="popUpContent">&nbsp;</div>
-		</header>
-		<section class="home">
-			<article>
-				<h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
-				<p>Buscá al profesor que necesitas ahora</p>
-				<div class="full">
-					<div class="tree">
-						<p><img src="static/Institutos/theme/img/h1.png" alt="Es Fácil"></p>
-						<span>Es Fácil</span>
-						<p>¡Un par de clicks y listo!</p>
-					</div>
-					<div class="tree">
-						<p><img src="static/Institutos/theme/img/h2.png" alt="Es Rápido"></p>
-						<span>Es Rápido</span>
-						<p>Encontrar a tu profe te toma 1 minuto</p>
-					</div>
-					<div class="tree">
-						<p><img src="static/Institutos/theme/img/h3.png" alt="Es Efectivo"></p>
-						<span>Es Efectivo</span>
-						<p>Lo que buscás lo encontrás acá</p>
-					</div>
-				</div>
-			</article>      
-		</section>
-    <aside class="home">
-		<div class="bottomHome">
-			<h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
-			<h4>Miles de estudiantes nos visitan en TuProfe.com.uy</h4>
-            <a href="{% url 'registro' %}">¡Registrate Ya!</a>
-		</div>
-	</aside>
-    <footer>
-		<hr>
-		<div class="max head">
-			<div class="logo">
-				<a href="{% url 'index' %}">
-					<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
-				</a>
-			</div>
-			<div class="menuFoot">
-                <a href="{% url 'nosotros' %}">Nosotros</a>
-                <a href="{% url 'contacto' %}">Contáctenos</a>
-                <a href="{% url 'ingresar' %}">Ingreso</a>
-                <a href="{% url 'registro' %}">Registro</a>
-			</div>
-		</div>
-    </footer>
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+        
+        {% block footer %}
+		
+            <footer>
+                <hr>
+                <div class="max head">
+                    <div class="logo">
+                        <a href="{% url 'index' %}">
+                            <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+                        </a>
+                    </div>
+                    <div class="menuFoot">
+                        <a href="{% url 'nosotros' %}">Nosotros</a>
+                        <a href="{% url 'contacto' %}">Contáctenos</a>
+                        <a href="{% url 'ingresar' %}">Ingreso</a>
+                        <a href="{% url 'registro' %}">Registro</a>
+                    </div>
+                </div>
+            </footer>
+
+        {% endblock %}
+        
                 
         <script>
             function initMap() {
@@ -187,6 +166,10 @@
             }
         </script>
         
+        {% block scripts %}
+		
+        {% endblock %}
+
         <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
         </script>
     </body>

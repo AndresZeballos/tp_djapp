@@ -155,6 +155,7 @@ class Mensaje(models.Model):
     nombre = models.CharField(max_length=200)
     telefono = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
+    asunto = models.CharField(max_length=200, null=True)
     mensaje = models.CharField(max_length=4000)
     motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT, blank=True, null=True)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, blank=True, null=True)

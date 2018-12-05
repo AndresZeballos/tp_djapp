@@ -178,6 +178,7 @@ def nuevo_mensaje(request, instituto_id):
     m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
     m.telefono = request.POST['telefono']
     m.email = request.POST['email']
+    m.asunto = request.POST['asunto']
     m.mensaje = request.POST['mensaje']
     if instituto_id != 0:
         instituto = get_object_or_404(Instituto, pk=instituto_id)
