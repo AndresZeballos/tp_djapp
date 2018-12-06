@@ -1,28 +1,142 @@
+{% extends "Institutos/base.html" %}
+
 {% load bootstrap4 %}
 
 {% bootstrap_css %}
 
-{% if destacados %}
-    <div>Destacados</div>
-    <ul>
-    {% for instituto in destacados %}
-        {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}
-    {% endfor %}
-    </ul>
-{% endif %}
-
-{% if institutos %}
-    <div>Resultados</div>
-    <ul>
-    {% for instituto in institutos %}
-        {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay institutos registrados.</p>
-{% endif %}
+{% block titleH1 %}
+  <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="">(cambiar ubicaci&oacute;n)</a>
+{% endblock %}
 
 
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">>></span>
+				<span>B&uacute;squeda</span>				
+			</div>
+		</div>
+		
+		<div class="max titleResSearch">
+			<div class="titleRes"></div>
+		</div>
+		
+		<div class="filtrosRes">
+			<div class="max paddTop">
+				<img src="theme/img/filtro.png">
+				<span>Filtros de b&uacute;squeda</span>
+			</div>
+		</div>
+		<div class="max">
+			<section class="left">
+				<div class="searchFiltros">
+					<div class="">
+						<h2>Filtros seleccionados</h2>
+						<div class="filtros">
+							<div class="filtroSelect" id="materia_12">
+								<span>Matemática discreta</span>
+								<img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materia_12').remove();">
+							</div>
+						</div>
+						<!-- Esta frase solo se activa cuando no hay filtros y desaparece al agregar al menos uno.-->
+						<span class="nofiltros">No se ha seleccionado ning&uacute;n filtro de b&uacute;sqeda</span>
+					</div>
+					<button class="accordion">Comodidades</button>
+					<div class="panel">
+						<a href="">WIFI</a>
+						<a href="">Estufa</a>
+						<a href="">Ventiladores</a>
+						<a href="">Aire acondicionado</a>
+					</div>
+					<button class="accordion">Métodos de pago</button>
+					<div class="panel">
+						<a href="">Contado</a>
+						<a href="">Financiado en cuotas</a>
+						<a href="">Giros</a>
+						<a href="">Descuento por pago adelantado</a>
+						<a href="">Contado</a>
+						<a href="">Financiado en cuotas</a>
+						<a href="">Giros</a>
+					</div>
+					<button class="accordion">Facilidades</button>
+					<div class="panel">
+						<a href="">Facilidad 1</a>
+						<a href="">Facilidad 2</a>
+						<a href="">Facilidad 3</a>
+						<a href="">Facilidad 4</a>
+					</div>
+				</div>
+			</section>
+			<section class="right">
+				<h2>Profesores destacados</h2>
+				<!-- Carrusel -->
+				<script type="text/javascript">
+						stepcarousel.setup({
+							galleryid: 'mygallery', //id of carousel DIV
+							beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
+							panelclass: 'boxCarrusel', //class of panel DIVs each holding content
+							autostep: {enable:true, moveby:1, pause:3000},
+							panelbehavior: {speed:500, wraparound:true, wrapbehavior:'slide', persist:true},
+							defaultbuttons: {enable: true, moveby: 1, leftnav: ['static/Institutos/theme/img/arrow_left.png', -5, 50], rightnav: ['static/Institutos/theme/img/arrow_right.png', -20, 50]},
+							statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
+							contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
+						})
+				</script>
+				<div id="mygallery" class="stepcarousel">
+					<div class="belt">
+          
+            {% for instituto in destacados %}
+              <div class="boxCarrusel">
+                <img src="static/Institutos/theme/img/ex_1.jpg">
+                <div class="rightInfo">
+                  <h3>{{ instituto.nombre }}</h3>
+                  <span>{{ instituto.direccion }}</span>
+                  <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+                </div>
+              </div>
+            {% endfor %}
+					</div>
+				</div>
+				<div class="actionListResult">
+					<div class="ver">
+						<div class="imageSelect">
+							<img class="tipoResSeleccionado list" src="static/Institutos/theme/img/listado.png" onclick="javascript:showListado();">
+							<img class="map" src="static/Institutos/theme/img/mapa.png" onclick="javascript:showMap();">
+						</div>
+						<span>Ver</span>
+					</div>
+				</div>
+        
+        {% for instituto in institutos %}
+          <div class="listResult">
+            <div class="resultBox">
+              <img src="static/Institutos/theme/img/ex_2.jpg">
+              <div class="rightInfo">
+                <h3><a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a></h3>
+                <span>{{ instituto.direccion }}</span>
+                <div class="bottomInfo">
+                  <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+                  <div class="search" onclick="javascript:irA(idUrlProfe);">Ver detalle</div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+          <!--
+					<div class="loaderResult">
+						<img src="theme/img/loader.gif">
+					</div>
+          -->
+				</div>
+				<div class="mapResult">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+				</div>
+			</section>
+		</div>
+
+{% comment %} 
 {% if pager.has_other_pages %}
 <nav aria-label="Page navigation example"></nav>
   <ul class="pagination">
@@ -50,12 +164,13 @@
     {% endif %}
   </ul>
 </nav>
-
+{% endcomment %}
 
 <form name="buscar" method="post" action="{% url 'buscar' %}">
   {% csrf_token %}
   <input name="centro" value="{{ centro }}" hidden>
   <input name="materia" value="{{ materia }}" hidden>
+  <input id="direccion" name="direccion" value="{{ direccion }}" hidden>
   <input id="lat" name="lat" type="number" value="{{ lat }}" hidden>
   <input id="lng" name="lng" type="number" value="{{ lng }}" hidden>
   <input id="page" name="page" type="number" value="1" hidden>
@@ -68,4 +183,9 @@
     }
 </script>
 
+{% comment %} 
 {% endif %}
+{% endcomment %}
+
+
+{% endblock %}

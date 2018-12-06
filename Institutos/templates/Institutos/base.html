@@ -43,21 +43,29 @@
                                 <img src="theme/img/lupa_white.png" id="iconSearch">
                             </div>
                         </div>
-                        <div class="buscador">
-                            <form method="post" action="#">
-                                <input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
-                                <datalist id="centroestudio">
-                                    <option value="Facu 1"></option>
-                                    <option value="Facu 2"></option>
-                                    <option value="Facu 3"></option>
-                                    <option value="Facu 4"></option>
-                                </datalist>
-                                <input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
-                                <div class="imgheadSearch" id="imgheadSearch" >
-                                    <img src="theme/img/lupa.png" onclick="javascript:headSearch();">
-                                </div>
-                            </form>
-                        </div>
+                        {% if direccion %}
+                            <div class="buscador">
+                                <form name="buscarH" method="post" action="{% url 'buscar' %}">
+                                    <input list="centros" name="centro" class="centroestudioCombo" placeholder="Centro de estudio">
+                                    <datalist id="centros">
+                                        {% for centro in centros %}
+                                            <option value="{{ centro.nombre }}"></option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <input list="materias" name="materia" class="centroestudioCombo" placeholder="Materia">
+                                    <datalist id="materias">
+                                        {% for materia in materias %}
+                                            <option value="{{ materia.nombre }}"></option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <input id="address" type="text" name="dir" class="dir" value="{{ direccion }}" hidden>
+
+                                    <input id="lat" name="lat" type="number" value="{{ lat }}" hidden>
+                                    <input id="lng" name="lng" type="number" value="{{ lng }}" hidden>
+
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="popUpMenu">

@@ -30,7 +30,7 @@ MAPS_API_KEY = config('MAPS_API_KEY')
 def index(request):
     centros = list(Centro.objects.all())
     materias = list(Materia.objects.all())
-    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias})
+    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias, 'api_key': settings.MAPS_API_KEY})
 
 def login(request):
     if request.method == 'POST':
@@ -116,6 +116,8 @@ def buscar(request):
     lng = float(request.POST['lng'])
     page = int(request.POST.get('page', 1))
 
+    direccion = request.POST.get('dir', "")
+
     centro = request.POST.get('centro', "")
     materia = request.POST.get('materia', "")
 
@@ -138,20 +140,22 @@ def buscar(request):
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
-    paginator = Paginator(institutos, 10)
+    #paginator = Paginator(institutos, 10)
     
     # Calculo la pagina actual
-    institutos = institutos[(page-1)*10:page*10]
-    try:
-        inst_page = paginator.page(page)
-    except PageNotAnInteger:
-        inst_page = paginator.page(1)
-    except EmptyPage:
-        inst_page = paginator.page(paginator.num_pages)
-    if (DEBUG):
-        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'destacados': destacados, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
-    else:
-        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'destacados': destacados, 'pager': inst_page, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia})
+    #institutos = institutos[(page-1)*10:page*10]
+    #try:
+    #    inst_page = paginator.page(page)
+    #except PageNotAnInteger:
+    #    inst_page = paginator.page(1)
+    #except EmptyPage:
+    #    inst_page = paginator.page(paginator.num_pages)
+
+    # , 'pager': inst_page
+    #if (DEBUG):
+    #    return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'destacados': destacados, 'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
+    #else:
+    return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'destacados': destacados, 'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
 
 def buscarProfe(request):
     texto = request.POST['texto']
