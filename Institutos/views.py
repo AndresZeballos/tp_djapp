@@ -112,6 +112,9 @@ def perfil(request):
     return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 def buscar(request):
+    centros = list(Centro.objects.all())
+    materias = list(Materia.objects.all())
+
     lat = float(request.POST['lat'])
     lng = float(request.POST['lng'])
     page = int(request.POST.get('page', 1))
@@ -122,6 +125,9 @@ def buscar(request):
     materia = request.POST.get('materia', "")
 
     destacados = list(Instituto.objects.filter(estado=2).filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
+
+    for i in destacados:
+        i.distancia(lat, lng)
 
     posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
 
@@ -140,6 +146,13 @@ def buscar(request):
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
+
+    flatten = lambda l: list(set([item for sublist in l for item in sublist]))
+
+    comodidades = flatten([list(a.comodidades.all()) for a in institutos])
+    formas = flatten([list(a.formasPago.all()) for a in institutos])
+    facilidades = flatten([list(a.facilidades.all()) for a in institutos])
+
     #paginator = Paginator(institutos, 10)
     
     # Calculo la pagina actual
@@ -155,7 +168,11 @@ def buscar(request):
     #if (DEBUG):
     #    return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'destacados': destacados, 'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
     #else:
-    return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'destacados': destacados, 'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
+
+    return render(request, 'Institutos/Institutos.html', { \
+        'comodidades': comodidades, 'formas': formas, 'facilidades': facilidades, \
+        'centros': centros, 'materias': materias, 'institutos': institutos, 'destacados': destacados, \
+        'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
 
 def buscarProfe(request):
     texto = request.POST['texto']

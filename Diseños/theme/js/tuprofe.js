@@ -446,6 +446,10 @@ function closedMenu(){
 function irA(url){
 	if(url=="registro"){
 		window.location = "registro.html";
+	} else {
+		
+		window.location = url;
+
 	}
 	
 }

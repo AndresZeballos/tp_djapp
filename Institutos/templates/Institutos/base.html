@@ -9,6 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="static/Institutos/theme/js/jquery.min.js"></script>
 		<script src="static/Institutos/theme/js/tuprofe.js"></script>
+		<script type="text/javascript" src="static/Institutos/theme/js/stepcarousel.js"></script>
         <link href="static/Institutos/theme/css/tuprofe.css" rel="stylesheet" type="text/css">
         
         <script src="{% static 'Institutos/script.js' %}"></script>
@@ -40,28 +41,25 @@
                                 <div class="_layer -bottom"></div>
                             </div>
                             <div class="iconSearch">
-                                <img src="theme/img/lupa_white.png" id="iconSearch">
+                                <img src="static/Institutos/theme/img/lupa_white.png" id="iconSearch">
                             </div>
                         </div>
                         {% if direccion %}
                             <div class="buscador">
                                 <form name="buscarH" method="post" action="{% url 'buscar' %}">
-                                    <input list="centros" name="centro" class="centroestudioCombo" placeholder="Centro de estudio">
+                                    <input list="centros" id="centro1" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}">
                                     <datalist id="centros">
                                         {% for centro in centros %}
                                             <option value="{{ centro.nombre }}"></option>
                                         {% endfor %}
                                     </datalist>
-                                    <input list="materias" name="materia" class="centroestudioCombo" placeholder="Materia">
+                                    <input list="materias" id="materia1" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
                                     <datalist id="materias">
                                         {% for materia in materias %}
                                             <option value="{{ materia.nombre }}"></option>
                                         {% endfor %}
                                     </datalist>
                                     <input id="address" type="text" name="dir" class="dir" value="{{ direccion }}" hidden>
-
-                                    <input id="lat" name="lat" type="number" value="{{ lat }}" hidden>
-                                    <input id="lng" name="lng" type="number" value="{{ lng }}" hidden>
 
                                 </form>
                             </div>
@@ -81,27 +79,20 @@
                 <div class="bluePopUpContent">
                     <div class="max">
                         <div class="buscadorResponsive">
-                            <form method="post" action="#">
-                                <span>Centro de Estudio</span>
-                                <input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
-                                <datalist id="centroestudioRes">
-                                    <option value="Facu 1"></option>
-                                    <option value="Facu 2"></option>
-                                    <option value="Facu 3"></option>
-                                    <option value="Facu 4"></option>
+                            <form name="buscarH" method="post" action="{% url 'buscar' %}">
+                                <input list="centros" id="centro2" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}">
+                                <datalist id="centros">
+                                    {% for centro in centros %}
+                                        <option value="{{ centro.nombre }}"></option>
+                                    {% endfor %}
                                 </datalist>
-                                <span>Materia</span>
-                                <input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
-                                <datalist id="materiaRes">
-                                    <option value="Materia 1"></option>
-                                    <option value="Materia 2"></option>
-                                    <option value="Materia 3"></option>
-                                    <option value="Materia 4"></option>
+                                <input list="materias" id="materia2" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
+                                <datalist id="materias">
+                                    {% for materia in materias %}
+                                        <option value="{{ materia.nombre }}"></option>
+                                    {% endfor %}
                                 </datalist>
-                                <div class="bottomButtonRes">
-                                    <input type="submit" name="buscar" class="headSearch" value="Buscar">
-                                    <div class="limpiaFiltrosRes">Limpiar filtros</div>
-                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -138,22 +129,30 @@
         <script>
             function initMap() {
                 var geocoder = new google.maps.Geocoder();
-                document.getElementById('popUpSearch1').addEventListener('click', function() {
-                    if (! jQuery(".hamburger").is(":visible")) {
-                        geocodeAddress(geocoder, 'address');
-                    }
-                });
-                document.getElementById('searchDirPop').addEventListener('click', function() {
-                    geocodeAddress(geocoder, 'addressPop');
-                });
-                document.getElementById('searchPop').addEventListener('click', function() {
-                    navigator.geolocation.getCurrentPosition(show_map);
-                });
+                
+                var aux = document.getElementById('popUpSearch1');
+                if (aux !== null) {
+                    document.getElementById('popUpSearch1').addEventListener('click', function() {
+                        if (! jQuery("#address").is(":hidden")) {
+                            geocodeAddress(geocoder, 'direccion');
+                        }
+                    });
+                }
+                aux = document.getElementById('searchDirPop');
+                if (aux !== null) {
+                    document.getElementById('searchDirPop').addEventListener('click', function() {
+                        geocodeAddress(geocoder, 'addressPop');
+                    });
+                    document.getElementById('searchPop').addEventListener('click', function() {
+                        navigator.geolocation.getCurrentPosition(show_map);
+                    });
+                }
 
             }
         
             function geocodeAddress(geocoder, elemId) {
                 var address = document.getElementById(elemId).value;
+                document.getElementById('direccion').value = address;
                 geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
                     if (status === 'OK') {
                         document.getElementById('lat').value = results[0].geometry.location.lat();
@@ -171,6 +170,30 @@
                 document.getElementById('lat').value = latitude;
                 document.getElementById('lng').value = longitude;
                 document.buscar.submit();
+            }
+
+
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
         </script>
         

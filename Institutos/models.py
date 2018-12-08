@@ -96,7 +96,6 @@ class Instituto(models.Model):
     formasPago = models.ManyToManyField(FormaPago)
     comodidades = models.ManyToManyField(Comodidad)
     barrios = models.ManyToManyField(Barrio)
-    facilidades = models.ManyToManyField(Facilidad)
     centros = models.ManyToManyField(Centro)
     materias = models.ManyToManyField(Materia)
     ultima_distancia = 0

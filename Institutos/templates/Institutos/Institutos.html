@@ -5,7 +5,7 @@
 {% bootstrap_css %}
 
 {% block titleH1 %}
-  <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="">(cambiar ubicaci&oacute;n)</a>
+  <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="#" onclick="javascript:showAddressDialog();">(cambiar ubicaci&oacute;n)</a>
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
 
 		<div class="breadcrum">
 			<div class="max">
-				<span><a href="index.html">Inicio</a></span>
+				<span><a href="/">Inicio</a></span>
 				<span class="separa">>></span>
 				<span>B&uacute;squeda</span>				
 			</div>
@@ -26,7 +26,7 @@
 		
 		<div class="filtrosRes">
 			<div class="max paddTop">
-				<img src="theme/img/filtro.png">
+				<img src="static/Institutos/theme/img/filtro.png">
 				<span>Filtros de b&uacute;squeda</span>
 			</div>
 		</div>
@@ -35,38 +35,28 @@
 				<div class="searchFiltros">
 					<div class="">
 						<h2>Filtros seleccionados</h2>
-						<div class="filtros">
-							<div class="filtroSelect" id="materia_12">
-								<span>Matemática discreta</span>
-								<img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materia_12').remove();">
-							</div>
+						<div id="filtros" class="filtros">
 						</div>
 						<!-- Esta frase solo se activa cuando no hay filtros y desaparece al agregar al menos uno.-->
 						<span class="nofiltros">No se ha seleccionado ning&uacute;n filtro de b&uacute;sqeda</span>
 					</div>
 					<button class="accordion">Comodidades</button>
 					<div class="panel">
-						<a href="">WIFI</a>
-						<a href="">Estufa</a>
-						<a href="">Ventiladores</a>
-						<a href="">Aire acondicionado</a>
+            {% for comodidad in comodidades %}
+						  <a class="comodidad_{{ comodidad.id }}" href="#" onclick="javascript:addFilter('comodidad_{{ comodidad.id }}');">{{ comodidad.nombre }}</a>
+            {% endfor %}
 					</div>
 					<button class="accordion">Métodos de pago</button>
 					<div class="panel">
-						<a href="">Contado</a>
-						<a href="">Financiado en cuotas</a>
-						<a href="">Giros</a>
-						<a href="">Descuento por pago adelantado</a>
-						<a href="">Contado</a>
-						<a href="">Financiado en cuotas</a>
-						<a href="">Giros</a>
+            {% for forma in formas %}
+						  <a class="forma_{{ forma.id }}" href="#" onclick="javascript:addFilter('forma_{{ forma.id }}');">{{ forma.nombre }}</a>
+            {% endfor %}
 					</div>
 					<button class="accordion">Facilidades</button>
 					<div class="panel">
-						<a href="">Facilidad 1</a>
-						<a href="">Facilidad 2</a>
-						<a href="">Facilidad 3</a>
-						<a href="">Facilidad 4</a>
+            {% for facilidad in facilidades %}
+						  <a class="facilidad_{{ facilidad.id }}" href="#" onclick="javascript:addFilter('facilidad_{{ facilidad.id }}');">{{ facilidad.nombre }}</a>
+            {% endfor %}
 					</div>
 				</div>
 			</section>
@@ -119,17 +109,26 @@
                 <span>{{ instituto.direccion }}</span>
                 <div class="bottomInfo">
                   <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
-                  <div class="search" onclick="javascript:irA(idUrlProfe);">Ver detalle</div>
+                  <div class="search" onclick="javascript:irA('{% url 'instituto' instituto.id %}');">Ver detalle</div>
                 </div>
               </div>
             </div>
+            {% for comodidad in instituto.comodidades.all %}
+              <div class="comodidad_{{ comodidad.id }}_i" hidden></div>
+            {% endfor %}
+            {% for forma in instituto.formasPago.all %}
+              <div class="forma_{{ forma.id }}_i" hidden></div>
+            {% endfor %}
+            {% for facilidad in instituto.facilidades.all %}
+              <div class="facilidad_{{ facilidad.id }}_i" hidden></div>
+            {% endfor %}
+				  </div>
         {% endfor %}
           <!--
 					<div class="loaderResult">
 						<img src="theme/img/loader.gif">
 					</div>
           -->
-				</div>
 				<div class="mapResult">
 					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
@@ -168,24 +167,90 @@
 
 <form name="buscar" method="post" action="{% url 'buscar' %}">
   {% csrf_token %}
-  <input name="centro" value="{{ centro }}" hidden>
-  <input name="materia" value="{{ materia }}" hidden>
-  <input id="direccion" name="direccion" value="{{ direccion }}" hidden>
+  <input id="centro" name="centro" value="{{ centro }}" hidden>
+  <input id="materia" name="materia" value="{{ materia }}" hidden>
+  <input id="direccion" name="dir" value="{{ direccion }}" hidden>
   <input id="lat" name="lat" type="number" value="{{ lat }}" hidden>
   <input id="lng" name="lng" type="number" value="{{ lng }}" hidden>
   <input id="page" name="page" type="number" value="1" hidden>
 </form>
 
+
+
+        <div class="popUpContentBox">
+            <div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+            <h3>Ingresá tu dirección</h3>
+            <div class="formularioPop">
+                <div>
+                    <input type="text" name="dirPop" id="addressPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234" value="{{ direccion }}">
+                    <input value="Buscar" name="search" class="search" id="searchDirPop">
+                </div>
+            </div>
+            <div class="separador">&nbsp;</div>
+            <h3>Busca por mi geolocalización</h3>
+            <div class="formularioPop">
+                <div>
+                    <input value="Buscar" name="search" class="search" id="searchPop">
+                </div>
+            </div>
+        </div>
+        <div class="popUpContent">&nbsp;</div>
+
+
 <script>
+    jQuery("#materia1").change(function() {
+      document.getElementById('centro').value = document.getElementById('centro1').value;
+      document.getElementById('materia').value = document.getElementById('materia1').value;
+      callPage(1);
+    });
+    jQuery("#materia2").change(function() {
+      document.getElementById('centro').value = document.getElementById('centro2').value;
+      document.getElementById('materia').value = document.getElementById('materia2').value;
+      callPage(1);
+    });
+
     function callPage(page) {
       document.getElementById('page').value = page;
+      //saveCoockies(['centro', 'materia', 'direccion', 'lat', 'lng', ]);
       document.buscar.submit();
     }
+    
 </script>
 
 {% comment %} 
 {% endif %}
 {% endcomment %}
 
+
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+
+<script>
+    function saveCoockies(ids) {
+      for (var id in ids) {
+        setCookie(id, document.getElementById(id).value, 7);
+      }
+    }
+
+    function retrieveCoockies(ids) {
+      for (var id in ids) {
+        document.getElementById(id).value = getCookie(id);
+      }
+    }
+    
+    //retrieveCoockies(['centro', 'materia', 'direccion', 'lat', 'lng', ]);
+
+    function showAddressDialog() {
+      jQuery(".popUpContent").css("display","block");
+      jQuery(".popUpContentBox").css("display","block");
+    }
+
+
+</script>
 
 {% endblock %}

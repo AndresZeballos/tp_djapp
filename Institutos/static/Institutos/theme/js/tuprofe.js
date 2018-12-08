@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 	calcularAnchoRotadorRes();
 	
 	//Animacion para anclas
-	$('.perfilMenu a').click(function(e){				
+	jQuery('.perfilMenu a').click(function(e){				
 		e.preventDefault();		//evitar el eventos del enlace normal
 		var strAncla=$(this).attr('href'); //id del ancla
 			$('body,html').stop(true,true).animate({				
@@ -286,21 +286,25 @@ function showFiltrosResBusqueda(){
 			//Alto de los filtros
 			var altoFiltros = jQuery("section.left").height();
 			//Obtengo los altos de los controles del rotador
-			var imgLeft = jQuery("#leftButtonRota").css("top"); //Ej. 120px			
-			var auxLeft = imgLeft.substring(0, imgLeft.length-2);
-			var resultado = parseInt(altoFiltros) + parseInt(auxLeft) + 40;
-			jQuery("#leftButtonRota").css("top",resultado + "px");
-			jQuery("#rightButtonRota").css("top",resultado + "px");
+			var imgLeft = jQuery("#leftButtonRota").css("top"); //Ej. 120px		
+			if (imgLeft !== undefined) {
+				var auxLeft = imgLeft.substring(0, imgLeft.length-2);
+				var resultado = parseInt(altoFiltros) + parseInt(auxLeft) + 40;
+				jQuery("#leftButtonRota").css("top",resultado + "px");
+				jQuery("#rightButtonRota").css("top",resultado + "px");
+			}			
 		}else{
 			jQuery("section.left").css("display","none");
 			//Alto de los filtros
 			var altoFiltros = jQuery("section.left").height();
 			//Obtengo los altos de los controles del rotador
-			var imgLeft = jQuery("#leftButtonRota").css("top"); //Ej. 120px			
-			var auxLeft = imgLeft.substring(0, imgLeft.length-2);
-			var resultado = parseInt(auxLeft) - parseInt(altoFiltros) -40;
-			jQuery("#leftButtonRota").css("top",resultado + "px");
-			jQuery("#rightButtonRota").css("top",resultado + "px");
+			var imgLeft = jQuery("#leftButtonRota").css("top"); //Ej. 120px	
+			if (imgLeft !== undefined) {
+				var auxLeft = imgLeft.substring(0, imgLeft.length-2);
+				var resultado = parseInt(auxLeft) - parseInt(altoFiltros) -40;
+				jQuery("#leftButtonRota").css("top",resultado + "px");
+				jQuery("#rightButtonRota").css("top",resultado + "px");
+			}		
 		}
 	}
 }
@@ -424,7 +428,7 @@ function anchoSearchHome2(search){
 }
 
 function popUp(){
-	if (jQuery(".hamburger").is(":visible")) {
+	if (jQuery("#address").is(":hidden")) {
 		jQuery(".popUpContent").css("display","block");
 		jQuery(".popUpContentBox").css("display","block");
 	}
@@ -449,9 +453,67 @@ function closedMenu(){
 function irA(url){
 	if(url=="registro"){
 		window.location = "registro.html";
+	} else {
+		
+		window.location = url;
+
 	}
 	
 }
+
+
+function applyFilters() {
+	// document.getElementById('filtros')
+
+	var filtros = document.getElementsByClassName('filtroSelect');
+	var insts = document.getElementsByClassName('listResult');
+	if (filtros.length == 0) {
+		for(var i = 0; i < insts.length; i++)
+		{
+			jQuery(insts.item(i)).show();
+		}
+	} else {
+		for(var i = 0; i < insts.length; i++)
+		{
+			jQuery(insts.item(i)).hide();
+		}
+		for(var j = 0; j < filtros.length; j++)
+		{
+			for(var i = 0; i < insts.length; i++)
+			{
+				var toFind = '.' + filtros.item(j).id + '_i';
+				if(jQuery(insts.item(i)).find(toFind).length !== 0){
+					jQuery(insts.item(i)).show();
+				}
+			}
+		}
+
+	}
+}
+
+function addFilter(id) {
+	var nombre = document.getElementsByClassName(id)[0].innerHTML;
+
+	var div = document.createElement('div');
+
+	div.id = id;
+	div.className = 'filtroSelect';
+
+	div.innerHTML =
+		'<span>' + nombre + '</span>\
+		<img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:removeFilter(\''+id+'\');">';
+
+	document.getElementById('filtros').appendChild(div);
+
+	applyFilters();
+}
+
+function removeFilter(id) {
+	var nombre = document.getElementById(id).value;
+	jQuery('#'+id).remove();
+	applyFilters();
+}
+
 
 
 
