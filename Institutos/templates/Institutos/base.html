@@ -124,12 +124,38 @@
             </footer>
 
         {% endblock %}
+
+        {% block initMapScript %}
+            <script>
+                function initMap() {
+                    var geocoder = new google.maps.Geocoder();
+                    configureListeners(geocoder);
+                }
+            </script>
+        {% endblock %}
         
                 
         <script>
-            function initMap() {
-                var geocoder = new google.maps.Geocoder();
-                
+            function validateBuscarForm() {
+                var x = document.forms["buscar"]["centro"].value;
+                if (x == "") {
+                    return false;
+                }x = document.forms["buscar"]["materia"].value;
+                if (x == "") {
+                    return false;
+                }x = document.forms["buscar"]["dir"].value;
+                if (x == "") {
+                    return false;
+                }x = document.forms["buscar"]["lat"].value;
+                if (x == "") {
+                    return false;
+                }x = document.forms["buscar"]["lng"].value;
+                if (x == "") {
+                    return false;
+                }
+                return true;
+            }
+            function configureListeners(geocoder) {
                 var aux = document.getElementById('popUpSearch1');
                 if (aux !== null) {
                     document.getElementById('popUpSearch1').addEventListener('click', function() {
@@ -147,9 +173,8 @@
                         navigator.geolocation.getCurrentPosition(show_map);
                     });
                 }
-
             }
-        
+
             function geocodeAddress(geocoder, elemId) {
                 var address = document.getElementById(elemId).value;
                 document.getElementById('direccion').value = address;
@@ -157,7 +182,8 @@
                     if (status === 'OK') {
                         document.getElementById('lat').value = results[0].geometry.location.lat();
                         document.getElementById('lng').value = results[0].geometry.location.lng();
-                        document.buscar.submit();
+                        if (validateBuscarForm())
+                            document.buscar.submit();
                     } else {
                         console.log('Geocode was not successful for the following reason: ' + status);
                     }
@@ -169,7 +195,8 @@
                 var longitude = position.coords.longitude;
                 document.getElementById('lat').value = latitude;
                 document.getElementById('lng').value = longitude;
-                document.buscar.submit();
+                if (validateBuscarForm())
+                    document.buscar.submit();
             }
 
 

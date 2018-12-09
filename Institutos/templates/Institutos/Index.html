@@ -34,7 +34,7 @@
             <h1>Todos los profesores particulares en una web</h1>
             <div class="formularios">
             
-                <form name="buscar" method="post" action="{% url 'buscar' %}">
+                <form name="buscar" method="post" action="{% url 'buscar' %}" onsubmit="return validateBuscarForm()" >
                     {% csrf_token %}
                     <div class="formulario">
                         <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio">
