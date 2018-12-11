@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-#from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login
 
 from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada
 from .forms import SignUpForm, PerfilForm
@@ -30,7 +30,7 @@ MAPS_API_KEY = config('MAPS_API_KEY')
 def index(request):
     centros = list(Centro.objects.all())
     materias = list(Materia.objects.all())
-    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias, 'api_key': settings.MAPS_API_KEY})
+    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias, 'api_key': MAPS_API_KEY})
 
 def login(request):
     if request.method == 'POST':
@@ -39,17 +39,16 @@ def login(request):
         legado = UsuarioLegado.objects.filter(username=username).first()
         user = User.objects.filter(username=username).first()
         if legado == None:
-            return auth_views.login(request)
+            auth_login(request, user)
+            return on_login(request)
         if legado != None and legado.is_active() and legado.check_password(password):
             user.set_password(password)
             user.is_active = True
             user.save()
-            return auth_views.login(request)
-        form = AuthenticationForm()
-        return render(request, 'registration/login.html', {'form': form})
-    else:
-        form = AuthenticationForm()
-        return render(request, 'registration/login.html', {'form': form})
+            auth_login(request, user)
+            return on_login(request)
+    form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
 
 def on_login(request):
     if request.user.is_authenticated:
