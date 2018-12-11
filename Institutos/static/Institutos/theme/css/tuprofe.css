@@ -423,7 +423,6 @@ header .head .fichaPerfilProfe{
 	font-size: 23px;
 }
 .fichaPerfilProfe .rightInfo span{
-	background-image: url("../img/dir.png");
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	font-family: Lato-Bold;
@@ -1328,7 +1327,7 @@ img.tipoResSeleccionado{
 .readRightUbicacion p.buses span:hover{
 	background-color: #E8F0F9;
 }
-/** 	EDICIÓN PERFIL PROFE	**/
+/** 	EDICIï¿½N PERFIL PROFE	**/
 .reeadInfo_edit{
 	width: 100%;
 	margin-top: 2rem;
