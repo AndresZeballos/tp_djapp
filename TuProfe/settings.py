@@ -14,8 +14,6 @@ from decouple import config
 import os
 import django_heroku
 
-FILE_CHARSET='iso-8859-1'
-
 MAPS_API_KEY = config('MAPS_API_KEY')
 
 LOGIN_REDIRECT_URL = 'on_login'
