@@ -127,7 +127,7 @@ class Instituto(models.Model):
         return "%s - %s" % (self.id, self.nombre)
 
 class Profesor(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=200)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
 
     def __str__(self):
