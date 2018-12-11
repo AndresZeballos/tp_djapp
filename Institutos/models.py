@@ -79,7 +79,7 @@ class Instituto(models.Model):
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=100, default='')
     descripcion = models.CharField(max_length=200, default='')
-    descripcion_corta = models.CharField(max_length=100, default='')
+    descripcion_corta = models.CharField(max_length=200, default='')
     telefono = models.CharField(max_length=20, null=True)
     celular = models.CharField(max_length=20, null=True)
     direccion = models.CharField(max_length=100, default='', null=True)
