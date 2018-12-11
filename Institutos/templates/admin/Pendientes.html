@@ -1,0 +1,112 @@
+{% extends "admin/base_site.html" %}
+
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+{% endblock %}
+
+
+{% block title %}Registros Pendientes{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+
+{% block content %}
+  <div id="content-main">
+      <h1>Registros Pendientes</h1>
+      <div id="content-main">
+    
+        
+        
+        <div class="module" id="changelist">
+          
+          
+    
+      <!--    <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="ij8QQE5L74NpNy71APFqqPhlBYTYYcxeWLiBSyOVnZEVK52DDuxMNHqgZLZWHw2u">
+      -->
+    
+    <!--
+        
+              
+    <div class="actions">
+        <label>Action: <select name="action" required="">
+      <option value="" selected="">---------</option>
+    
+      <option value="delete_selected">Marcar mensajes como leidos</option>
+    
+    </select></label><input type="hidden" name="select_across" value="0" class="select-across">
+        <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+        
+            <span class="action-counter" data-actions-icnt="4" style="display: inline;">0 of 4 selected</span>
+            
+        
+    </div>
+    
+-->      
+           
+    
+    
+    <div class="results">
+        <table id="result_list">
+        <thead>
+            <tr>
+            
+            <th scope="col" class="action-checkbox-column">
+            
+            <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+            <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
+                <div class="text"><span>Id</span></div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
+                <div class="text"><span>Nombre</span></div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
+                <div class="text"><span>Telefono</span></div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
+                <div class="text"><span>Email</span></div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
+                <div class="text"><span>Acciones</span></div>
+                <div class="clear"></div>
+            </th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            {% for instituto in pendientes %}
+                <tr class="row1">
+                    <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ instituto.id }}" class="action-select"></td>
+                    <th class="field-__str__"><a href="#">{{ instituto.id }}</a></th>
+                    <th class="field-__str__"><a href="#">{{ instituto.nombre }}</a></th>
+                    <th class="field-__str__"><a href="#">{{ instituto.telefono }}</a></th>
+                    <th class="field-__str__"><a href="#">{{ instituto.usuario.username }}</a></th>
+                    <th class="field-__str__">
+                        <form action="{% url 'habilitar_instituto' instituto.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Habilitar" />
+                        </form>
+                    </th>
+                </tr>
+                
+            
+            {% endfor %}
+            
+        
+        </tbody>
+        </table>
+    </div>
+    
+    
+      <!--    </form> -->
+        </div>
+      </div>
+  </div>
+{% endblock %}

@@ -1,4 +1,35 @@
-<h2>Contacto</h2>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% extends "Institutos/base.html" %}
 
-{% include "Institutos/MensajeForm.html" with id=0 %}
+{% block titleH1 %} Cont&aacute;ctenos {% endblock %}
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Cont&aacute;ctenos</span>				
+			</div>
+		</div>
+        {% if error_message %}
+            {% include "Institutos/Mensaje.html" with texto=error_message %}
+        {% endif %}
+		<section class="interna">
+			<article class="message">
+				<img src="static/Institutos/theme/img/info.gif">
+				<form name="contacto" action="{% url 'nuevo_mensaje' 0 %}" method="post">
+                    {% csrf_token %}
+					<div class="formularioContacto">
+						<p>Cont&aacute;ctenos</p>
+						<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido">
+						<input type="text" name="telefono" class="dir" placeholder="Teléfono">
+						<input type="email" name="email" class="dir" placeholder="Correo electrónico">
+						<input type="text" name="asunto" class="dir" placeholder="Asunto">
+						<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje..."></textarea>
+                        <div type="submit" class="search" onclick="javascript:document.contacto.submit();">Ingresar</div>
+					</div>
+				</form>
+			</article>      
+		</section>
+
+{% endblock %}

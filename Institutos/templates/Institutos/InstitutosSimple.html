@@ -1,0 +1,59 @@
+{% load bootstrap4 %}
+
+{% bootstrap_css %}
+
+{% if institutos %}
+    <div>Resultados</div>
+    <ul>
+    {% for instituto in institutos %}
+        {% include "Institutos/Instituto_Simple.html" with instituto=instituto %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay institutos registrados.</p>
+{% endif %}
+
+
+{% if pager.has_other_pages %}
+<nav aria-label="Page navigation example"></nav>
+  <ul class="pagination">
+    {% if pager.has_previous %}
+      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.previous_page_number }})">Anterior</div></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>
+    {% endif %}
+    {% for i in pager.paginator.page_range %}
+      {% if pager.number == i %}
+        <li class="page-item active">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(actual)</span>
+          </span>
+        </li>
+      {% else %}
+        <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ i }})">{{ i }}</div></li>
+      {% endif %}
+    {% endfor %}
+    {% if pager.has_next %}
+      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.next_page_number }})">Siguiente</div></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Siguiente</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+
+<form name="buscar" method="post" action="{% url 'buscarProfe' %}">
+  {% csrf_token %}
+  <input name="texto" value="{{ texto }}" hidden>
+  <input id="page" name="page" type="number" value="1" hidden>
+</form>
+
+<script>
+  function callPage(page) {
+    document.getElementById('page').value = page;
+    document.buscar.submit();
+  }
+</script>
+
+{% endif %}

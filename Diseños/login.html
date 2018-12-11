@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="theme/js/jquery.min.js"></script>
+		<script src="theme/js/tuprofe.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="interna">
+			<div class="max head headTop">
+				<div class="internaHeadLeft">
+					<div class="logo">
+						<a href="index.html">
+							<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+						</a>
+					</div>
+					<h1 class="titleH1">Ingresar al sistema</h1>
+				</div>
+				<div class="internaHeadRight">
+					<div class="menuHead">
+						<div class="menu">
+							<a href="#">Ingresar</a>
+							<a href="#">Contáctenos</a>
+						</div>
+						
+						<div class="hamburger">
+							<div class="_layer -top"></div>
+							<div class="_layer -mid"></div>
+							<div class="_layer -bottom"></div>
+						</div>
+						<div class="iconSearch">
+							<img src="theme/img/lupa_white.png" id="iconSearch">
+						</div>
+					</div>
+					<div class="buscador">
+						<form method="post" action="#">
+							<input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudio">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+							<div class="imgheadSearch" id="imgheadSearch" >
+								<img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+			<div class="bluePopUpContent">
+				<div class="max">
+					<div class="buscadorResponsive">
+						<form method="post" action="#">
+							<span>Centro de Estudio</span>
+							<input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudioRes">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<span>Materia</span>
+							<input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+							<datalist id="materiaRes">
+								<option value="Materia 1"></option>
+								<option value="Materia 2"></option>
+								<option value="Materia 3"></option>
+								<option value="Materia 4"></option>
+							</datalist>
+							<div class="bottomButtonRes">
+								<input type="submit" name="buscar" class="headSearch" value="Buscar">
+								<div class="limpiaFiltrosRes">Limpiar filtros</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Ingreso al sistema</span>				
+			</div>
+		</div>
+		<section class="interna">
+			<article class="message">
+				<img src="theme/img/login.gif">
+				<form method="post" action="#">
+					<div class="formularioLogin">
+						<p>Ingreso al sistema</p>
+						<input type="text" name="username" class="dir" placeholder="Usuario">
+						<input type="password" name="password" class="dir" placeholder="Contraseña">
+						<div class="search" onclick="javascript:irA('referemciaAurl');">Ingresar</div>
+						<a href="#">¿Olvidó su contraseña?</a>
+					</div>
+				</form>
+			</article>      
+		</section>
+    <footer>
+		<hr>
+		<div class="max head">
+			<div class="logo">
+				<a href="#">
+					<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+				</a>
+			</div>
+			<div class="menuFoot">
+				<a href="#">Nosotros</a>
+				<a href="#">Contáctenos</a>
+				<a href="#">Ingreso</a>
+				<a href="#">Registro</a>
+			</div>
+		</div>
+    </footer>
+</body></html>

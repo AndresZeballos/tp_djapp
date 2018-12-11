@@ -81,6 +81,10 @@
                 <div class="clear"></div>
             </th>
             <th scope="col" class="column-__str__">
+                <div class="text"><span>Asunto</span></div>
+                <div class="clear"></div>
+            </th>
+            <th scope="col" class="column-__str__">
                 <div class="text"><span>Mensaje</span></div>
                 <div class="clear"></div>
             </th>
@@ -99,12 +103,9 @@
                     <th class="field-__str__"><a href="#">{{ mensaje.nombre }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.telefono }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.email }}</a></th>
+                    <th class="field-__str__"><a href="#">{{ mensaje.asunto }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.mensaje }}</a></th>
                     <th class="field-__str__">
-                        <form action="{% url 'mandar_link' mensaje.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="submit" class="link-{{ mensaje.linkEnviado }}" value="Enviar Link" />
-                        </form>
                     </th>
                 </tr>
                 

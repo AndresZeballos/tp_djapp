@@ -11,19 +11,29 @@
 
 {% block content %}
 <div id="content-main">
-        <div class="module">
-            <table summary="{% blocktrans with name="mensajes" %}Models available in the preferences application.{% endblocktrans %}">
-                <caption><a href="mensajes" class="section">{% blocktrans with name="preferences" %}Mensajes{% endblocktrans %}</a></caption>
-                <tr>
-                    <th scope="row"><a href="mensajes">Mensajes Nuevos</a></th>
-                    <td><a href="mensajes" class="changelink">{% trans 'Change' %}</a></td>
-                </tr>
-                <tr>
-                    <th scope="row"><a href="leidos">Mensajes Leidos</a></th>
-                    <td><a href="leidos" class="changelink">{% trans 'Change' %}</a></td>
-                </tr>
-            </table>
-        </div>
+    <div class="module">
+        <table summary="{% blocktrans with name="mensajes" %}Models available in the preferences application.{% endblocktrans %}">
+            <caption><a href="mensajes" class="section">{% blocktrans with name="preferences" %}Mensajes{% endblocktrans %}</a></caption>
+            <tr>
+                <th scope="row"><a href="mensajes">Mensajes Nuevos</a></th>
+                <td><a href="mensajes" class="changelink">{% trans 'Change' %}</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="leidos">Mensajes Leidos</a></th>
+                <td><a href="leidos" class="changelink">{% trans 'Change' %}</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="module">
+        <table summary="{% blocktrans with name="Pendientes" %}Models available in the preferences application.{% endblocktrans %}">
+            <caption><a href="Pendientes" class="section">{% blocktrans with name="preferences" %}Institutos{% endblocktrans %}</a></caption>
+            <tr>
+                <th scope="row"><a href="Pendientes">Pendientes</a></th>
+                <td><a href="Pendientes" class="changelink">{% trans 'Change' %}</a></td>
+            </tr>
+        </table>
+    </div>
 
 {% if app_list %}
     {% for app in app_list %}

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="theme/js/jquery.min.js"></script>
+		<script src="theme/js/tuprofe.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="interna perfilProfe">
+			<div class="max head headTop">
+				<div class="internaHeadLeft">
+					<div class="logo">
+						<a href="index.html">
+							<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+						</a>
+					</div>
+					<div class="fichaPerfilProfe">
+						<img src="theme/img/ex_2.jpg">
+						<div class="rightInfo">
+							<h3>Instituto Hugo Suarez De Armas</h3>
+							<span>Av Libertador 1720 </span>
+							<div class="bottomInfo">
+								<span class="km"><b>0.9</b> Km distancia</span>
+								<div class="telefono" onclick="javascript:verTel(idProfe);">Ver tel&eacute;fono</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="internaHeadRight">
+					<div class="menuHead">
+						<div class="menu">
+							<a href="#">Ingresar</a>
+							<a href="#">Contáctenos</a>
+						</div>
+						
+						<div class="hamburger">
+							<div class="_layer -top"></div>
+							<div class="_layer -mid"></div>
+							<div class="_layer -bottom"></div>
+						</div>
+						<div class="iconSearch">
+							<img src="theme/img/lupa_white.png" id="iconSearch">
+						</div>
+					</div>
+					<div class="buscador">
+						<form method="post" action="#">
+							<input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudio">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+							<div class="imgheadSearch" id="imgheadSearch" >
+								<img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+			<div class="bluePopUpContent">
+				<div class="max">
+					<div class="buscadorResponsive">
+						<form method="post" action="#">
+							<span>Centro de Estudio</span>
+							<input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudioRes">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<span>Materia</span>
+							<input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+							<datalist id="materiaRes">
+								<option value="Materia 1"></option>
+								<option value="Materia 2"></option>
+								<option value="Materia 3"></option>
+								<option value="Materia 4"></option>
+							</datalist>
+							<div class="bottomButtonRes">
+								<input type="submit" name="buscar" class="headSearch" value="Buscar">
+								<div class="limpiaFiltrosRes">Limpiar filtros</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Profe</span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Nombre Profesor</span>
+			</div>
+		</div>
+		<section class="interna">
+			<div id="formularioRespEnvioProfe"></div>
+			<div class="max paddTop">				
+				<div class="leftBig">
+					<div class="perfilMenu">
+						<a href="#anclaDescripcion"><span>Descripción</span></a>
+						<a href="#anclaUbicacion"><span>Ubicación</span></a>
+						<a href="#anclaMaterias"><span>Materias</span></a>
+						<a href="#anclaProfesores"><span>Profesores</span></a>
+						<a href="#anclaMedioPago"><span>Medios de pago</span></a>
+						<a href="#anclaComodidades"><span>Comodidades</span></a>
+						<a href="#anclaFacilidades"><span>Facilidades</span></a>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaDescripcion" id="anclaDescripcion"></a>
+						<span>Descripción</span>
+						<p>
+							Como docentes, actuamos como facilitadores del proceso de enseñanza-aprendizaje, estimulando el desarrollo de las aptitudes individuales, acesorándote en las distintas tareas con el fin de mejorar su calidad, optimizando así tu tiempo y tus energías.
+							</br></br>
+							Te preparamos con nivel académico. 	
+							Si sos científico, te enseñamos como resolver los distintos tipos de ejercicios y también como estudiar el teórico y preparar y 			estudiarlos prácticos de laboratorio. 	
+							Si sos de Humanístico o Artístico, te enseñamos como memorizar con resultados inmediatos, cómo redactar lo que estudiaste de 		manera que aprendas a expresarlo en forma adecuada con los objetivos de la materia y fundamentando conocimientos.	
+							ATENDEMOS todas tus carencias de base ya sea en razonamiento, cálculo, expresión escrita y oral, comprensión lectora, ortografía, caligrafía, ejecución de fichas, resúmenes, ensayos, proyectos y tesis.	
+							</br></br>
+							Estimulamos a través de diferentes técnicas, la memorización, desarrollando la concentración y el auto control.
+						</p>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaUbicacion" id="anclaUbicacion"></a>
+						<span>Ubicación</span>
+						<p>
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+						</p>
+						<div class="perfilBox">
+							<span class="subTitle">Transporte</span>
+							<p class="buses">
+								<span>117</span>
+								<span>121</span>
+								<span>191</span>
+								<span>192</span>
+								<span>199</span>
+								<span>582</span>
+								<span>17</span>
+								<span>76</span>
+								<span>382</span>
+								<span>329</span>
+								<span>17</span>
+								<span>76</span>
+								<span>382</span>
+								<span>329</span>
+								<span>17</span>
+								<span>76</span>
+								<span>382</span>
+								<span>329</span>
+							</p>
+						</div>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaMaterias" id="anclaMaterias"></a>
+						<span>Materias</span>
+						<p>
+							<span class="centroEstudio">Centro de estudio 1</span>
+							<div class="boxBox">Diseño y desarrollo de aplicaciones Diseño y desarrollo de aplicaciones</div>
+							<div class="boxBox">Escuela de Tecnología</div>
+							<div class="boxBox">Algoritmos y estructuras de datos 2</div>
+							<div class="boxBox">Calculo 1</div>
+						</p>
+						<p>
+							<span class="centroEstudio">Centro de estudio 2</span>
+							<div class="boxBox">Diseño y desarrollo de aplicaciones Diseño y desarrollo de aplicaciones</div>
+							<div class="boxBox">FI-Bedelía Escuela de Tecnología</div>
+							<div class="boxBox">Algoritmos y estructuras de datos 2</div>
+							<div class="boxBox">Calculo 1</div>
+						</p>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaProfesores" id="anclaProfesores"></a>
+						<span>Profesores</span>
+						<p>
+							<div class="boxBox">Juan Pablo Lopez</div>
+							<div class="boxBox">Juan Carlos Gomez</div>
+						</p>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaMedioPago" id="anclaMedioPago"></a>
+						<span>Medios de pago</span>
+						<p>
+							<div class="boxBox">Contado</div>
+							<div class="boxBox">Descuento pago adelantado</div>
+							<div class="boxBox">Descuento grupal</div>
+							<div class="boxBox">Financiado en cuotas</div>
+						</p>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaComodidades" id="anclaComodidades"></a>
+						<span>Comodidades</span>
+						<p>
+							<div class="boxBox">Wifi</div>
+							<div class="boxBox">Descuento pago adelantado</div>
+							<div class="boxBox">Descuento grupal</div>
+						</p>
+					</div>
+					<div class="perfilBox">
+						<a name="anclaFacilidades" id="anclaFacilidades"></a>
+						<span>Facilidades</span>
+						<p>
+							<div class="boxBox">Wifi</div>
+							<div class="boxBox">Descuento pago adelantado</div>
+						</p>
+					</div>
+				</div>
+				<div class="rightMin">
+					<div class="contactoForm">
+						<form method="post" action="#">
+							<h2>Consultas al profesor</h2>
+							<p>Completá este formulario y el profesor se pondrá en contacto contigo.</p>
+							<input type="text" name="name" class="dir" placeholder="Nombre y Apellido">
+							<input type="text" name="tel" class="dir" placeholder="Telefono (opcional)">
+							<input type="text" name="cel" class="dir" placeholder="Celular 09X XXX XXX">
+							<textarea rows="4" cols="50" placeholder="Ingrese su mensaje..."></textarea>
+							<input type="submit" class="dir" value="Enviar consulta">
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<hr>
+			<div class="max head">
+				<div class="logo">
+					<a href="#">
+						<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+					</a>
+				</div>
+				<div class="menuFoot">
+					<a href="#">Nosotros</a>
+					<a href="#">Contáctenos</a>
+					<a href="#">Ingreso</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

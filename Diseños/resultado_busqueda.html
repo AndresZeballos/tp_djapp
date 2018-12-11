@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TuProfe.com</title>
+		<meta name="title" content="Título de la WEB">
+		<meta name="description" content="Descripción de la WEB">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="theme/js/jquery.min.js"></script>
+		<script type="text/javascript" src="theme/js/tuprofe.js"></script>
+		<script type="text/javascript" src="theme/js/stepcarousel.js"></script>
+		<link href="theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="interna">
+			<div class="max head headTop">
+				<div class="internaHeadLeft">
+					<div class="logo">
+						<a href="index.html">
+							<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+						</a>
+					</div>
+					<h1 class="titleH1"><span>25</span>Profesores cercanos a 18 de Julio 2134<a href="">(cambiar ubicaci&oacute;n)</a></h1>
+				</div>
+				<div class="internaHeadRight">
+					<div class="menuHead">
+						<div class="menu">
+							<a href="#">Ingresar</a>
+							<a href="#">Contáctenos</a>
+						</div>
+						
+						<div class="hamburger">
+							<div class="_layer -top"></div>
+							<div class="_layer -mid"></div>
+							<div class="_layer -bottom"></div>
+						</div>
+						<div class="iconSearch">
+							<img src="theme/img/lupa_white.png" id="iconSearch">
+						</div>
+					</div>
+					<div class="buscador">
+						<form method="post" action="#">
+							<input list="centroestudio" name="centroestudio" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudio">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<input type="text" name="buscar" class="headSearch" placeholder="Buscar...">
+							<div class="imgheadSearch" id="imgheadSearch" >
+								<img src="theme/img/lupa.png" onclick="javascript:headSearch();">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="popUpMenu">
+				<div class="menuHeadResponsive">
+					<p>Men&uacute;</p>
+					<a href="#">Ingresar</a>
+					<a href="#">Contáctenos</a>
+					<a href="quienes_somos.html">Nosotros</a>
+					<a href="#">Registro</a>
+				</div>
+			</div>
+			<div class="popUpContent">&nbsp;</div>
+			<div class="bluePopUpContent">
+				<div class="max">
+					<div class="buscadorResponsive">
+						<form method="post" action="#">
+							<span>Centro de Estudio</span>
+							<input list="centroestudioRes" name="centroestudioRes" class="centroestudioCombo" placeholder="Facultad de arquitectura">
+							<datalist id="centroestudioRes">
+								<option value="Facu 1"></option>
+								<option value="Facu 2"></option>
+								<option value="Facu 3"></option>
+								<option value="Facu 4"></option>
+							</datalist>
+							<span>Materia</span>
+							<input list="materiaRes" name="materiaRes" class="centroestudioCombo" placeholder="Materia">
+							<datalist id="materiaRes">
+								<option value="Materia 1"></option>
+								<option value="Materia 2"></option>
+								<option value="Materia 3"></option>
+								<option value="Materia 4"></option>
+							</datalist>
+							<div class="bottomButtonRes">
+								<input type="submit" name="buscar" class="headSearch" value="Buscar">
+								<div class="limpiaFiltrosRes">Limpiar filtros</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="index.html">Inicio</a></span>
+				<span class="separa">>></span>
+				<span>B&uacute;squeda</span>				
+			</div>
+		</div>
+		
+		<div class="max titleResSearch">
+			<div class="titleRes"></div>
+		</div>
+		
+		<div class="filtrosRes">
+			<div class="max paddTop">
+				<img src="theme/img/filtro.png">
+				<span>Filtros de b&uacute;squeda</span>
+			</div>
+		</div>
+		<div class="max">
+			<section class="left">
+				<div class="searchFiltros">
+					<div class="">
+						<h2>Filtros seleccionados</h2>
+						<div class="filtros">
+							<div class="filtroSelect" id="materia_12">
+								<span>Matemática discreta</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#materia_12').remove();">
+							</div>
+							<div class="filtroSelect" id="materia_8">
+								<span>Cálculo 1</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#materia_8').remove();">
+							</div>
+							<div class="filtroSelect" id="materia_115">
+								<span>Cálculo 2</span>
+								<img src="theme/img/cross_filtro.png" onclick="javascript:jQuery('#materia_115').remove();">
+							</div>
+						</div>
+						<!-- Esta frase solo se activa cuando no hay filtros y desaparece al agregar al menos uno.-->
+						<span class="nofiltros">No se ha seleccionado ning&uacute;n filtro de b&uacute;sqeda</span>
+					</div>
+					<button class="accordion">Comodidades</button>
+					<div class="panel">
+						<a href="">WIFI</a>
+						<a href="">Estufa</a>
+						<a href="">Ventiladores</a>
+						<a href="">Aire acondicionado</a>
+					</div>
+					<button class="accordion">Métodos de pago</button>
+					<div class="panel">
+						<a href="">Contado</a>
+						<a href="">Financiado en cuotas</a>
+						<a href="">Giros</a>
+						<a href="">Descuento por pago adelantado</a>
+						<a href="">Contado</a>
+						<a href="">Financiado en cuotas</a>
+						<a href="">Giros</a>
+					</div>
+					<button class="accordion">Facilidades</button>
+					<div class="panel">
+						<a href="">Facilidad 1</a>
+						<a href="">Facilidad 2</a>
+						<a href="">Facilidad 3</a>
+						<a href="">Facilidad 4</a>
+					</div>
+				</div>
+			</section>
+			<section class="right">
+				<h2>Profesores destacados</h2>
+				<!-- Carrusel -->
+				<script type="text/javascript">
+						stepcarousel.setup({
+							galleryid: 'mygallery', //id of carousel DIV
+							beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
+							panelclass: 'boxCarrusel', //class of panel DIVs each holding content
+							autostep: {enable:true, moveby:1, pause:3000},
+							panelbehavior: {speed:500, wraparound:true, wrapbehavior:'slide', persist:true},
+							defaultbuttons: {enable: true, moveby: 1, leftnav: ['theme/img/arrow_left.png', -5, 50], rightnav: ['theme/img/arrow_right.png', -20, 50]},
+							statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
+							contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
+						})
+				</script>
+				<div id="mygallery" class="stepcarousel">
+					<div class="belt">
+						<div class="boxCarrusel">
+							<img src="theme/img/ex_1.jpg">
+							<div class="rightInfo">
+								<h3>Instituto Vedas</h3>
+								<span>21 de Setiembre 1359</span>
+								<span class="km">1.2 Km distancia</span>
+							</div>
+						</div>
+						<div class="boxCarrusel">
+							<img src="theme/img/ex_2.jpg">
+							<div class="rightInfo">
+								<h3>Instituto Hugo Suarez De Armas</h3>
+								<span>Av Libertador 1720 </span>
+								<span class="km">0.9 Km distancia</span>
+							</div>
+						</div>
+						<div class="boxCarrusel">
+							<img src="theme/img/ex_2.jpg">
+							<div class="rightInfo">
+								<h3>Instituto Hugo Suarez De Armas</h3>
+								<span>Av Libertador 1720 </span>
+								<span class="km">0.9 Km distancia</span>
+							</div>
+						</div>
+						<div class="boxCarrusel">
+							<img src="theme/img/ex_2.jpg">
+							<div class="rightInfo">
+								<h3>Instituto Hugo Suarez De Armas</h3>
+								<span>Av Libertador 1720 </span>
+								<span class="km">0.9 Km distancia</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="actionListResult">
+					<div class="ver">
+						<div class="imageSelect">
+							<img class="tipoResSeleccionado list" src="theme/img/listado.png" onclick="javascript:showListado();">
+							<img class="map" src="theme/img/mapa.png" onclick="javascript:showMap();">
+						</div>
+						<span>Ver</span>
+					</div>
+				</div>
+				<div class="listResult">
+					<div class="resultBox">
+						<img src="theme/img/ex_2.jpg">
+						<div class="rightInfo">
+							<h3><a href="#">Instituto Hugo Suarez De Armas</a></h3>
+							<span>Av Libertador 1720 </span>
+							<div class="bottomInfo">
+								<span class="km">0.9 Km distancia</span>
+								<div class="search" onclick="javascript:irA(idUrlProfe);">Ver detalle</div>
+							</div>
+						</div>
+					</div>
+					<div class="resultBox">
+						<img src="theme/img/ex_2.jpg">
+						<div class="rightInfo">
+							<h3><a href="#">Instituto Hugo Suarez De Armas</a></h3>
+							<span>Av Libertador 1720 </span>
+							<div class="bottomInfo">
+								<span class="km">0.9 Km distancia</span>
+								<div class="search" onclick="javascript:irA(idUrlProfe);">Ver detalle</div>
+							</div>
+						</div>
+					</div>
+					<div class="resultBox">
+						<img src="theme/img/ex_2.jpg">
+						<div class="rightInfo">
+							<h3><a href="#">Instituto Hugo Suarez De Armas</a></h3>
+							<span>Av Libertador 1720 </span>
+							<div class="bottomInfo">
+								<span class="km">0.9 Km distancia</span>
+								<div class="search" onclick="javascript:irA(idUrlProfe);">Ver detalle</div>
+							</div>
+						</div>
+					</div>
+					<div class="loaderResult">
+						<img src="theme/img/loader.gif">
+					</div>
+				</div>
+				<div class="mapResult">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.103654586764!2d-56.19276898479038!3d-34.90384818094704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8032f2ec6a2b%3A0x20fd10ea401868bf!2sUniversidad+ORT+Uruguay+(Campus+Center)!5e0!3m2!1sen!2suy!4v1542933682174" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+				</div>
+			</section>
+		</div>
+    <footer>
+		<hr>
+		<div class="max head">
+			<div class="logo">
+				<a href="#">
+					<span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+				</a>
+			</div>
+			<div class="menuFoot">
+				<a href="#">Nosotros</a>
+				<a href="#">Contáctenos</a>
+				<a href="#">Ingreso</a>
+				<a href="#">Registro</a>
+			</div>
+		</div>
+    </footer>
+</body></html>

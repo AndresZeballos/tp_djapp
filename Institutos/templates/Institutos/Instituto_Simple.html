@@ -1,0 +1,6 @@
+<li>
+    <a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a>
+    <div>Logo: {{ instituto.logo }}</div>
+    <div>Dirección: {{ instituto.direccion }}</div>
+    <div>Materias Destacadas: {{ instituto.materias.all|join:", " }}</div>
+</li>

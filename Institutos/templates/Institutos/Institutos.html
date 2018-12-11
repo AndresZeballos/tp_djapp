@@ -1,23 +1,146 @@
+{% extends "Institutos/base.html" %}
+
 {% load bootstrap4 %}
 
 {% bootstrap_css %}
 
-{% if institutos %}
-    <ul>
-    {% for instituto in institutos %}
-        {% include "Institutos/Instituto_Mini.html" with instituto=instituto lat=lat lng=lng %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay institutos registrados.</p>
-{% endif %}
+{% block titleH1 %}
+  <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="#" onclick="javascript:showAddressDialog();">(cambiar ubicaci&oacute;n)</a>
+{% endblock %}
 
 
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">>></span>
+				<span>B&uacute;squeda</span>				
+			</div>
+		</div>
+		
+		<div class="max titleResSearch">
+			<div class="titleRes"></div>
+		</div>
+		
+		<div class="filtrosRes">
+			<div class="max paddTop">
+				<img src="static/Institutos/theme/img/filtro.png">
+				<span>Filtros de b&uacute;squeda</span>
+			</div>
+		</div>
+		<div class="max">
+			<section class="left">
+				<div class="searchFiltros">
+					<div class="">
+						<h2>Filtros seleccionados</h2>
+						<div id="filtros" class="filtros">
+						</div>
+						<!-- Esta frase solo se activa cuando no hay filtros y desaparece al agregar al menos uno.-->
+						<span class="nofiltros">No se ha seleccionado ning&uacute;n filtro de b&uacute;sqeda</span>
+					</div>
+					<button class="accordion">Comodidades</button>
+					<div class="panel">
+            {% for comodidad in comodidades %}
+						  <a class="comodidad_{{ comodidad.id }}" href="#" onclick="javascript:addFilter('comodidad_{{ comodidad.id }}');">{{ comodidad.nombre }}</a>
+            {% endfor %}
+					</div>
+					<button class="accordion">Métodos de pago</button>
+					<div class="panel">
+            {% for forma in formas %}
+						  <a class="forma_{{ forma.id }}" href="#" onclick="javascript:addFilter('forma_{{ forma.id }}');">{{ forma.nombre }}</a>
+            {% endfor %}
+					</div>
+					<button class="accordion">Facilidades</button>
+					<div class="panel">
+            {% for facilidad in facilidades %}
+						  <a class="facilidad_{{ facilidad.id }}" href="#" onclick="javascript:addFilter('facilidad_{{ facilidad.id }}');">{{ facilidad.nombre }}</a>
+            {% endfor %}
+					</div>
+				</div>
+			</section>
+			<section class="right">
+				<h2>Profesores destacados</h2>
+				<!-- Carrusel -->
+				<script type="text/javascript">
+						stepcarousel.setup({
+							galleryid: 'mygallery', //id of carousel DIV
+							beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
+							panelclass: 'boxCarrusel', //class of panel DIVs each holding content
+							autostep: {enable:true, moveby:1, pause:3000},
+							panelbehavior: {speed:500, wraparound:true, wrapbehavior:'slide', persist:true},
+							defaultbuttons: {enable: true, moveby: 1, leftnav: ['static/Institutos/theme/img/arrow_left.png', -5, 50], rightnav: ['static/Institutos/theme/img/arrow_right.png', -20, 50]},
+							statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
+							contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
+						})
+				</script>
+				<div id="mygallery" class="stepcarousel">
+					<div class="belt">
+          
+            {% for instituto in destacados %}
+              <div class="boxCarrusel" onclick="javascript:irA('{% url 'instituto' instituto.id %}');" style="cursor: pointer;">
+                <img src="static/Institutos/theme/img/ex_1.jpg">
+                <div class="rightInfo">
+                  <h3>{{ instituto.nombre }}</h3>
+                  <span>{{ instituto.direccion }}</span>
+                  <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+                </div>
+              </div>
+            {% endfor %}
+					</div>
+				</div>
+				<div class="actionListResult">
+					<div class="ver">
+						<div class="imageSelect">
+							<img class="tipoResSeleccionado list" src="static/Institutos/theme/img/listado.png" onclick="javascript:showListado();">
+							<img class="map" src="static/Institutos/theme/img/mapa.png" onclick="javascript:showMap();">
+						</div>
+						<span>Ver</span>
+					</div>
+				</div>
+        
+        {% for instituto in institutos %}
+          <div class="listResult">
+            <div class="resultBox">
+              <img src="static/Institutos/theme/img/ex_2.jpg">
+              <div class="rightInfo">
+                <h3><a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a></h3>
+                <span>{{ instituto.direccion }}</span>
+                <div class="bottomInfo">
+                  <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+                  <div class="search" onclick="javascript:irA('{% url 'instituto' instituto.id %}');">Ver detalle</div>
+                </div>
+              </div>
+            </div>
+            {% for comodidad in instituto.comodidades.all %}
+              <div class="comodidad_{{ comodidad.id }}_i" hidden></div>
+            {% endfor %}
+            {% for forma in instituto.formasPago.all %}
+              <div class="forma_{{ forma.id }}_i" hidden></div>
+            {% endfor %}
+            {% for facilidad in instituto.facilidades.all %}
+              <div class="facilidad_{{ facilidad.id }}_i" hidden></div>
+            {% endfor %}
+				  </div>
+        {% endfor %}
+          <!--
+					<div class="loaderResult">
+						<img src="theme/img/loader.gif">
+					</div>
+          -->
+				<div class="mapResult">
+					<div id="map" style="width:100%; height:450px"></div>
+				</div>
+			</section>
+		</div>
+
+{% comment %} 
 {% if pager.has_other_pages %}
 <nav aria-label="Page navigation example"></nav>
   <ul class="pagination">
     {% if pager.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{ pager.previous_page_number }}&lat={{ lat }}&lng={{ lng }}">Anterior</a></li>
+      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.previous_page_number }})">Anterior</div></li>
     {% else %}
       <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>
     {% endif %}
@@ -30,14 +153,156 @@
           </span>
         </li>
       {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}&lat={{ lat }}&lng={{ lng }}">{{ i }}</a></li>
+        <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ i }})">{{ i }}</div></li>
       {% endif %}
     {% endfor %}
     {% if pager.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{ pager.next_page_number }}&lat={{ lat }}&lng={{ lng }}">Siguiente</a></li>
+      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.next_page_number }})">Siguiente</div></li>
     {% else %}
       <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Siguiente</a></li>
     {% endif %}
   </ul>
 </nav>
+{% endcomment %}
+
+<form name="buscar" method="post" action="{% url 'buscar' %}">
+  {% csrf_token %}
+  <input id="centro" name="centro" value="{{ centro }}" hidden>
+  <input id="materia" name="materia" value="{{ materia }}" hidden>
+  <input id="direccion" name="dir" value="{{ direccion }}" hidden>
+  <input id="lat" name="lat" type="number" value="{{ lat }}" hidden>
+  <input id="lng" name="lng" type="number" value="{{ lng }}" hidden>
+  <input id="page" name="page" type="number" value="1" hidden>
+</form>
+
+
+
+        <div class="popUpContentBox">
+            <div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+            <h3>Ingresá tu dirección</h3>
+            <div class="formularioPop">
+                <div>
+                    <input type="text" name="dirPop" id="addressPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234" value="{{ direccion }}">
+                    <input value="Buscar" name="search" class="search" id="searchDirPop">
+                </div>
+            </div>
+            <div class="separador">&nbsp;</div>
+            <h3>Busca por mi geolocalización</h3>
+            <div class="formularioPop">
+                <div>
+                    <input value="Buscar" name="search" class="search" id="searchPop">
+                </div>
+            </div>
+        </div>
+        <div class="popUpContent">&nbsp;</div>
+
+
+<script>
+    jQuery("#materia1").change(function() {
+      document.getElementById('centro').value = document.getElementById('centro1').value;
+      document.getElementById('materia').value = document.getElementById('materia1').value;
+      callPage(1);
+    });
+    jQuery("#materia2").change(function() {
+      document.getElementById('centro').value = document.getElementById('centro2').value;
+      document.getElementById('materia').value = document.getElementById('materia2').value;
+      callPage(1);
+    });
+
+    function callPage(page) {
+      document.getElementById('page').value = page;
+      //saveCoockies(['centro', 'materia', 'direccion', 'lat', 'lng', ]);
+      if (validateBuscarForm())
+        document.buscar.submit();
+    }
+    
+</script>
+
+{% comment %} 
 {% endif %}
+{% endcomment %}
+
+
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+
+<script>
+    function saveCoockies(ids) {
+      for (var id in ids) {
+        setCookie(id, document.getElementById(id).value, 7);
+      }
+    }
+
+    function retrieveCoockies(ids) {
+      for (var id in ids) {
+        document.getElementById(id).value = getCookie(id);
+      }
+    }
+    
+    //retrieveCoockies(['centro', 'materia', 'direccion', 'lat', 'lng', ]);
+
+    function showAddressDialog() {
+      jQuery(".popUpContent").css("display","block");
+      jQuery(".popUpContentBox").css("display","block");
+    }
+
+
+</script>
+
+{% endblock %}
+
+
+{% block initMapScript %}
+    <script>
+      var locations = [
+        {% for instituto in institutos %}
+          ['{{ instituto.nombre }}', {{ instituto.latitud }}, {{ instituto.longitud }}],
+        {% endfor %}
+      ];
+    
+      
+      function initMap() {
+          var geocoder = new google.maps.Geocoder();
+          configureListeners(geocoder);
+
+
+          var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
+
+          var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 14,
+              center: position
+          });
+          /*
+          var marker = new google.maps.Marker({
+              position: position,
+              map: map
+          });
+          */
+
+                
+          var infowindow = new google.maps.InfoWindow();
+
+          var marker, i;
+
+          for (i = 0; i < locations.length; i++) {  
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+              map: map
+            });
+            
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+              return function() {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+              }
+            })(marker, i));
+            
+          }
+      }
+    </script>
+{% endblock %}

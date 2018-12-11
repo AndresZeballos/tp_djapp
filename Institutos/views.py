@@ -8,10 +8,10 @@ from django.utils import timezone
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as auth_login
+#from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado
-from .forms import SignUpForm
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada
+from .forms import SignUpForm, PerfilForm
 
 from django.contrib.auth.models import User
 
@@ -19,12 +19,18 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.core.mail import send_mail
 
+import urllib.request
+from urllib.parse   import urlencode
+import json
 
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
+MAPS_API_KEY = config('MAPS_API_KEY')
 
 def index(request):
-    return render(request, 'Institutos/Index.html')
+    centros = list(Centro.objects.all())
+    materias = list(Materia.objects.all())
+    return render(request, 'Institutos/Index.html', {'centros': centros, 'materias': materias, 'api_key': settings.MAPS_API_KEY})
 
 def login(request):
     if request.method == 'POST':
@@ -58,52 +64,121 @@ def registro(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            auth_login(request, user)
-            i = Instituto(usuario=user) #, otro=request.POST['nombre'], fecha=timezone.now())
-            #m.telefono = request.POST['telefono']
+            user = User.objects.create_user(username=username, email=username, password=raw_password)
+            #auth_login(request, user)
+            i = Instituto(usuario=user) 
+            i.nombre = request.POST['name']
+            i.telefono = request.POST['cellphone']
+            
+            i.update_hash()
+            send_mail('Verificación de Correo', \
+                'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://127.0.0.1:8000/Activar/' + i.hash_id + '/', \
+                'prueba@tuprofe.com.uy', [username, ])
             i.save()
-            return redirect('on_login')
+            return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta'})
     else:
         form = SignUpForm()
     return render(request, 'registration/registro.html', {'form': form})
+
+def activar(request, hash_id):
+    m = list(Instituto.objects.filter(estado=0).filter(hash_id=hash_id))[0]
+    m.estado = 1
+    m.save()
+    #form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
+    #return render(request, 'registration/registro.html', {'form': form})
+    return HttpResponseRedirect(reverse('login'))
 
 @login_required(login_url='/login')
 def perfil(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
+    if request.method == 'POST':
+        form = PerfilForm(request.POST)
+        form.is_valid()
+        instituto = Instituto.objects.filter(usuario=request.user)
+        instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
+            'subtitulo', 'descripcion', 'descripcion_corta', 'telefono','celular','direccion','ciudad',) if k in form.cleaned_data})
+        instituto = Instituto.objects.get(usuario=request.user)
+        instituto.updateRelation(instituto.centros, form.cleaned_data['centros'])
+        instituto.updateRelation(instituto.facilidades, form.cleaned_data['facilidades'])
+        instituto.updateRelation(instituto.formasPago, form.cleaned_data['formasPago'])
+        instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
+        instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
+        instituto.save()
     instituto = Instituto.objects.get(usuario=request.user)
-    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
+    form = PerfilForm(instance=instituto)
+    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 def buscar(request):
-    lat = float(request.GET['lat'])
-    lng = float(request.GET['lng'])
-    page = int(request.GET.get('page', 1))
-    #institutos = list(Instituto.objects.filter(test_id__in=test_ids)[:10])
+    centros = list(Centro.objects.all())
+    materias = list(Materia.objects.all())
 
-    posicionados = list(Instituto.objects.filter(posicionamiento__gt=0))
-    #map(lambda instituto: instituto.distancia(lat, lng), posicionados)
+    lat = float(request.POST['lat'])
+    lng = float(request.POST['lng'])
+    page = int(request.POST.get('page', 1))
+
+    direccion = request.POST.get('dir', "")
+
+    centro = request.POST.get('centro', "")
+    materia = request.POST.get('materia', "")
+
+    destacados = list(Instituto.objects.filter(estado=2).filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
+
+    for i in destacados:
+        i.distancia(lat, lng)
+
+    posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
+
     for i in posicionados:
         i.distancia(lat, lng)
-    #posicionados.sort(key=lambda instituto: instituto.distancia(lat, lng))
-    posicionados = list(filter(lambda i: i.ultima_distancia <= 1, posicionados))
-    #posicionados = posicionados.filter(ultima_distancia__lte=1)
+
+    posicionados = list(filter(lambda i: i.ultima_distancia <= 1.5, posicionados))
     posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
-    organicos = list(Instituto.objects.filter(posicionamiento=0))
-    #map(lambda instituto: instituto.distancia(lat, lng), organicos)
+    organicos = list(Instituto.objects.filter(estado=2).filter(posicionamiento=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
+
     for i in organicos:
         i.distancia(lat, lng)
     # El filtro de radio de 1 km no aplica a los resultados organicos - 30/07/18
-    #organicos = list(filter(lambda i: i.ultima_distancia <= 1, organicos))
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
+
+    flatten = lambda l: list(set([item for sublist in l for item in sublist]))
+
+    comodidades = flatten([list(a.comodidades.all()) for a in institutos])
+    formas = flatten([list(a.formasPago.all()) for a in institutos])
+    facilidades = flatten([list(a.facilidades.all()) for a in institutos])
+
+    #paginator = Paginator(institutos, 10)
     
+    # Calculo la pagina actual
+    #institutos = institutos[(page-1)*10:page*10]
+    #try:
+    #    inst_page = paginator.page(page)
+    #except PageNotAnInteger:
+    #    inst_page = paginator.page(1)
+    #except EmptyPage:
+    #    inst_page = paginator.page(paginator.num_pages)
+
+    # , 'pager': inst_page
+    #if (DEBUG):
+    #    return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'destacados': destacados, 'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
+    #else:
+
+    return render(request, 'Institutos/Institutos.html', { \
+        'comodidades': comodidades, 'formas': formas, 'facilidades': facilidades, \
+        'centros': centros, 'materias': materias, 'institutos': institutos, 'destacados': destacados, \
+        'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
+
+def buscarProfe(request):
+    texto = request.POST['texto']
+    page = int(request.POST.get('page', 1))
+
+    institutos = list(Instituto.objects.filter(estado=2).filter(nombre__contains=texto))
     paginator = Paginator(institutos, 10)
     
     # Calculo la pagina actual
@@ -114,10 +189,7 @@ def buscar(request):
         inst_page = paginator.page(1)
     except EmptyPage:
         inst_page = paginator.page(paginator.num_pages)
-    if (DEBUG):
-        return render(request, 'Institutos/Institutos_debug.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
-    else:
-        return render(request, 'Institutos/Institutos.html', {'institutos': institutos, 'pager': inst_page, 'lat': lat, 'lng': lng})
+    return render(request, 'Institutos/InstitutosSimple.html', {'institutos': institutos, 'pager': inst_page, 'texto': texto})
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
@@ -127,6 +199,7 @@ def nuevo_mensaje(request, instituto_id):
     m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
     m.telefono = request.POST['telefono']
     m.email = request.POST['email']
+    m.asunto = request.POST['asunto']
     m.mensaje = request.POST['mensaje']
     if instituto_id != 0:
         instituto = get_object_or_404(Instituto, pk=instituto_id)
@@ -163,6 +236,7 @@ def marcar_leido(request, mensaje_id):
     m.save()
     return HttpResponseRedirect(reverse('mensajes'))
 
+'''
 def mandar_link(request, mensaje_id):
     m = get_object_or_404(Mensaje, pk=mensaje_id)
     m.update_hash()
@@ -172,10 +246,73 @@ def mandar_link(request, mensaje_id):
     m.linkEnviado = True
     m.save()
     return HttpResponseRedirect(reverse('leidos'))
+'''
 
-def activar(request, hash_id):
-    m = list(Mensaje.objects.filter(hash_id=hash_id))[0]
-    m.emailVerificado = True
+
+
+def pendientes(request):
+    pendientes = list(Instituto.objects.filter(estado=1))
+    return render(request, 'admin/Pendientes.html', {'pendientes': pendientes})
+
+
+def habilitarInstituto(request, id):
+    m = get_object_or_404(Instituto, pk=id)
+    m.estado = 2
     m.save()
-    form = SignUpForm(initial={'name': m.nombre, 'username': m.email})
-    return render(request, 'registration/registro.html', {'form': form})
+    return render(request, 'admin/Pendientes.html')
+
+
+def deshabilitarInstituto(request, id):
+    m = get_object_or_404(Instituto, pk=id)
+    m.estado = 3
+    m.save()
+    return HttpResponseRedirect('admin/Institutos/instituto/')
+
+
+
+
+
+
+
+def paradasCoords(request):
+    paradas = list(Parada.objects.all())
+    for p in paradas:
+        parada = get_object_or_404(Parada, pk=p.id)
+        try:
+            #parada.calle.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.calle.nombre])
+            #parada.esquina.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.esquina.nombre])
+            parada.calle.nombre = parada.calle.nombre.replace('Ã‘', 'Ñ').replace('Â´', "'")
+            parada.esquina.nombre = parada.esquina.nombre.replace('Ã‘', 'Ñ').replace('Â´', "'")
+
+
+            d = (parada.calle.nombre + " y " + parada.esquina.nombre)#.replace(' ', '+')
+            
+            print(d)
+            query = dict(key=MAPS_API_KEY, address=d+',montevideo,uruguay')
+
+            #req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?key='+MAPS_API_KEY+'&address='+d+',montevideo,uruguay'))
+            req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?'+urlencode(query)))
+        
+        
+            response = urllib.request.urlopen(req)
+            print('---------------------------------------------------------------------')
+            #except Exception as inst:
+            #    print (type(inst))     # the exception instanc
+            #    print (inst.args )     # arguments stored in .args
+            #    print (inst       )
+            #if response 
+            j = json.loads(response.read())
+            parada.latitud = j['results'][0]['geometry']['location']['lat']
+            parada.longitud = j['results'][0]['geometry']['location']['lng']
+            
+            parada.calle.save()
+            parada.esquina.save()
+            parada.save()
+        except Exception as inst:
+            print (type(inst))     # the exception instanc
+            print (inst.args )     # arguments stored in .args
+            print (inst       )
+
+    return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+

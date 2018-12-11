@@ -72,7 +72,9 @@ class Materia(models.Model):
 
 class Instituto(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.PROTECT)
-    referencia = models.IntegerField(default=0)
+    estado = models.IntegerField(default=0, null=True)
+    hash_id = models.CharField(max_length=32, null=True)
+    referencia = models.IntegerField(default=0, null=True)
     logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=100, default='')
@@ -80,7 +82,7 @@ class Instituto(models.Model):
     descripcion_corta = models.CharField(max_length=100, default='')
     telefono = models.CharField(max_length=20, null=True)
     celular = models.CharField(max_length=20, null=True)
-    direccion = models.CharField(max_length=100, default='')
+    direccion = models.CharField(max_length=100, default='', null=True)
     ciudad = models.CharField(max_length=50, default='Montevideo')
     departamento = models.CharField(max_length=50, default='Montevideo')
     pais = models.CharField(max_length=50, default='Uruguay')
@@ -89,11 +91,11 @@ class Instituto(models.Model):
     creado = models.DateTimeField(default=datetime.now, null=True)
     modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
+    esDestacado = models.NullBooleanField(default=False)
     facilidades = models.ManyToManyField(Facilidad)
     formasPago = models.ManyToManyField(FormaPago)
     comodidades = models.ManyToManyField(Comodidad)
     barrios = models.ManyToManyField(Barrio)
-    facilidades = models.ManyToManyField(Facilidad)
     centros = models.ManyToManyField(Centro)
     materias = models.ManyToManyField(Materia)
     ultima_distancia = 0
@@ -109,8 +111,20 @@ class Instituto(models.Model):
         self.ultima_distancia = d
         return d
 
+    def updateRelation(self, attribute, ids):
+        elems = attribute.all()
+        for e in elems:
+            attribute.remove(e)
+        for i in ids.all():
+            attribute.add(i)
+
+    def update_hash(self):
+        m = hashlib.md5()
+        m.update(self.nombre.encode('utf-8'))
+        self.hash_id = m.hexdigest()
+
     def __str__(self):
-        return "%s" % (self.nombre)
+        return "%s - %s" % (self.id, self.nombre)
 
 class Profesor(models.Model):
     nombre = models.CharField(max_length=100)
@@ -140,6 +154,7 @@ class Mensaje(models.Model):
     nombre = models.CharField(max_length=200)
     telefono = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
+    asunto = models.CharField(max_length=200, null=True)
     mensaje = models.CharField(max_length=4000)
     motivo = models.ForeignKey(Motivo, on_delete=models.PROTECT, blank=True, null=True)
     instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT, blank=True, null=True)
@@ -147,13 +162,30 @@ class Mensaje(models.Model):
     leido = models.BooleanField(default=False)
     linkEnviado = models.BooleanField(default=False)
     emailVerificado = models.BooleanField(default=False)
-    hash_id = models.CharField(max_length=32, null=True)
-
-    def update_hash(self):
-        m = hashlib.md5()
-        m.update(self.email.encode('utf-8'))
-        self.hash_id = m.hexdigest()
 
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)
-    
+
+
+class Calle(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+        
+class Omnibus(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Parada(models.Model):
+    latitud = models.FloatField(default=0)
+    longitud = models.FloatField(default=0)
+    calle = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='calle')
+    esquina = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='esquina')
+    lineas = models.ManyToManyField(Omnibus)
+
+    def __str__(self):
+        return "%s - %s - %s" % (self.id, self.calle, self.esquina)
+        

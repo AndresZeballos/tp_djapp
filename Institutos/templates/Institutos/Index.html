@@ -1,48 +1,129 @@
-{% load staticfiles %}
-<script src="{% static "Institutos/script.js" %}"></script>
+{% extends "Institutos/base.html" %}
 
-<body onload="onLoad()">
-    <div>Página principal del sitio</div>
-    
-    <a href="{% url 'ingresar' %}">Ingresar</a>
-    <a href="{% url 'registro' %}">Registrarse</a>
 
-    <div id="mensaje"></div>
+{% block header %}
+    <header class="home">
+        <div class="max head headTop">
+            <div class="logo">
+                <a href="{% url 'index' %}">
+                    <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
+                </a>
+            </div>
+            <div class="menuHead">
+                <div class="menu">
+                    <a href="{% url 'ingresar' %}">Ingresar</a>
+                    <a href="{% url 'contacto' %}">Contáctenos</a>
+                </div>
+                <div class="hamburger">
+                    <div class="_layer -top"></div>
+                    <div class="_layer -mid"></div>
+                    <div class="_layer -bottom"></div>
+                </div>
+            </div>
+        </div>
+        <div class="popUpMenu">
+            <div class="menuHeadResponsive">
+                <p>Men&uacute;</p>
+                <a href="{% url 'ingresar' %}">Ingresar</a>
+                <a href="{% url 'contacto' %}">Contáctenos</a>
+                <a href="{% url 'nosotros' %}">Nosotros</a>
+                <a href="{% url 'registro' %}">Registro</a>
+            </div>
+        </div>
+        <div class="max head center">
+            <h1>Todos los profesores particulares en una web</h1>
+            <div class="formularios">
+            
+                <form name="buscar" method="post" action="{% url 'buscar' %}" onsubmit="return validateBuscarForm()" >
+                    {% csrf_token %}
+                    <div class="formulario">
+                        <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio">
+                        <datalist id="centros">
+                            {% for centro in centros %}
+                                <option value="{{ centro.nombre }}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input list="materias" name="materia" class="boxCombo" placeholder="Materia">
+                        <datalist id="materias">
+                            {% for materia in materias %}
+                                <option value="{{ materia.nombre }}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input id="direccion" type="text" name="dir" class="dir" placeholder="Dirección - Ej: Rio Negro 1234">
 
-    <form name="buscar" action="{% url 'buscar' %}" method="get">
-        <label for="address">Dirección: </label>
-        <input id="address" type="text" name="address" value="">
+                        <input id="lat" name="lat" type="number" value="" hidden>
+                        <input id="lng" name="lng" type="number" value="" hidden>
 
-        <input id="lat" name="lat" type="number" value="" hidden>
-        <input id="lng" name="lng" type="number" value="" hidden>
+                        <div class="search" id="popUpSearch1" onclick="javascript:popUp();">Buscar</div>
+                    </div>
+                </form>
 
-        <input id="btnSubmit" type="button" value="Enviar" />
-    </form>
-    
-</body>
+                <h3>¿Ya conoces al profe que estás buscando?</h3>
+                <div class="formulario2">
+                    <form method="post" action="{% url 'buscarProfe' %}">
+                        {% csrf_token %}
+                        <input type="text" name="texto" class="profe" placeholder="Nombre del profesor">
+                        <input type="submit" id="popUpSearch2" name="buscar" class="search" value="Buscar">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- popUpSearch content -->
+        
+        <div class="popUpContentBox">
+            <div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+            <h3>Ingresá tu dirección</h3>
+            <div class="formularioPop">
+                <div>
+                    <input type="text" name="dirPop" id="addressPop" class="dirPop" placeholder="Dirección - Ej: Rio Negro 1234">
+                    <input type="submit" value="Buscar" name="search" class="search" id="searchDirPop">
+                </div>
+            </div>
+            <div class="separador">&nbsp;</div>
+            <h3>Busca por mi geolocalización</h3>
+            <div class="formularioPop">
+                <div>
+                    <input type="submit" value="Buscar" name="search" class="search" id="searchPop">
+                </div>
+            </div>
+        </div>
+        <div class="popUpContent">&nbsp;</div>
+    </header>
 
-<script>
-    function initMap() {
-        var geocoder = new google.maps.Geocoder();
-        document.getElementById('btnSubmit').addEventListener('click', function() {
-            geocodeAddress(geocoder);
-        });
-    }
+{% endblock %}
 
-    function geocodeAddress(geocoder) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
-            if (status === 'OK') {
-                document.getElementById('lat').value = results[0].geometry.location.lat();
-                document.getElementById('lng').value = results[0].geometry.location.lng();
-                document.buscar.submit();
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-</script>
+{% block content %}
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
-</script>
+    <section class="home">
+        <article>
+            <h2>Somos la principal comunidad de Estudiantes y Profesores particulares</h2>
+            <p>Buscá al profesor que necesitas ahora</p>
+            <div class="full">
+                <div class="tree">
+                    <p><img src="static/Institutos/theme/img/h1.png" alt="Es Fácil"></p>
+                    <span>Es Fácil</span>
+                    <p>¡Un par de clicks y listo!</p>
+                </div>
+                <div class="tree">
+                    <p><img src="static/Institutos/theme/img/h2.png" alt="Es Rápido"></p>
+                    <span>Es Rápido</span>
+                    <p>Encontrar a tu profe te toma 1 minuto</p>
+                </div>
+                <div class="tree">
+                    <p><img src="static/Institutos/theme/img/h3.png" alt="Es Efectivo"></p>
+                    <span>Es Efectivo</span>
+                    <p>Lo que buscás lo encontrás acá</p>
+                </div>
+            </div>
+        </article>      
+    </section>
+    <aside class="home">
+        <div class="bottomHome">
+            <h3>¿Sos profesor? ¡Sumate a TuProfe!</h3>
+            <h4>Miles de estudiantes nos visitan en TuProfe.com.uy</h4>
+            <a href="{% url 'registro' %}">¡Registrate Ya!</a>
+        </div>
+    </aside>
 
+
+{% endblock %}
