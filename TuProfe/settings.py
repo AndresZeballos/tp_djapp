@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 from decouple import config
 import os
+import django_heroku
 
 MAPS_API_KEY = config('MAPS_API_KEY')
 
@@ -131,3 +132,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
