@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/marcarLeido/<int:mensaje_id>/', views.marcar_leido, name='marcar_leido'),
     #path('admin/mandar_link/<int:mensaje_id>/', views.mandar_link, name='mandar_link'),
     path('admin/habilitarInstituto/<int:id>/', views.habilitarInstituto, name='habilitar_instituto'),
+    path('admin/cargarParadas', views.cargarParadas, name='cargar_paradas'),
     path('Activar/<hash_id>/', views.activar, name='activar'),
     #path('admin/paradasCoords/', views.paradasCoords, name='paradasCoords'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -315,3 +315,18 @@ def paradasCoords(request):
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 
 
+
+def cargarParadas(request):
+    paradas = list(Parada.objects.all())
+    institutos = list(Instituto.objects.filter(estado=2))
+    for p in paradas:
+        parada = get_object_or_404(Parada, pk=p.id)
+        for i in institutos:
+            instituto = get_object_or_404(Instituto, pk=i.id)
+            if instituto.distancia(parada.latitud, parada.longitud) <= 0.5:
+                for l in parada.lineas.all:
+                    instituto.omnibuses.add(Omnibus.objects.get(id=l.id))
+
+    return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+
