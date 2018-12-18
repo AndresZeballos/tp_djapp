@@ -5,9 +5,12 @@
 {% bootstrap_css %}
 
 {% block titleH1 %}
-  <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="#" onclick="javascript:showAddressDialog();">(cambiar ubicaci&oacute;n)</a>
+  <h1 class="titleH1">
+    <span>{{ institutos|length }}</span>Profesores cercanos a {{ direccion }}<a href="#" onclick="javascript:showAddressDialog();">(cambiar ubicaci&oacute;n)</a>
+  </h1>
 {% endblock %}
 
+  
 
 
 {% block content %}

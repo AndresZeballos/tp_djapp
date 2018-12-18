@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada, Omnibus
 from .forms import SignUpForm, PerfilForm
 
 from django.contrib.auth.models import User
@@ -274,7 +274,7 @@ def deshabilitarInstituto(request, id):
 
 
 def paradasCoords(request):
-    paradas = list(Parada.objects.all())
+    paradas = list(Parada.objects.filter(latitud=0))
     for p in paradas:
         parada = get_object_or_404(Parada, pk=p.id)
         try:
@@ -314,4 +314,21 @@ def paradasCoords(request):
 
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 
+
+def cargarParadas(request):
+    paradas = list(Parada.objects.all())
+    institutos = list(Instituto.objects.filter(estado=2))
+    for p in paradas:
+        parada = get_object_or_404(Parada, pk=p.id)
+        for i in institutos:
+            instituto = get_object_or_404(Instituto, pk=i.id)
+            print(str(instituto.id) + " - " + str(p.id) + " - " + str((parada.latitud, parada.longitud)))
+            instituto.distancia(parada.latitud, parada.longitud)
+            if instituto.ultima_distancia <= 0.5:
+                for l in parada.lineas.all():
+                    instituto.omnibuses.add(Omnibus.objects.get(id=l.id))
+                instituto.save()
+                print(str(instituto.id) + " - " + str(len(instituto.omnibuses.all())))
+
+    return render(request, 'admin/paradas.html', {'paradas': paradas})
 

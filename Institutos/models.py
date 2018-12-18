@@ -20,7 +20,29 @@ class UsuarioLegado(models.Model):
 
     def is_active(self):
         return self.activo
-    
+
+class Calle(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+        
+class Omnibus(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Parada(models.Model):
+    latitud = models.FloatField(default=0)
+    longitud = models.FloatField(default=0)
+    calle = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='calle')
+    esquina = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='esquina')
+    lineas = models.ManyToManyField(Omnibus)
+
+    def __str__(self):
+        return "%s - %s - %s (%s, %s)" % (self.id, self.calle, self.esquina, self.latitud, self.longitud)
+        
 class Facilidad(models.Model):
     nombre = models.CharField(max_length=50)
 
@@ -98,6 +120,8 @@ class Instituto(models.Model):
     barrios = models.ManyToManyField(Barrio)
     centros = models.ManyToManyField(Centro)
     materias = models.ManyToManyField(Materia)
+    omnibuses = models.ManyToManyField(Omnibus)
+    
     ultima_distancia = 0
 
     def distancia(self, lat, lng):
@@ -141,14 +165,6 @@ class Enlace(models.Model):
     def __str__(self):
         return "%s - %s" % (self.instituto, self.redSocial)
 
-class Transporte(models.Model):
-    distancia = models.IntegerField(default=0)
-    lineas = models.CharField(max_length=200)
-    instituto = models.ForeignKey(Instituto, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return "%s - %s" % (self.instituto, self.lineas)
-    
 class Mensaje(models.Model):
     fecha = models.DateTimeField()
     nombre = models.CharField(max_length=200)
@@ -166,26 +182,3 @@ class Mensaje(models.Model):
     def __str__(self):
         return "%s - %s" % (self.fecha, self.nombre)
 
-
-class Calle(models.Model):
-    nombre = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nombre
-        
-class Omnibus(models.Model):
-    nombre = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nombre
-
-class Parada(models.Model):
-    latitud = models.FloatField(default=0)
-    longitud = models.FloatField(default=0)
-    calle = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='calle')
-    esquina = models.ForeignKey(Calle, on_delete=models.PROTECT, related_name='esquina')
-    lineas = models.ManyToManyField(Omnibus)
-
-    def __str__(self):
-        return "%s - %s - %s" % (self.id, self.calle, self.esquina)
-        

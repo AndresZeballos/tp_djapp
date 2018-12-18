@@ -7,10 +7,10 @@
 		<meta name="title" content="Título de la WEB">
 		<meta name="description" content="Descripción de la WEB">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="static/Institutos/theme/js/jquery.min.js"></script>
-		<script src="static/Institutos/theme/js/tuprofe.js"></script>
-		<script type="text/javascript" src="static/Institutos/theme/js/stepcarousel.js"></script>
-        <link href="static/Institutos/theme/css/tuprofe.css" rel="stylesheet" type="text/css">
+		<script src="/static/Institutos/theme/js/jquery.min.js"></script>
+		<script src="/static/Institutos/theme/js/tuprofe.js"></script>
+		<script type="text/javascript" src="/static/Institutos/theme/js/stepcarousel.js"></script>
+        <link href="/static/Institutos/theme/css/tuprofe.css" rel="stylesheet" type="text/css">
         
         <script src="{% static 'Institutos/script.js' %}"></script>
     </head>
@@ -26,7 +26,7 @@
                                 <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
                             </a>
                         </div>
-                        <h1 class="titleH1">{% block titleH1 %} {% endblock %}</h1>
+                        {% block titleH1 %} {% endblock %}
                     </div>
                     <div class="internaHeadRight">
                         <div class="menuHead">
@@ -41,7 +41,7 @@
                                 <div class="_layer -bottom"></div>
                             </div>
                             <div class="iconSearch">
-                                <img src="static/Institutos/theme/img/lupa_white.png" id="iconSearch">
+                                <img src="/static/Institutos/theme/img/lupa_white.png" id="iconSearch">
                             </div>
                         </div>
                         {% if direccion %}
