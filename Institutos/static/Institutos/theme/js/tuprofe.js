@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
 
 
 jQuery(window).resize(function() {
-	/*
+	
 	//Muestro el titulo
 	getTitle();
 	//Hamburguesa
@@ -128,7 +128,7 @@ jQuery(window).resize(function() {
 	
 	//Ajusto alto/ancho de los box
 	//jQuery(".boxBox").css("display","block");
-	*/
+	
 	
 });
 
@@ -390,12 +390,15 @@ function getTitle(){
 function calcularBgHome(){
 	if (jQuery(window).width()<330) {
 		var alto = jQuery(window).height() + 180;
+		alto = 700;
 		jQuery("header.home").css("height",alto);
 	}else if (jQuery(window).width()<980) {
 		var alto = jQuery(window).height() + 100;
+		alto = 650;
 		jQuery("header.home").css("height",alto);
 	}else{
 		var alto = jQuery(window).height();
+		alto = 560;
 		jQuery("header.home").css("height",alto);
 	}
 }
@@ -428,7 +431,7 @@ function anchoSearchHome2(search){
 }
 
 function popUp(){
-	if (jQuery("#address").is(":hidden")) {
+	if (jQuery("#direccion")[0].value == "") {
 		jQuery(".popUpContent").css("display","block");
 		jQuery(".popUpContentBox").css("display","block");
 	}

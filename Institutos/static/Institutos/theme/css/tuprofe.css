@@ -798,7 +798,7 @@ h2{
 .stepcarousel{
 	position: relative; /*leave this value alone*/
 	overflow: hidden; /*leave this value alone*/
-	width: 775px; /*Width of Carousel Viewer itself*/
+	width: 90%; /*Width of Carousel Viewer itself*/
 	margin: 0 17px 0 18px;
 	height: 125px; /*Height should enough to fit largest content's height*/
 	-webkit-box-sizing: border-box; /* set box model so container width and height value includes any padding/border defined */
@@ -2190,7 +2190,12 @@ footer .logoSmall {font-size: 22px;}
 
 
 
-
-
-
-
+#container {
+    /*margin-bottom: 60px;*/
+    min-height: 100%;
+}
+/*
+footer {
+    position: absolute;
+    bottom: 0px;
+}*/

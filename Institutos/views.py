@@ -114,8 +114,12 @@ def buscar(request):
     centros = list(Centro.objects.all())
     materias = list(Materia.objects.all())
 
-    lat = float(request.POST['lat'])
-    lng = float(request.POST['lng'])
+    lat = request.POST.get('lat', "")
+    lng = request.POST.get('lng', "")
+    if lat == "" or lng == "":
+        return HttpResponseRedirect(reverse('index'))
+    lat = float(lat)
+    lng = float(lng)
     page = int(request.POST.get('page', 1))
 
     direccion = request.POST.get('dir', "")

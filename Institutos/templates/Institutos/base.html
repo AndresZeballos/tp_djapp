@@ -16,7 +16,7 @@
     </head>
 
 	<body>
-    
+        <div id="container">
         {% block header %}
             <header class="interna">
                 <div class="max head headTop">
@@ -47,17 +47,14 @@
                         {% if direccion %}
                             <div class="buscador">
                                 <form name="buscarH" method="post" action="{% url 'buscar' %}">
-                                    <input list="centros" id="centro1" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}">
+                                    <input list="centros" id="centro1" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}" onchange="onCentroChange(true)">
                                     <datalist id="centros">
-                                        {% for centro in centros %}
-                                            <option value="{{ centro.nombre }}"></option>
-                                        {% endfor %}
+                                    {% for centro in centros %}
+                                        <option value="{{ centro.nombre }}"></option>
+                                    {% endfor %}
                                     </datalist>
                                     <input list="materias" id="materia1" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
                                     <datalist id="materias">
-                                        {% for materia in materias %}
-                                            <option value="{{ materia.nombre }}"></option>
-                                        {% endfor %}
                                     </datalist>
                                     <input id="address" type="text" name="dir" class="dir" value="{{ direccion }}" hidden>
 
@@ -80,7 +77,7 @@
                     <div class="max">
                         <div class="buscadorResponsive">
                             <form name="buscarH" method="post" action="{% url 'buscar' %}">
-                                <input list="centros" id="centro2" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}">
+                                <input list="centros" id="centro2" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}"  onchange="onCentroChange(true)">
                                 <datalist id="centros">
                                     {% for centro in centros %}
                                         <option value="{{ centro.nombre }}"></option>
@@ -88,13 +85,31 @@
                                 </datalist>
                                 <input list="materias" id="materia2" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
                                 <datalist id="materias">
-                                    {% for materia in materias %}
-                                        <option value="{{ materia.nombre }}"></option>
-                                    {% endfor %}
                                 </datalist>
 
                             </form>
                         </div>
+                        
+                        <script>
+                            var materias = [
+                                {% for materia in materias %}
+                                    { centro: "{{ materia.centro.nombre }}", materia: "{{ materia.nombre }}" }, 
+                                {% endfor %}
+                            ];
+
+                            function onCentroChange(clean) {
+                                jQuery("#materias").html("");
+                                if (clean) 
+                                    jQuery("input[name=materia]")[0].value = "";
+                                var centro = jQuery("input[name=centro]")[0].value;
+                                jQuery.each(materias, function(i, item) {
+                                    if (item.centro == centro)
+                                        jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
+                                });
+                            }
+
+                            onCentroChange(false);
+                        </script>
                     </div>
                 </div>
             </header>
@@ -103,6 +118,7 @@
 
         {% block content %}
         {% endblock %}
+        </div>
         
         {% block footer %}
 		

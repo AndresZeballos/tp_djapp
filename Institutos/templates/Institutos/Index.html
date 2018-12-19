@@ -37,7 +37,7 @@
                 <form name="buscar" method="post" action="{% url 'buscar' %}" onsubmit="return validateBuscarForm()" >
                     {% csrf_token %}
                     <div class="formulario">
-                        <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio">
+                        <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio" onchange="onCentroChange()">
                         <datalist id="centros">
                             {% for centro in centros %}
                                 <option value="{{ centro.nombre }}"></option>
@@ -45,9 +45,6 @@
                         </datalist>
                         <input list="materias" name="materia" class="boxCombo" placeholder="Materia">
                         <datalist id="materias">
-                            {% for materia in materias %}
-                                <option value="{{ materia.nombre }}"></option>
-                            {% endfor %}
                         </datalist>
                         <input id="direccion" type="text" name="dir" class="dir" placeholder="Dirección - Ej: Rio Negro 1234">
 
@@ -57,6 +54,24 @@
                         <div class="search" id="popUpSearch1" onclick="javascript:popUp();">Buscar</div>
                     </div>
                 </form>
+
+                <script>
+                    var materias = [
+                        {% for materia in materias %}
+                            { centro: "{{ materia.centro.nombre }}", materia: "{{ materia.nombre }}" }, 
+                        {% endfor %}
+                    ];
+
+                    function onCentroChange() {
+                        jQuery("#materias").html("");
+                        jQuery("input[name=materia]")[0].value = "";
+                        var centro = jQuery("input[name=centro]")[0].value;
+                        jQuery.each(materias, function(i, item) {
+                            if (item.centro == centro)
+                                jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
+                        });
+                    }
+                </script>
 
                 <h3>¿Ya conoces al profe que estás buscando?</h3>
                 <div class="formulario2">
