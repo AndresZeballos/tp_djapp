@@ -3,12 +3,12 @@
 /************************************/
 @font-face{
 	font-family: Arial;
-	src: url('../fonts/arial.otf'),
-		 url('../fonts/arial.eot?') format('eot'),
-         url('../fonts/arial.otf')  format('opentype'),
-         url('../fonts/arial.woff') format('woff'),
-         url('../fonts/arial.ttf')  format('truetype'),
-         url('../fonts/arial.svg#arial') format('svg');
+	src: url('../fonts/Arial.otf'),
+		 url('../fonts/Arial.eot?') format('eot'),
+         url('../fonts/Arial.otf')  format('opentype'),
+         url('../fonts/Arial.woff') format('woff'),
+         url('../fonts/Arial.ttf')  format('truetype'),
+         url('../fonts/Arial.svg#Arial') format('svg');
 }
 @font-face{
 	font-family: Corbel-Regular;
@@ -30,12 +30,12 @@
 }
 @font-face{
 	font-family: Gadugi-Regular;
-	src: url('../fonts/gadugi.otf'),
-		 url('../fonts/gadugi.eot?') format('eot'),
-         url('../fonts/gadugi.otf')  format('opentype'),
-         url('../fonts/gadugi.woff') format('woff'),
-         url('../fonts/gadugi.ttf')  format('truetype'),
-         url('../fonts/gadugi.svg#gadugi') format('svg');
+	src: url('../fonts/Gadugi.otf'),
+		 url('../fonts/Gadugi.eot?') format('eot'),
+         url('../fonts/Gadugi.otf')  format('opentype'),
+         url('../fonts/Gadugi.woff') format('woff'),
+         url('../fonts/Gadugi.ttf')  format('truetype'),
+         url('../fonts/Gadugi.svg#Gadugi') format('svg');
 }
 @font-face{
 	font-family: Gadugi-Bold;
