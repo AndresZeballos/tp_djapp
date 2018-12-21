@@ -398,7 +398,7 @@ function calcularBgHome(){
 		jQuery("header.home").css("height",alto);
 	}else{
 		var alto = jQuery(window).height();
-		alto = 560;
+		alto = 610;
 		jQuery("header.home").css("height",alto);
 	}
 }
@@ -425,7 +425,7 @@ function anchoSearchHome2(search){
 	var alto = jQuery(".formulario2").height();
 	var ancho = anchoTotal - search;
 	ancho = ancho - 80; /* resto padding*/
-	jQuery(".formulario2 input.profe").css("width",ancho);
+	jQuery(".formulario2 input.profe").css("width",search);
 	jQuery(".formulario2 .search").css("width",search);
 	jQuery(".formulario2 input").css("height",alto);
 }
