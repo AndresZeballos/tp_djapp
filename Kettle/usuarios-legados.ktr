@@ -596,6 +596,11 @@
         <rename>activo</rename>
         <update>Y</update>
       </value>
+      <value>
+        <name>migrado</name>
+        <rename>migrado</rename>
+        <update>Y</update>
+      </value>
     </lookup>
     <cluster_schema />
     <remotesteps>
@@ -633,6 +638,7 @@
             then 1
             else 0
        end as activo 
+, 0 migrado
 FROM institutos
 where username != ''</sql>
     <limit>0</limit>

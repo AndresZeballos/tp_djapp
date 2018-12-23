@@ -106,9 +106,8 @@
 						<a name="anclaProfesores" id="anclaProfesores"></a>
 						<span>Profesores</span>
 						<p>
-                        
                             {% for p in instituto.profesor_set.all %}
-							<div class="boxBox">{{ p.nombre }}</div>
+								<div class="boxBox">{{ p.nombre }}</div>
                             {% endfor %}
 						</p>
 					</div>
@@ -117,7 +116,7 @@
 						<span>Medios de pago</span>
 						<p>
                             {% for f in instituto.formasPago.all %}
-							<div class="boxBox">{{ f.nombre }}</div>
+								<div class="boxBox">{{ f.nombre }}</div>
                             {% endfor %}
 						</p>
 					</div>
@@ -126,7 +125,7 @@
 						<span>Comodidades</span>
 						<p>
                             {% for f in instituto.comodidades.all %}
-							<div class="boxBox">{{ f.nombre }}</div>
+								<div class="boxBox">{{ f.nombre }}</div>
                             {% endfor %}
 						</p>
 					</div>
@@ -135,7 +134,7 @@
 						<span>Facilidades</span>
 						<p>
                             {% for f in instituto.facilidades.all %}
-							<div class="boxBox">{{ f.nombre }}</div>
+								<div class="boxBox">{{ f.nombre }}</div>
                             {% endfor %}
 						</p>
 					</div>

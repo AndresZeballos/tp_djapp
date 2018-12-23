@@ -1,3 +1,220 @@
+{% extends "Institutos/base.html" %}
+
+{% load Institutos_extras %}
+
+{% load staticfiles %}
+
+
+{% block titleH1 %} 
+    <h1 class="titleH1">{{ instituto.nombre }}</h1>
+
+{% endblock %}
+
+
+
+
+
+{% block content %}
+
+
+    <div class="breadcrum">
+        <div class="max">
+            <span><a href="/">Inicio</a></span>
+            <span class="separa">&nbsp;>>&nbsp;</span>
+            <span>{{ instituto.nombre }}</span>
+        </div>
+    </div>
+
+
+    <div class="max">
+        <div class="titleRes ajusteMargin"></div>
+    </div>
+    <section class="interna">
+        <div class="max">
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Información b&aacute;sica</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="infoBasca">
+                    <img src="static/Institutos/profile_pics/{{ instituto.logo }}" style="max-height: 115px;">
+                    <div class="reeadBoxInfo">
+                        <p hidden>{{ instituto.id }}</p>
+                        <span>Nombre Instituci&oacute;n</span>
+                        <p>{{ instituto.nombre }}</p>
+                        <span>Teléfono</span>
+                        <p>{{ instituto.telefono }}</p>
+                        <span>Email de contacto</span>
+                        <p>{{ instituto.usuario.email }}</p>
+                        <span>Descripc&oacute;n</span>
+                        <p>{{ instituto.descripcion }}</p>
+                        
+							
+                    </div>
+                </div>
+            </div>
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Ubicaci&oacute;n</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="ubicacion">
+                    <div class="readLeftUbicacion">
+                
+                        <input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
+                        <input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
+
+                        <div id="map" style="height: 150px; width: 100%;"></div>
+
+                        Ubicación en el mapa
+                    </div>
+                    <div class="readRightUbicacion">
+                        <span>Direcci&oacute;n</span>
+                        <p>{{ instituto.direccion }}</p>
+                        <span>Transporte</span>
+                        <p class="buses">
+                            {% for f in instituto.omnibuses.all %}
+                                <span>{{ f.nombre }}</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Medios de pago</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="mediosPago">
+                    {% if instituto.formasPago.all %}
+                        <p>
+                            {% for f in instituto.formasPago.all %}
+                                <div class="boxBox">{{ f.nombre }}</div>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Profesores</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="profesores">
+                    {% if instituto.profesor_set.all %}
+                        <p>
+                            {% for p in instituto.profesor_set.all %}
+                                <div class="boxBox">{{ p.nombre }}</div>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Facilidades</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="facilidades">
+                    {% if instituto.facilidades.all %}
+                        <p>
+                            {% for f in instituto.facilidades.all %}
+								<div class="boxBox">{{ f.nombre }}</div>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="reeadInfo">
+                <div class="title">
+                    <h2>Comodidades</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="comodidades">
+                    {% if instituto.comodidades.all %}
+                        <p>
+                            {% for f in instituto.comodidades.all %}
+								<div class="boxBox">{{ f.nombre }}</div>
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfoFull">
+                <div class="title">
+                    <h2>Materias</h2>
+                    <a href="#">Editar</a>
+                </div>
+                <div class="reeadBox" id="materias">
+                    {% for c in instituto.centros.all %}
+                        <p>
+							<span class="centroEstudio">{{ c.nombre }}</span>
+                            
+                            {% for m in instituto.materias.all|with_centro:c %}
+							    <div class="boxBox">{{ m.nombre }}</div>
+                            {% endfor %}
+						</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+        
+
+{% block initMapScript %}
+    <script>
+        function initMap() {
+            var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: position
+            });
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+        }
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+        
+
+
+
 {% block title %}Pagina con el perfil del intituto{% endblock %}
 
 <div>En esta página se mostrará la información del istituto para su modificación y otros datos que se definan en el diseño</div>

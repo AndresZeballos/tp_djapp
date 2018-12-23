@@ -38,13 +38,28 @@ def login(request):
         password = request.POST['password']
         legado = UsuarioLegado.objects.filter(username=username).first()
         user = User.objects.filter(username=username).first()
-        if legado == None:
+        if DEBUG:
+            print(legado)
+            if legado != None:
+                print(legado.migrado)
+                print(legado.is_active())
+                print(legado.check_password(password))
+            print(user)
+        if legado == None and user != None:
+            # Si es un usuario nuevo, realizo el login
             auth_login(request, user)
             return on_login(request)
-        if legado != None and legado.is_active() and legado.check_password(password):
+        if legado != None and legado.migrado:
+            # Si es un usuario ya migrado, realizo el login
+            auth_login(request, user)
+            return on_login(request)
+        if legado != None and legado.is_active() and legado.check_password(password) and not legado.migrado:
+            # Si es un usuario migrado, activo el usuario y seteo la password
             user.set_password(password)
             user.is_active = True
             user.save()
+            legado.migrado = True
+            legado.save()
             auth_login(request, user)
             return on_login(request)
     form = AuthenticationForm()

@@ -1015,18 +1015,6 @@ if (materias == 0) {
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>logo</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>images/profile_pics/blank-profile.jpg</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
         <name>destacado</name>
         <type>Boolean</type>
         <format />
@@ -1083,6 +1071,10 @@ if (materias == 0) {
 , celular
 , direccion
 , localizacion
+, case when logo IS NULL or logo = ''
+            then 'blank-profile.jpg'
+            else logo
+       end as logo 
 , case when descripcion IS NULL or descripcion = ''
             then '-'
             else descripcion
