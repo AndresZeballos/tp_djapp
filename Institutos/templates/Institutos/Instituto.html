@@ -1,5 +1,6 @@
 {% extends "Institutos/base.html" %}
 
+{% load Institutos_extras %}
 
 {% load staticfiles %}
 
@@ -92,15 +93,15 @@
 					<div class="perfilBox">
 						<a name="anclaMaterias" id="anclaMaterias"></a>
 						<span>Materias</span>
-                        {% for c in instituto.centros.all %}
-                        <p>
-							<span class="centroEstudio">{{ c.nombre }}</span>
-                            
-                            {% for m in instituto.materias.all %}
-							<div class="boxBox">{{ m.nombre }}</div>
-                            {% endfor %}
-						</p>
-                        {% endfor %}
+						{% for c in instituto.centros.all %}
+							<p>
+								<span class="centroEstudio">{{ c.nombre }}</span>
+								
+								{% for m in instituto.materias.all|with_centro:c %}
+									<div class="boxBox">{{ m.nombre }}</div>
+								{% endfor %}
+							</p>
+						{% endfor %}
 					</div>
 					<div class="perfilBox">
 						<a name="anclaProfesores" id="anclaProfesores"></a>
