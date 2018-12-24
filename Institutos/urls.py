@@ -10,6 +10,7 @@ urlpatterns = [
     path('on_login', views.on_login, name='on_login'),
     path('Registro', views.registro, name='registro'),
     path('Perfil', views.perfil, name='perfil'),
+    path('Perfil_edit', views.perfil_edit, name='perfil_edit'),
     path('Buscar', views.buscar, name='buscar'),
     path('BuscarProfe', views.buscarProfe, name='buscarProfe'),
     path('Instituto/<int:instituto_id>/', views.instituto, name='instituto'),

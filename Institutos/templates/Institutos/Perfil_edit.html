@@ -26,157 +26,206 @@
     </div>
 
 
+
+
     <div class="max">
         <div class="titleRes ajusteMargin"></div>
     </div>
     <section class="interna">
         <div class="max">
-            <div class="reeadInfo">
+            <div class="reeadInfo_edit">
                 <div class="title">
                     <h2>Información b&aacute;sica</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
+                    <a href="#">Guardar</a>
                 </div>
-                <div class="reeadBox" id="infoBasca">
+                <div class="reeadBox" id="infoBasca_edit">
                     <img src="static/Institutos/profile_pics/{{ instituto.logo }}" style="max-height: 115px;">
                     <div class="reeadBoxInfo">
-                        <p hidden>{{ instituto.id }}</p>
                         <span>Nombre Instituci&oacute;n</span>
-                        <p>{{ instituto.nombre }}</p>
+                        <p>
+                            <input type="text" name="nombre" class="dir" placeholder="Nombre Institución" value="{{ instituto.nombre }}">
+                        </p>
+                        <span>Nombre Instituci&oacute;n</span>
+                        <p>
+                            <input type="file" id="input">
+                        </p>							
                         <span>Teléfono</span>
-                        <p>{{ instituto.telefono }}</p>
+                        <p>
+                            <input type="text" name="telefono" class="dir" placeholder="Teléfono" value="{{ instituto.telefono }}">
+                        </p>
                         <span>Email de contacto</span>
-                        <p>{{ instituto.usuario.email }}</p>
+                        <p>
+                            <input type="email" name="email" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}">
+                        </p>
                         <span>Descripc&oacute;n</span>
-                        <p>{{ instituto.descripcion }}</p>
-                        
-							
+                        <p>
+                            <textarea rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ instituto.descripcion }}</textarea>
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="reeadInfo">
+        </div>
+        <div class="max">
+            <div class="reeadInfo_edit">
                 <div class="title">
                     <h2>Ubicaci&oacute;n</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
+                    <a href="#">Guardar</a>
                 </div>
-                <div class="reeadBox" id="ubicacion">
+                <div class="reeadBox" id="ubicacion_edit">
                     <div class="readLeftUbicacion">
-                
+                        <span>Direcci&oacute;n</span>
+                        <p>
+                            <input type="text" name="calle" class="dir" placeholder="Calle" value="{{ instituto.direccion }}">
+                        </p>
+                        <!--
+                        <span style="float: left;">N&uacute;mero</span>
+                        <p><input type="text" name="numero_calle" class="dir" placeholder="Números" value="1359"></p>
+                        -->
+                    </div>
+                    <div class="readRightUbicacion">
+                        Ubicación en el mapa
+                        
                         <input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
                         <input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
 
                         <div id="map" style="height: 150px; width: 100%;"></div>
-
-                        Ubicación en el mapa
-                    </div>
-                    <div class="readRightUbicacion">
-                        <span>Direcci&oacute;n</span>
-                        <p>{{ instituto.direccion }}</p>
-                        <span>Transporte</span>
-                        <p class="buses">
-                            {% for f in instituto.omnibuses.all %}
-                                <span>{{ f.nombre }}</span>
-                            {% endfor %}
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="max">
-            <div class="reeadInfo">
-                <div class="title">
-                    <h2>Medios de pago</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
-                </div>
-                <div class="reeadBox" id="mediosPago">
-                    {% if instituto.formasPago.all %}
-                        <p>
-                            {% for f in instituto.formasPago.all %}
-                                <div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-                        </p>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="reeadInfo">
-                <div class="title">
-                    <h2>Profesores</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
-                </div>
-                <div class="reeadBox" id="profesores">
-                    {% if instituto.profesor_set.all %}
-                        <p>
-                            {% for p in instituto.profesor_set.all %}
-                                <div class="boxBox">{{ p.nombre }}</div>
-                            {% endfor %}
-                        </p>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo">
-                <div class="title">
-                    <h2>Facilidades</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
-                </div>
-                <div class="reeadBox" id="facilidades">
-                    {% if instituto.facilidades.all %}
-                        <p>
-                            {% for f in instituto.facilidades.all %}
-								<div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-                        </p>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="reeadInfo">
-                <div class="title">
-                    <h2>Comodidades</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
-                </div>
-                <div class="reeadBox" id="comodidades">
-                    {% if instituto.comodidades.all %}
-                        <p>
-                            {% for f in instituto.comodidades.all %}
-								<div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-                        </p>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfoFull">
+            <div class="reeadInfo_edit full">
                 <div class="title">
                     <h2>Materias</h2>
-                    <a href="{% url 'perfil_edit' %}">Editar</a>
+                    <a href="#">Guardar</a>
                 </div>
-                <div class="reeadBox" id="materias">
+                <div class="reeadBox" id="materias_edit">
+                    <div class="search" onclick="javascript:addMediosPago('referemciaAurl');">+ Agregar nuevo centro de estudio</div>
+                    <div class="subrayado">
+                        Mis centros de estudio
+                    </div>
                     {% for c in instituto.centros.all %}
-                        <p>
-							<span class="centroEstudio">{{ c.nombre }}</span>
-                            
+                        <p><span class="centroEstudio">{{ c.nombre }}</span></p>
+                        <div class="addButtonEdit">
+                            <div class="search" onclick="">+ Agregar materia</div>
+                        </div>
+                        <div class="addButtonEdit">
                             {% for m in instituto.materias.all|with_centro:c %}
-							    <div class="boxBox">{{ m.nombre }}</div>
+                                <div class="boxBox" id="materias_{{ m.id }}">
+                                    <span>{{ m.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materias_{{ m.id }}').remove();">
+                                </div>
                             {% endfor %}
-						</p>
+						</div>
                     {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo_edit">
+                <div class="title">
+                    <h2>Medios de pago</h2>
+                    <a href="#">Guardar</a>
+                </div>
+                <div class="reeadBox" id="mediosPago_edit">
+                    <div class="addButtonEdit">
+                        <div class="search" onclick="">+ Agregar medio de pago</div>
+                    </div>
+                    {% if instituto.formasPago.all %}
+                        <div class="addButtonEdit">
+                            {% for f in instituto.formasPago.all %}
+                                <div class="boxBox" id="formasPago_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#formasPago_{{ f.id }}').remove();">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo_edit">
+                <div class="title">
+                    <h2>Profesores</h2>
+                    <a href="#">Guardar</a>
+                </div>
+                <div class="reeadBox" id="profesores_edit">
+                    <div class="addButtonEdit">
+                        <div class="search" onclick="">+ Agregar profe</div>
+                    </div>
+                    {% if instituto.profesor_set.all %}
+                        <div class="addButtonEdit">
+                            {% for f in instituto.profesor_set.all %}
+                                <div class="boxBox" id="profesor_set_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo_edit">
+                <div class="title">
+                    <h2>Facilidades</h2>
+                    <a href="#">Guardar</a>
+                </div>
+                <div class="reeadBox" id="facilidades_edit">
+                    <div class="addButtonEdit">
+                        <div class="search" onclick="">+ Agregar facilidad</div>
+                    </div>
+                    {% if instituto.facilidades.all %}
+                        <div class="addButtonEdit">
+                            {% for f in instituto.facilidades.all %}
+                                <div class="boxBox" id="facilidades_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#facilidades_{{ f.id }}').remove();">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="max">
+            <div class="reeadInfo_edit">
+                <div class="title">
+                    <h2>Comodidades</h2>
+                    <a href="#">Guardar</a>
+                </div>
+                <div class="reeadBox" id="comodidades_edit">
+                    <div class="addButtonEdit">
+                        <div class="search" onclick="">+ Agregar comodidad</div>
+                    </div>
+                    {% if instituto.comodidades.all %}
+                        <div class="addButtonEdit">
+                            {% for f in instituto.comodidades.all %}
+                                <div class="boxBox" id="comodidades_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#comodidades_{{ f.id }}').remove();">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="reeadBoxInfo">
+                            <span>Sin datos ingreados a&uacute;n.</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

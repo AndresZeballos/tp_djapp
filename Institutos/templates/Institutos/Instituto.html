@@ -6,8 +6,6 @@
 
 
 {% block titleH1 %} 
-
-
     <div class="fichaPerfilProfe">
         <img src="/static/Institutos/profile_pics/ex_2.jpg">
         <div class="rightInfo">
@@ -24,159 +22,151 @@
 
 
 
+{% block content %}
+	<script src="{% static "Institutos/telefono.js" %}"></script>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery(jQuery("header.interna")[0]).addClass("perfilProfe");
+		});
+	</script>
+
+	<div class="breadcrum">
+		<div class="max">
+			<span><a href="/">Inicio</a></span>
+			<span class="separa">&nbsp;>>&nbsp;</span>
+			<span>Profe</span>
+			<span class="separa">&nbsp;>>&nbsp;</span>
+			<span>{{ instituto.nombre }}</span>
+		</div>
+	</div>
+	<section class="interna">
+		<div id="formularioRespEnvioProfe"></div>
+		<div class="max paddTop">				
+			<div class="leftBig">
+				<div class="perfilMenu">
+					<a href="#anclaDescripcion"><span>Descripción</span></a>
+					<a href="#anclaUbicacion"><span>Ubicación</span></a>
+					<a href="#anclaMaterias"><span>Materias</span></a>
+					<a href="#anclaProfesores"><span>Profesores</span></a>
+					<a href="#anclaMedioPago"><span>Medios de pago</span></a>
+					<a href="#anclaComodidades"><span>Comodidades</span></a>
+					<a href="#anclaFacilidades"><span>Facilidades</span></a>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaDescripcion" id="anclaDescripcion"></a>
+					<span>Descripción</span>
+					<p>
+						{{ instituto.descripcion }}
+					</p>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaUbicacion" id="anclaUbicacion"></a>
+					<span>Ubicación</span>
+					<p>
+												
+						<input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
+						<input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
 
 
-        {% block content %}
+						<div id="map" style="height: 250px; width: 100%;"></div>
 
-<script src="{% static "Institutos/telefono.js" %}"></script>
-<script>
-    jQuery(document).ready(function() {
-        jQuery(jQuery("header.interna")[0]).addClass("perfilProfe");
-    });
-</script>
-
-
-
-
-
-
-		<div class="breadcrum">
-			<div class="max">
-				<span><a href="/">Inicio</a></span>
-				<span class="separa">&nbsp;>>&nbsp;</span>
-				<span>Profe</span>
-				<span class="separa">&nbsp;>>&nbsp;</span>
-				<span>{{ instituto.nombre }}</span>
+					</p>
+					<div class="perfilBox">
+						<span class="subTitle">Transporte</span>
+						<p class="buses">
+							{% for f in instituto.omnibuses.all %}
+								<span>{{ f.nombre }}</span>
+							{% endfor %}
+						</p>
+					</div>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaMaterias" id="anclaMaterias"></a>
+					<span>Materias</span>
+					{% for c in instituto.centros.all %}
+						<p>
+							<span class="centroEstudio">{{ c.nombre }}</span>
+							
+							{% for m in instituto.materias.all|with_centro:c %}
+								<div class="boxBox">{{ m.nombre }}</div>
+							{% endfor %}
+						</p>
+					{% endfor %}
+				</div>
+				<div class="perfilBox">
+					<a name="anclaProfesores" id="anclaProfesores"></a>
+					<span>Profesores</span>
+					<p>
+						{% for p in instituto.profesor_set.all %}
+							<div class="boxBox">{{ p.nombre }}</div>
+						{% endfor %}
+					</p>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaMedioPago" id="anclaMedioPago"></a>
+					<span>Medios de pago</span>
+					<p>
+						{% for f in instituto.formasPago.all %}
+							<div class="boxBox">{{ f.nombre }}</div>
+						{% endfor %}
+					</p>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaComodidades" id="anclaComodidades"></a>
+					<span>Comodidades</span>
+					<p>
+						{% for f in instituto.comodidades.all %}
+							<div class="boxBox">{{ f.nombre }}</div>
+						{% endfor %}
+					</p>
+				</div>
+				<div class="perfilBox">
+					<a name="anclaFacilidades" id="anclaFacilidades"></a>
+					<span>Facilidades</span>
+					<p>
+						{% for f in instituto.facilidades.all %}
+							<div class="boxBox">{{ f.nombre }}</div>
+						{% endfor %}
+					</p>
+				</div>
+			</div>
+			<div class="rightMin">
+				<div class="contactoForm">
+					<form name="contacto" action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
+						{% csrf_token %}
+						<h2>Consultas al profesor</h2>
+						<p>Completá este formulario y el profesor se pondrá en contacto contigo.</p>
+						<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido">
+						<input type="text" name="telefono" class="dir" placeholder="Telefono (opcional)">
+						<input type="email" name="email" class="dir" placeholder="Correo electrónico">
+						<input type="text" name="asunto" class="dir" placeholder="Asunto">
+						<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje..."></textarea>
+						<input type="submit" class="dir" onclick="javascript:document.contacto.submit();" value="Enviar consulta">
+					</form>
+				</div>
 			</div>
 		</div>
-		<section class="interna">
-			<div id="formularioRespEnvioProfe"></div>
-			<div class="max paddTop">				
-				<div class="leftBig">
-					<div class="perfilMenu">
-						<a href="#anclaDescripcion"><span>Descripción</span></a>
-						<a href="#anclaUbicacion"><span>Ubicación</span></a>
-						<a href="#anclaMaterias"><span>Materias</span></a>
-						<a href="#anclaProfesores"><span>Profesores</span></a>
-						<a href="#anclaMedioPago"><span>Medios de pago</span></a>
-						<a href="#anclaComodidades"><span>Comodidades</span></a>
-						<a href="#anclaFacilidades"><span>Facilidades</span></a>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaDescripcion" id="anclaDescripcion"></a>
-						<span>Descripción</span>
-						<p>
-							{{ instituto.descripcion }}
-						</p>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaUbicacion" id="anclaUbicacion"></a>
-						<span>Ubicación</span>
-						<p>
-                                                    
-                            <input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
-                            <input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
-
-
-                            <div id="map" style="height: 250px; width: 100%;"></div>
-
-						</p>
-						<div class="perfilBox">
-							<span class="subTitle">Transporte</span>
-							<p class="buses">
-                                {% for f in instituto.omnibuses.all %}
-                                    <span>{{ f.nombre }}</span>
-                                {% endfor %}
-							</p>
-						</div>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaMaterias" id="anclaMaterias"></a>
-						<span>Materias</span>
-						{% for c in instituto.centros.all %}
-							<p>
-								<span class="centroEstudio">{{ c.nombre }}</span>
-								
-								{% for m in instituto.materias.all|with_centro:c %}
-									<div class="boxBox">{{ m.nombre }}</div>
-								{% endfor %}
-							</p>
-						{% endfor %}
-					</div>
-					<div class="perfilBox">
-						<a name="anclaProfesores" id="anclaProfesores"></a>
-						<span>Profesores</span>
-						<p>
-                            {% for p in instituto.profesor_set.all %}
-								<div class="boxBox">{{ p.nombre }}</div>
-                            {% endfor %}
-						</p>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaMedioPago" id="anclaMedioPago"></a>
-						<span>Medios de pago</span>
-						<p>
-                            {% for f in instituto.formasPago.all %}
-								<div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-						</p>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaComodidades" id="anclaComodidades"></a>
-						<span>Comodidades</span>
-						<p>
-                            {% for f in instituto.comodidades.all %}
-								<div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-						</p>
-					</div>
-					<div class="perfilBox">
-						<a name="anclaFacilidades" id="anclaFacilidades"></a>
-						<span>Facilidades</span>
-						<p>
-                            {% for f in instituto.facilidades.all %}
-								<div class="boxBox">{{ f.nombre }}</div>
-                            {% endfor %}
-						</p>
-					</div>
-				</div>
-				<div class="rightMin">
-					<div class="contactoForm">
-                        <form name="contacto" action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
-                            {% csrf_token %}
-							<h2>Consultas al profesor</h2>
-							<p>Completá este formulario y el profesor se pondrá en contacto contigo.</p>
-							<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido">
-							<input type="text" name="telefono" class="dir" placeholder="Telefono (opcional)">
-                            <input type="email" name="email" class="dir" placeholder="Correo electrónico">
-                            <input type="text" name="asunto" class="dir" placeholder="Asunto">
-							<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje..."></textarea>
-							<input type="submit" class="dir" onclick="javascript:document.contacto.submit();" value="Enviar consulta">
-						</form>
-					</div>
-				</div>
-			</div>
-		</section>
+	</section>
 
 
 
-        {% endblock %}
+{% endblock %}
 
         
 
-        {% block initMapScript %}
-<script>
-    function initMap() {
-        var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
+{% block initMapScript %}
+	<script>
+		function initMap() {
+			var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: position
-        });
-        var marker = new google.maps.Marker({
-            position: position,
-            map: map
-        });
-    }
-</script>
-        {% endblock %}
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 15,
+				center: position
+			});
+			var marker = new google.maps.Marker({
+				position: position,
+				map: map
+			});
+		}
+	</script>
+{% endblock %}

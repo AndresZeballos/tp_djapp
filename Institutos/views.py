@@ -108,6 +108,14 @@ def activar(request, hash_id):
 def perfil(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
+    instituto = Instituto.objects.get(usuario=request.user)
+    form = PerfilForm(instance=instituto)
+    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+
+@login_required(login_url='/login')
+def perfil_edit(request):
+    if request.user.is_staff:
+        return HttpResponseRedirect(reverse('admin:index'))
     if request.method == 'POST':
         form = PerfilForm(request.POST)
         form.is_valid()
@@ -121,9 +129,10 @@ def perfil(request):
         instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
         instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
         instituto.save()
+        return HttpResponseRedirect(reverse('perfil'))
     instituto = Instituto.objects.get(usuario=request.user)
     form = PerfilForm(instance=instituto)
-    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+    return render(request, 'Institutos/perfil_edit.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 def buscar(request):
     centros = list(Centro.objects.all())
