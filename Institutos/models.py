@@ -98,7 +98,7 @@ class Instituto(models.Model):
     estado = models.IntegerField(default=0, null=True)
     hash_id = models.CharField(max_length=32, null=True)
     referencia = models.IntegerField(default=0, null=True)
-    logo =  models.ImageField(upload_to='images/profile_pics/', default = 'images/profile_pics/blank-profile.jpg')
+    logo =  models.ImageField(upload_to='profile_pics/', default = 'profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=500, default='')
     descripcion = models.CharField(max_length=2000, default='')

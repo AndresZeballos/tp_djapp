@@ -49,9 +49,12 @@
                                 <div class="_layer -mid"></div>
                                 <div class="_layer -bottom"></div>
                             </div>
-                            <div class="iconSearch">
-                                <img src="/static/Institutos/theme/img/lupa_white.png" id="iconSearch">
-                            </div>
+                            
+                            {% if searchResponsive != None %}
+                                <div class="iconSearch">
+                                    <img src="/static/Institutos/theme/img/lupa_white.png" id="iconSearch">
+                                </div>
+                            {% endif %}
                         </div>
                         {% if direccion %}
                             <div class="buscador">
@@ -85,45 +88,47 @@
                     </div>
                 </div>
                 <div class="popUpContent">&nbsp;</div>
-                <div class="bluePopUpContent">
-                    <div class="max">
-                        <div class="buscadorResponsive">
-                            <form name="buscarH" method="post" action="{% url 'buscar' %}">
-                                <input list="centros" id="centro2" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}"  onchange="onCentroChange(true)">
-                                <datalist id="centros">
-                                    {% for centro in centros %}
-                                        <option value="{{ centro.nombre }}"></option>
+                {% if searchResponsive != None %}
+                    <div class="bluePopUpContent">
+                        <div class="max">
+                            <div class="buscadorResponsive">
+                                <form name="buscarH" method="post" action="{% url 'buscar' %}">
+                                    <input list="centros" id="centro2" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}"  onchange="onCentroChange(true)">
+                                    <datalist id="centros">
+                                        {% for centro in centros %}
+                                            <option value="{{ centro.nombre }}"></option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <input list="materias" id="materia2" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
+                                    <datalist id="materias">
+                                    </datalist>
+
+                                </form>
+                            </div>
+                            
+                            <script>
+                                var materias = [
+                                    {% for materia in materias %}
+                                        { centro: "{{ materia.centro.nombre }}", materia: "{{ materia.nombre }}" }, 
                                     {% endfor %}
-                                </datalist>
-                                <input list="materias" id="materia2" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
-                                <datalist id="materias">
-                                </datalist>
+                                ];
 
-                            </form>
+                                function onCentroChange(clean) {
+                                    jQuery("#materias").html("");
+                                    if (clean) 
+                                        jQuery("input[name=materia]")[0].value = "";
+                                    var centro = jQuery("input[name=centro]")[0].value;
+                                    jQuery.each(materias, function(i, item) {
+                                        if (item.centro == centro)
+                                            jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
+                                    });
+                                }
+
+                                onCentroChange(false);
+                            </script>
                         </div>
-                        
-                        <script>
-                            var materias = [
-                                {% for materia in materias %}
-                                    { centro: "{{ materia.centro.nombre }}", materia: "{{ materia.nombre }}" }, 
-                                {% endfor %}
-                            ];
-
-                            function onCentroChange(clean) {
-                                jQuery("#materias").html("");
-                                if (clean) 
-                                    jQuery("input[name=materia]")[0].value = "";
-                                var centro = jQuery("input[name=centro]")[0].value;
-                                jQuery.each(materias, function(i, item) {
-                                    if (item.centro == centro)
-                                        jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
-                                });
-                            }
-
-                            onCentroChange(false);
-                        </script>
                     </div>
-                </div>
+                {% endif %}
             </header>
 
         {% endblock %}

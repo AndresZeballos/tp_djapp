@@ -28,8 +28,8 @@
 
 
 
-
-    <form action="/Perfil_edit" method="post">
+<!--
+    <form action="/Perfil_edit" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
         <p>
@@ -48,211 +48,338 @@
         {% endfor %}
         <button type="submit">Guardar</button>
   </form>
-
+-->
 
 
     <div class="max">
         <div class="titleRes ajusteMargin"></div>
     </div>
     <section class="interna">
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Información b&aacute;sica</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="infoBasca_edit">
-                    <img src="static/Institutos/profile_pics/{{ instituto.logo }}" style="max-height: 115px;">
-                    <div class="reeadBoxInfo">
-                        <span>Nombre Instituci&oacute;n</span>
-                        <p>
-                            <input type="text" name="nombre" class="dir" placeholder="Nombre Institución" value="{{ instituto.nombre }}">
-                        </p>
-                        <span>Nombre Instituci&oacute;n</span>
-                        <p>
-                            <input type="file" id="input">
-                        </p>							
-                        <span>Teléfono</span>
-                        <p>
-                            <input type="text" name="telefono" class="dir" placeholder="Teléfono" value="{{ instituto.telefono }}">
-                        </p>
-                        <span>Email de contacto</span>
-                        <p>
-                            <input type="email" name="email" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}">
-                        </p>
-                        <span>Descripc&oacute;n</span>
-                        <p>
-                            <textarea rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ instituto.descripcion }}</textarea>
-                        </p>
+        <form action="/Perfil_edit" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Información b&aacute;sica</h2>
+                        <a href="#">Guardar</a>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Ubicaci&oacute;n</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="ubicacion_edit">
-                    <div class="readLeftUbicacion">
-                        <span>Direcci&oacute;n</span>
-                        <p>
-                            <input type="text" name="calle" class="dir" placeholder="Calle" value="{{ instituto.direccion }}">
-                        </p>
-                        <!--
-                        <span style="float: left;">N&uacute;mero</span>
-                        <p><input type="text" name="numero_calle" class="dir" placeholder="Números" value="1359"></p>
-                        -->
-                    </div>
-                    <div class="readRightUbicacion">
-                        Ubicación en el mapa
-                        
-                        <input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
-                        <input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
+                    
 
-                        <div id="map" style="height: 150px; width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit full">
-                <div class="title">
-                    <h2>Materias</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="materias_edit">
-                    <div class="search" onclick="javascript:addMediosPago('referemciaAurl');">+ Agregar nuevo centro de estudio</div>
-                    <div class="subrayado">
-                        Mis centros de estudio
-                    </div>
-                    {% for c in instituto.centros.all %}
-                        <p><span class="centroEstudio">{{ c.nombre }}</span></p>
-                        <div class="addButtonEdit">
-                            <div class="search" onclick="">+ Agregar materia</div>
-                        </div>
-                        <div class="addButtonEdit">
-                            {% for m in instituto.materias.all|with_centro:c %}
-                                <div class="boxBox" id="materias_{{ m.id }}">
-                                    <span>{{ m.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materias_{{ m.id }}').remove();">
-                                </div>
-                            {% endfor %}
-						</div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Medios de pago</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="mediosPago_edit">
-                    <div class="addButtonEdit">
-                        <div class="search" onclick="">+ Agregar medio de pago</div>
-                    </div>
-                    {% if instituto.formasPago.all %}
-                        <div class="addButtonEdit">
-                            {% for f in instituto.formasPago.all %}
-                                <div class="boxBox" id="formasPago_{{ f.id }}">
-                                    <span>{{ f.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#formasPago_{{ f.id }}').remove();">
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
+
+                    <div class="reeadBox" id="infoBasca_edit">
+                        <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}" />
                         <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
+                            <span>Nombre Instituci&oacute;n</span>
+                            <p>
+                                <input type="text" name="nombre" id="nombre_edit" class="dir" placeholder="Nombre Institución" value="{{ instituto.nombre }}">
+                            </p>
+                            <span>Nombre Instituci&oacute;n</span>
+                            <p>
+                                <input type="file" name="logo" id="logo_edit">
+                            </p>							
+                            <span>Teléfono</span>
+                            <p>
+                                <input type="text" name="telefono" id="telefono_edit" class="dir" placeholder="Teléfono" value="{{ instituto.telefono }}">
+                            </p>
+                            <span>Email de contacto</span>
+                            <p>
+                                <input type="email" name="email" id="email_edit" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}">
+                            </p>
+                            <span>Descripci&oacute;n</span>
+                            <p>
+                                <textarea name="descripcion" id="descripcion_edit" rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ instituto.descripcion }}</textarea>
+                            </p>
                         </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Profesores</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="profesores_edit">
-                    <div class="addButtonEdit">
-                        <div class="search" onclick="">+ Agregar profe</div>
                     </div>
-                    {% if instituto.profesor_set.all %}
-                        <div class="addButtonEdit">
-                            {% for f in instituto.profesor_set.all %}
-                                <div class="boxBox" id="profesor_set_{{ f.id }}">
-                                    <span>{{ f.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
+                    
                 </div>
             </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Facilidades</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="facilidades_edit">
-                    <div class="addButtonEdit">
-                        <div class="search" onclick="">+ Agregar facilidad</div>
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Ubicaci&oacute;n</h2>
+                        <a href="#">Guardar</a>
                     </div>
-                    {% if instituto.facilidades.all %}
-                        <div class="addButtonEdit">
-                            {% for f in instituto.facilidades.all %}
-                                <div class="boxBox" id="facilidades_{{ f.id }}">
-                                    <span>{{ f.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#facilidades_{{ f.id }}').remove();">
-                                </div>
-                            {% endfor %}
+                    <div class="reeadBox" id="ubicacion_edit">
+                        <div class="readLeftUbicacion">
+                            <span>Direcci&oacute;n</span>
+                            <p>
+                                <input type="text" name="direccion" class="dir" placeholder="Calle" value="{{ instituto.direccion }}">
+                            </p>
+                            <!--
+                            <span style="float: left;">N&uacute;mero</span>
+                            <p><input type="text" name="numero_calle" class="dir" placeholder="Números" value="1359"></p>
+                            -->
                         </div>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
+                        <div class="readRightUbicacion">
+                            Ubicación en el mapa
+                            
+                            <input id="lat" name="latitud" value="{{ instituto.latitud }}" type="number" hidden>
+                            <input id="lng" name="longitud" value="{{ instituto.longitud }}" type="number" hidden>
+
+                            <div id="map" style="height: 150px; width: 100%;"></div>
                         </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="max">
-            <div class="reeadInfo_edit">
-                <div class="title">
-                    <h2>Comodidades</h2>
-                    <a href="#">Guardar</a>
-                </div>
-                <div class="reeadBox" id="comodidades_edit">
-                    <div class="addButtonEdit">
-                        <div class="search" onclick="">+ Agregar comodidad</div>
                     </div>
-                    {% if instituto.comodidades.all %}
-                        <div class="addButtonEdit">
-                            {% for f in instituto.comodidades.all %}
-                                <div class="boxBox" id="comodidades_{{ f.id }}">
-                                    <span>{{ f.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#comodidades_{{ f.id }}').remove();">
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="reeadBoxInfo">
-                            <span>Sin datos ingreados a&uacute;n.</span>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
-        </div>
+            <div class="max">
+                <div class="reeadInfo_edit full">
+                    <div class="title">
+                        <h2>Materias</h2>
+                        <a href="#">Guardar</a>
+                    </div>
+                    <div class="reeadBox" id="materias_edit">
+                        <div class="search" onclick="addCentroShow()">+ Agregar nuevo centro de estudio</div>
+                        <div class="subrayado">
+                            Mis centros de estudio
+                        </div>
+                        {% for c in instituto.centros.all %}
+                            <p id="centros_{{ c.id }}"><span class="centroEstudio">{{ c.nombre }}</span></p>
+                            <div class="addButtonEdit">
+                                <div class="search" onclick="">+ Agregar materia</div>
+                            </div>
+                            <div class="addButtonEdit">
+                                {% for m in instituto.materias.all|with_centro:c %}
+                                    <div class="boxBox" id="materias_{{ m.id }}">
+                                        <span>{{ m.nombre }}</span>
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materias_{{ m.id }}').remove();">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <select name="centros" required="" id="centros_edit" multiple="" hidden>
+                        {% for c in instituto.centros.all %}
+                            <option value="{{ c.id }}" selected=""></option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="materias" required="" id="materias_edit" multiple="" hidden>
+                        {% for m in instituto.materias.all %}
+                            <option value="{{ m.id }}" selected=""></option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="facilidades" required="" id="facilidades_edit" multiple="" hidden>
+                        {% for m in instituto.facilidades.all %}
+                            <option value="{{ m.id }}" selected=""></option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="formasPago" required="" id="formasPago_edit" multiple="" hidden>
+                        {% for m in instituto.formasPago.all %}
+                            <option value="{{ m.id }}" selected=""></option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="comodidades" required="" id="comodidades_edit" multiple="" hidden>
+                        {% for m in instituto.comodidades.all %}
+                            <option value="{{ m.id }}" selected=""></option>
+                        {% endfor %}
+                    </select>
+
+
+                    <script>
+                    
+                        var centros = [
+                            {% for centro in centros %}
+                                { id: "{{ centro.id }}", nombre: "{{ centro.nombre }}" }, 
+                            {% endfor %}
+                        ];
+
+                        var materias = [
+                            {% for materia in materias %}
+                                { id: "{{ materia.id }}", centro: "{{ materia.centro.id }}", materia: "{{ materia.nombre }}" }, 
+                            {% endfor %}
+                        ];
+
+                        var facilidades = [
+                            {% for facilidad in facilidades %}
+                                { id: "{{ facilidad.id }}", centro: "{{ facilidad.nombre }}" }, 
+                            {% endfor %}
+                        ];
+
+                        var formasPago = [
+                            {% for formaPago in formasPago %}
+                                { id: "{{ formaPago.id }}", centro: "{{ formaPago.nombre }}" }, 
+                            {% endfor %}
+                        ];
+
+                        var comodidades = [
+                            {% for comodidad in comodidades %}
+                                { id: "{{ comodidad.id }}", centro: "{{ comodidad.nombre }}" }, 
+                            {% endfor %}
+                        ];
+
+
+
+                        function addSelectedOption(select_id, option_val) {
+                            var select = document.getElementById(select_id);
+                            var opt = document.createElement('option');
+                            opt.value = option_val;
+                            opt.setAttribute("selected", "");
+
+                            select.appendChild(opt);
+                        }
+
+                        function addCentroShow() {
+                            jQuery('#centros_list').empty();
+
+                            var $option;
+                            var i;
+                            for (i = 0; i < centros.length; i++) {
+                                
+                                if (jQuery('centros_'+centros[i].id).length==0){
+                                    //options += '<option value="' + centros[i].id + '">' + centros[i].nombre + '</option>';
+                                    $option = jQuery("<option></option>")
+                                        .attr("value", centros[i].id)
+                                        .text(centros[i].nombre);
+                                    jQuery('#centros_list').append($option);
+                                } 
+                                
+                            }
+
+
+                            jQuery(".popUpContent").css("display","block");
+                            jQuery(".popUpContentBox").css("display","block");
+                            //addSelectedOption('centros_edit', '1');
+                        }
+                                            
+                        function showAddressDialog() {
+                            jQuery(".popUpContent").css("display","block");
+                            jQuery(".popUpContentBox").css("display","block");
+                        }
+
+                    </script>
+
+
+                </div>
+            </div>
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Medios de pago</h2>
+                        <a href="#">Guardar</a>
+                    </div>
+                    <div class="reeadBox" id="mediosPago_edit">
+                        <div class="addButtonEdit">
+                            <div class="search" onclick="">+ Agregar medio de pago</div>
+                        </div>
+                        {% if instituto.formasPago.all %}
+                            <div class="addButtonEdit">
+                                {% for f in instituto.formasPago.all %}
+                                    <div class="boxBox" id="formasPago_{{ f.id }}">
+                                        <span>{{ f.nombre }}</span>
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#formasPago_{{ f.id }}').remove();">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="reeadBoxInfo">
+                                <span>Sin datos ingreados a&uacute;n.</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Profesores</h2>
+                        <a href="#">Guardar</a>
+                    </div>
+                    <div class="reeadBox" id="profesores_edit">
+                        <div class="addButtonEdit">
+                            <div class="search" onclick="">+ Agregar profe</div>
+                        </div>
+                        {% if instituto.profesor_set.all %}
+                            <div class="addButtonEdit">
+                                {% for f in instituto.profesor_set.all %}
+                                    <div class="boxBox" id="profesor_set_{{ f.id }}">
+                                        <span>{{ f.nombre }}</span>
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="reeadBoxInfo">
+                                <span>Sin datos ingreados a&uacute;n.</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Facilidades</h2>
+                        <a href="#">Guardar</a>
+                    </div>
+                    <div class="reeadBox" id="facilidades_edit">
+                        <div class="addButtonEdit">
+                            <div class="search" onclick="">+ Agregar facilidad</div>
+                        </div>
+                        {% if instituto.facilidades.all %}
+                            <div class="addButtonEdit">
+                                {% for f in instituto.facilidades.all %}
+                                    <div class="boxBox" id="facilidades_{{ f.id }}">
+                                        <span>{{ f.nombre }}</span>
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#facilidades_{{ f.id }}').remove();">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="reeadBoxInfo">
+                                <span>Sin datos ingreados a&uacute;n.</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="max">
+                <div class="reeadInfo_edit">
+                    <div class="title">
+                        <h2>Comodidades</h2>
+                        <a href="#">Guardar</a>
+                    </div>
+                    <div class="reeadBox" id="comodidades_edit">
+                        <div class="addButtonEdit">
+                            <div class="search" onclick="">+ Agregar comodidad</div>
+                        </div>
+                        {% if instituto.comodidades.all %}
+                            <div class="addButtonEdit">
+                                {% for f in instituto.comodidades.all %}
+                                    <div class="boxBox" id="comodidades_{{ f.id }}">
+                                        <span>{{ f.nombre }}</span>
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#comodidades_{{ f.id }}').remove();">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="reeadBoxInfo">
+                                <span>Sin datos ingreados a&uacute;n.</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
     </section>
+
+
+        <div class="popUpContentBox">
+            <div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+            <h3>Seleccione el centro de estudios</h3>
+            <div class="formularioPop">
+                <div>
+                    <select required="" id="centros_list" multiple=""></select>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop">
+                </div>
+            </div>
+        </div>
+        <div class="popUpContent">&nbsp;</div>
+
 
 {% endblock %}
 

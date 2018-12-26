@@ -10,8 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada, Omnibus
-from .forms import SignUpForm, PerfilForm
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada, Omnibus, Comodidad, Facilidad, FormaPago
+from .forms import SignUpForm, PerfilForm, ImageForm
 
 from django.contrib.auth.models import User
 
@@ -117,22 +117,39 @@ def perfil_edit(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
     if request.method == 'POST':
-        form = PerfilForm(request.POST)
-        form.is_valid()
-        instituto = Instituto.objects.filter(usuario=request.user)
-        instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
-            'descripcion', 'logo', 'telefono', 'direccion', ) if k in form.cleaned_data})
-        instituto = Instituto.objects.get(usuario=request.user)
-        instituto.updateRelation(instituto.centros, form.cleaned_data['centros'])
-        instituto.updateRelation(instituto.facilidades, form.cleaned_data['facilidades'])
-        instituto.updateRelation(instituto.formasPago, form.cleaned_data['formasPago'])
-        instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
-        instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
-        instituto.save()
+        form = PerfilForm(request.POST, request.FILES)
+        if form.is_valid():
+            instituto = Instituto.objects.filter(usuario=request.user)
+            instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
+                'descripcion', 'telefono', 'direccion', 'latitud', 'longitud', ) if k in form.cleaned_data})
+            if (len(request.FILES) > 0):
+                instituto.update(**{k:form.cleaned_data[k] for k in ('logo', ) if k in form.cleaned_data})
+            instituto = Instituto.objects.get(usuario=request.user)
+            instituto.updateRelation(instituto.centros, form.cleaned_data['centros'])
+            instituto.updateRelation(instituto.facilidades, form.cleaned_data['facilidades'])
+            instituto.updateRelation(instituto.formasPago, form.cleaned_data['formasPago'])
+            instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
+            instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
+            instituto.save()
+            
+            form = ImageForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+        else:
+            print(form.errors)
+
         return HttpResponseRedirect(reverse('perfil'))
     instituto = Instituto.objects.get(usuario=request.user)
     form = PerfilForm(instance=instituto)
-    return render(request, 'Institutos/Perfil_edit.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+
+    centros = list(Centro.objects.all())
+    materias = list(Materia.objects.all())
+    comodidades = list(Comodidad.objects.all())
+    facilidades = list(Facilidad.objects.all())
+    formasPago = list(FormaPago.objects.all())
+
+    return render(request, 'Institutos/Perfil_edit.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form, \
+        'centros': centros, 'materias': materias, 'comodidades': comodidades, 'facilidades': facilidades, 'formasPago': formasPago, })
 
 def buscar(request):
     centros = list(Centro.objects.all())
@@ -199,7 +216,7 @@ def buscar(request):
     return render(request, 'Institutos/Institutos.html', { \
         'comodidades': comodidades, 'formas': formas, 'facilidades': facilidades, \
         'centros': centros, 'materias': materias, 'institutos': institutos, 'destacados': destacados, \
-        'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY })
+        'direccion': direccion, 'lat': lat, 'lng': lng, 'centro': centro, 'materia': materia, 'api_key': settings.MAPS_API_KEY, 'searchResponsive': True })
 
 def buscarProfe(request):
     texto = request.POST['texto']

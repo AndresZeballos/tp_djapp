@@ -37,7 +37,7 @@
                     <a href="{% url 'perfil_edit' %}">Editar</a>
                 </div>
                 <div class="reeadBox" id="infoBasca">
-                    <img src="static/Institutos/profile_pics/{{ instituto.logo }}" style="max-height: 115px;">
+                    <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}" style="max-height: 115px;">
                     <div class="reeadBoxInfo">
                         <p hidden>{{ instituto.id }}</p>
                         <span>Nombre Instituci&oacute;n</span>
