@@ -110,7 +110,7 @@ def perfil(request):
         return HttpResponseRedirect(reverse('admin:index'))
     instituto = Instituto.objects.get(usuario=request.user)
     form = PerfilForm(instance=instituto)
-    return render(request, 'Institutos/perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+    return render(request, 'Institutos/Perfil.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 @login_required(login_url='/login')
 def perfil_edit(request):
@@ -121,7 +121,7 @@ def perfil_edit(request):
         form.is_valid()
         instituto = Instituto.objects.filter(usuario=request.user)
         instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
-            'subtitulo', 'descripcion', 'descripcion_corta', 'telefono','celular','direccion','ciudad',) if k in form.cleaned_data})
+            'descripcion', 'logo', 'telefono', 'direccion', ) if k in form.cleaned_data})
         instituto = Instituto.objects.get(usuario=request.user)
         instituto.updateRelation(instituto.centros, form.cleaned_data['centros'])
         instituto.updateRelation(instituto.facilidades, form.cleaned_data['facilidades'])
@@ -132,7 +132,7 @@ def perfil_edit(request):
         return HttpResponseRedirect(reverse('perfil'))
     instituto = Instituto.objects.get(usuario=request.user)
     form = PerfilForm(instance=instituto)
-    return render(request, 'Institutos/perfil_edit.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
+    return render(request, 'Institutos/Perfil_edit.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY, 'form': form})
 
 def buscar(request):
     centros = list(Centro.objects.all())

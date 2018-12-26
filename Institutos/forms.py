@@ -17,7 +17,7 @@ class PerfilForm(forms.ModelForm):
 
     class Meta:
         model = Instituto
-        fields = ('nombre', 'subtitulo', 'descripcion', 'descripcion_corta', \
-            'telefono','celular','direccion','ciudad','departamento', 'centros', \
+        fields = ('nombre', 'descripcion', 'logo', \
+            'telefono', 'direccion', 'centros', \
             'materias', 'facilidades', 'formasPago', 'comodidades', )
             
