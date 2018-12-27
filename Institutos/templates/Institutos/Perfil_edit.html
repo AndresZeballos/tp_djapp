@@ -136,7 +136,7 @@
                         {% for c in instituto.centros.all %}
                             <p id="centros_{{ c.id }}"><span class="centroEstudio">{{ c.nombre }}</span></p>
                             <div class="addButtonEdit">
-                                <div class="search" onclick="">+ Agregar materia</div>
+                                <div class="search" onclick="addMateriaShow({{ c.id }})">+ Agregar materia</div>
                             </div>
                             <div class="addButtonEdit">
                                 {% for m in instituto.materias.all|with_centro:c %}
@@ -230,8 +230,7 @@
                             var i;
                             for (i = 0; i < centros.length; i++) {
                                 
-                                if (jQuery('centros_'+centros[i].id).length==0){
-                                    //options += '<option value="' + centros[i].id + '">' + centros[i].nombre + '</option>';
+                                if (jQuery('#centros_'+centros[i].id).length==0){
                                     $option = jQuery("<option></option>")
                                         .attr("value", centros[i].id)
                                         .text(centros[i].nombre);
@@ -242,14 +241,60 @@
 
 
                             jQuery(".popUpContent").css("display","block");
-                            jQuery(".popUpContentBox").css("display","block");
+                            jQuery(".popUpContentBox_centro").css("display","block");
+                        }
+                        
+                        function addCentro() {
+                            var centro = jQuery('#centros_list')[0].value;
+                            var nombre = jQuery("#centros_list option:selected").text();
+                            addSelectedOption('centros_edit', centro);
+
+                            var html = '<p id="centros_'+centro+'"><span class="centroEstudio">'+nombre+'</span></p><div class="addButtonEdit"><div class="search" onclick="">+ Agregar materia</div></div><div class="addButtonEdit"></div>';
+                            jQuery('#materias_edit').append(html);
+                            
+                            jQuery(".popUpContentBox_centro").css("display","none");
+                            closed();
+                        }
+                        
+
+                        function addMateriaShow(centro) {
+                            jQuery('#centro_xxx')[0].value = centro; 
+
+                            jQuery('#materias_list').empty();
+
+                            var $option;
+                            var i;
+                            for (i = 0; i < materias.length; i++) {
+                                
+                                if (jQuery('#materias_'+materias[i].id).length==0){
+                                    $option = jQuery("<option></option>")
+                                        .attr("value", materias[i].id)
+                                        .text(materias[i].nombre);
+                                    jQuery('#materias_list').append($option);
+                                } 
+                                
+                            }
+
+
+                            jQuery(".popUpContent").css("display","block");
+                            jQuery(".popUpContentBox_materia").css("display","block");
                             //addSelectedOption('centros_edit', '1');
                         }
-                                            
-                        function showAddressDialog() {
-                            jQuery(".popUpContent").css("display","block");
-                            jQuery(".popUpContentBox").css("display","block");
+
+                        function addMateria() {
+                            var centro = jQuery('#centro_xxx')[0].value;
+                            var materia = jQuery('#materias_list')[0].value;
+                            var nombre = jQuery("#materias_list option:selected").text();
+                            addSelectedOption('materias_edit', materia);
+
+                            var html = '<div class="boxBox" id="materias_'+materia+'"><span>'+nombre+'</span><img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery(\'#materias_'+materia+'\').remove();"></div>'
+                            
+                            jQuery('#materias_edit').append(html);
+
+                            jQuery(".popUpContentBox_materia").css("display","none");
+                            closed();
                         }
+                                     
 
                     </script>
 
@@ -368,13 +413,24 @@
     </section>
 
 
-        <div class="popUpContentBox">
-            <div class="close" id="close" onclick="javascript:closedForSearch();">&times;</div>
+        <div class="popUpContentBox_centro">
+            <div class="close" id="close" onclick="javascript:closedForSearch('_centro');">&times;</div>
             <h3>Seleccione el centro de estudios</h3>
             <div class="formularioPop">
                 <div>
                     <select required="" id="centros_list" multiple=""></select>
-                    <input value="Agregar" name="add" class="search" id="searchDirPop">
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addCentro()">
+                </div>
+            </div>
+        </div>
+        <div class="popUpContentBox_materia">
+            <div class="close" id="close" onclick="javascript:closedForSearch('_materia');">&times;</div>
+            <h3>Seleccione la materia</h3>
+            <div class="formularioPop">
+                <div>
+                    <select required="" id="materias_list" multiple=""></select>
+                    <input id="centro_xxx" hidden>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addMateria()">
                 </div>
             </div>
         </div>

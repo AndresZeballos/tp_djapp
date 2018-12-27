@@ -273,8 +273,8 @@ function showForSearch(){
 	jQuery(".popUpContentBox").css("display","block");
 	popUp();
 }
-function closedForSearch(){
-	jQuery(".popUpContentBox").css("display","none");
+function closedForSearch(add){
+	jQuery(".popUpContentBox"+add).css("display","none");
 	closed();
 }
 
@@ -440,6 +440,12 @@ function popUp(){
 function closed(){
 	jQuery(".popUpContent").css("display","none");
 	jQuery(".popUpContentBox").css("display","none");
+	jQuery(".popUpContentBox_centro").css("display","none");
+	jQuery(".popUpContentBox_materia").css("display","none");
+	jQuery(".popUpContentBox").css("display","none");
+	jQuery(".popUpContentBox").css("display","none");
+	jQuery(".popUpContentBox").css("display","none");
+
 	jQuery(".bluePopUpContent").css("display","none");
 	if (jQuery(".iconSearch").hasClass("open")) {
 		jQuery(".iconSearch").removeClass("open");

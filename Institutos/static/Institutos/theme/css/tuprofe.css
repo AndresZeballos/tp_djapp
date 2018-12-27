@@ -597,7 +597,10 @@ aside.home{
     background-color: #004A6E; /* Fallback color */
     /*background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-.popUpContentBox{
+.popUpContentBox,
+.popUpContentBox_centro,
+.popUpContentBox_materia
+{
 	background-color: #fefefe;
 	margin: auto;
 	padding: 20px;
@@ -2003,7 +2006,11 @@ footer .logoSmall {font-size: 22px;}
 	.formulario2 .search{
 		height: 30px !important;
 	}
-	.popUpContentBox {
+	
+	.popUpContentBox,
+	.popUpContentBox_centro,
+	.popUpContentBox_materia
+	{
 		background-color: #fefefe;
 		margin: auto;
 		padding: 20px;
@@ -2081,7 +2088,10 @@ footer .logoSmall {font-size: 22px;}
 	
 }
 @media screen and (max-width: 680px) {
-	.popUpContentBox{
+	.popUpContentBox,
+	.popUpContentBox_centro,
+	.popUpContentBox_materia
+	{
 		height: auto;
 		width: 70%;
 		left: 10%;
