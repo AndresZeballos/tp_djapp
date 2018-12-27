@@ -4,19 +4,11 @@
 
 {% load staticfiles %}
 
-
 {% block titleH1 %} 
     <h1 class="titleH1">{{ instituto.nombre }}</h1>
-
 {% endblock %}
 
-
-
-
-
 {% block content %}
-
-
     <div class="breadcrum">
         <div class="max">
             <span><a href="/">Inicio</a></span>
@@ -24,32 +16,6 @@
             <span>{{ instituto.nombre }}</span>
         </div>
     </div>
-
-
-
-
-<!--
-    <form action="/Perfil_edit" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            
-            {% comment %}
-            {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% endcomment %}
-            {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
-            {% endfor %}
-        </p>
-        {% endfor %}
-        <button type="submit">Guardar</button>
-  </form>
--->
-
 
     <div class="max">
         <div class="titleRes ajusteMargin"></div>
@@ -61,17 +27,15 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Información b&aacute;sica</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
                     
-
-
                     <div class="reeadBox" id="infoBasca_edit">
                         <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}" />
                         <div class="reeadBoxInfo">
                             <span>Nombre Instituci&oacute;n</span>
                             <p>
-                                <input type="text" name="nombre" id="nombre_edit" class="dir" placeholder="Nombre Institución" value="{{ instituto.nombre }}">
+                                <input type="text" name="nombre" id="nombre_edit" class="dir" placeholder="Nombre Institución" value="{{ instituto.nombre }}" />
                             </p>
                             <span>Nombre Instituci&oacute;n</span>
                             <p>
@@ -79,11 +43,11 @@
                             </p>							
                             <span>Teléfono</span>
                             <p>
-                                <input type="text" name="telefono" id="telefono_edit" class="dir" placeholder="Teléfono" value="{{ instituto.telefono }}">
+                                <input type="text" name="telefono" id="telefono_edit" class="dir" placeholder="Teléfono" value="{{ instituto.telefono }}" />
                             </p>
                             <span>Email de contacto</span>
                             <p>
-                                <input type="email" name="email" id="email_edit" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}">
+                                <input type="email" name="email" id="email_edit" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}" />
                             </p>
                             <span>Descripci&oacute;n</span>
                             <p>
@@ -91,25 +55,20 @@
                             </p>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div class="max">
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Ubicaci&oacute;n</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
                     <div class="reeadBox" id="ubicacion_edit">
                         <div class="readLeftUbicacion">
                             <span>Direcci&oacute;n</span>
                             <p>
-                                <input type="text" name="direccion" class="dir" placeholder="Calle" value="{{ instituto.direccion }}">
+                                <input type="text" id="address" name="direccion" class="dir" placeholder="Calle" value="{{ instituto.direccion }}">
                             </p>
-                            <!--
-                            <span style="float: left;">N&uacute;mero</span>
-                            <p><input type="text" name="numero_calle" class="dir" placeholder="Números" value="1359"></p>
-                            -->
                         </div>
                         <div class="readRightUbicacion">
                             Ubicación en el mapa
@@ -126,9 +85,9 @@
                 <div class="reeadInfo_edit full">
                     <div class="title">
                         <h2>Materias</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
-                    <div class="reeadBox" id="materias_edit">
+                    <div class="reeadBox" id="centro_display">
                         <div class="search" onclick="addCentroShow()">+ Agregar nuevo centro de estudio</div>
                         <div class="subrayado">
                             Mis centros de estudio
@@ -138,193 +97,36 @@
                             <div class="addButtonEdit">
                                 <div class="search" onclick="addMateriaShow({{ c.id }})">+ Agregar materia</div>
                             </div>
-                            <div class="addButtonEdit">
+                            <div class="addButtonEdit" id="materias_centro_{{ c.id }}">
                                 {% for m in instituto.materias.all|with_centro:c %}
                                     <div class="boxBox" id="materias_{{ m.id }}">
                                         <span>{{ m.nombre }}</span>
-                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#materias_{{ m.id }}').remove();">
+                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeMateria({{ m.id }});">
                                     </div>
                                 {% endfor %}
                             </div>
                         {% endfor %}
                     </div>
-
-                    <select name="centros" required="" id="centros_edit" multiple="" hidden>
-                        {% for c in instituto.centros.all %}
-                            <option value="{{ c.id }}" selected=""></option>
-                        {% endfor %}
-                    </select>
-
-                    <select name="materias" required="" id="materias_edit" multiple="" hidden>
-                        {% for m in instituto.materias.all %}
-                            <option value="{{ m.id }}" selected=""></option>
-                        {% endfor %}
-                    </select>
-
-                    <select name="facilidades" required="" id="facilidades_edit" multiple="" hidden>
-                        {% for m in instituto.facilidades.all %}
-                            <option value="{{ m.id }}" selected=""></option>
-                        {% endfor %}
-                    </select>
-
-                    <select name="formasPago" required="" id="formasPago_edit" multiple="" hidden>
-                        {% for m in instituto.formasPago.all %}
-                            <option value="{{ m.id }}" selected=""></option>
-                        {% endfor %}
-                    </select>
-
-                    <select name="comodidades" required="" id="comodidades_edit" multiple="" hidden>
-                        {% for m in instituto.comodidades.all %}
-                            <option value="{{ m.id }}" selected=""></option>
-                        {% endfor %}
-                    </select>
-
-
-                    <script>
-                    
-                        var centros = [
-                            {% for centro in centros %}
-                                { id: "{{ centro.id }}", nombre: "{{ centro.nombre }}" }, 
-                            {% endfor %}
-                        ];
-
-                        var materias = [
-                            {% for materia in materias %}
-                                { id: "{{ materia.id }}", centro: "{{ materia.centro.id }}", materia: "{{ materia.nombre }}" }, 
-                            {% endfor %}
-                        ];
-
-                        var facilidades = [
-                            {% for facilidad in facilidades %}
-                                { id: "{{ facilidad.id }}", centro: "{{ facilidad.nombre }}" }, 
-                            {% endfor %}
-                        ];
-
-                        var formasPago = [
-                            {% for formaPago in formasPago %}
-                                { id: "{{ formaPago.id }}", centro: "{{ formaPago.nombre }}" }, 
-                            {% endfor %}
-                        ];
-
-                        var comodidades = [
-                            {% for comodidad in comodidades %}
-                                { id: "{{ comodidad.id }}", centro: "{{ comodidad.nombre }}" }, 
-                            {% endfor %}
-                        ];
-
-
-
-                        function addSelectedOption(select_id, option_val) {
-                            var select = document.getElementById(select_id);
-                            var opt = document.createElement('option');
-                            opt.value = option_val;
-                            opt.setAttribute("selected", "");
-
-                            select.appendChild(opt);
-                        }
-
-                        function addCentroShow() {
-                            jQuery('#centros_list').empty();
-
-                            var $option;
-                            var i;
-                            for (i = 0; i < centros.length; i++) {
-                                
-                                if (jQuery('#centros_'+centros[i].id).length==0){
-                                    $option = jQuery("<option></option>")
-                                        .attr("value", centros[i].id)
-                                        .text(centros[i].nombre);
-                                    jQuery('#centros_list').append($option);
-                                } 
-                                
-                            }
-
-
-                            jQuery(".popUpContent").css("display","block");
-                            jQuery(".popUpContentBox_centro").css("display","block");
-                        }
-                        
-                        function addCentro() {
-                            var centro = jQuery('#centros_list')[0].value;
-                            var nombre = jQuery("#centros_list option:selected").text();
-                            addSelectedOption('centros_edit', centro);
-
-                            var html = '<p id="centros_'+centro+'"><span class="centroEstudio">'+nombre+'</span></p><div class="addButtonEdit"><div class="search" onclick="">+ Agregar materia</div></div><div class="addButtonEdit"></div>';
-                            jQuery('#materias_edit').append(html);
-                            
-                            jQuery(".popUpContentBox_centro").css("display","none");
-                            closed();
-                        }
-                        
-
-                        function addMateriaShow(centro) {
-                            jQuery('#centro_xxx')[0].value = centro; 
-
-                            jQuery('#materias_list').empty();
-
-                            var $option;
-                            var i;
-                            for (i = 0; i < materias.length; i++) {
-                                
-                                if (jQuery('#materias_'+materias[i].id).length==0){
-                                    $option = jQuery("<option></option>")
-                                        .attr("value", materias[i].id)
-                                        .text(materias[i].nombre);
-                                    jQuery('#materias_list').append($option);
-                                } 
-                                
-                            }
-
-
-                            jQuery(".popUpContent").css("display","block");
-                            jQuery(".popUpContentBox_materia").css("display","block");
-                            //addSelectedOption('centros_edit', '1');
-                        }
-
-                        function addMateria() {
-                            var centro = jQuery('#centro_xxx')[0].value;
-                            var materia = jQuery('#materias_list')[0].value;
-                            var nombre = jQuery("#materias_list option:selected").text();
-                            addSelectedOption('materias_edit', materia);
-
-                            var html = '<div class="boxBox" id="materias_'+materia+'"><span>'+nombre+'</span><img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery(\'#materias_'+materia+'\').remove();"></div>'
-                            
-                            jQuery('#materias_edit').append(html);
-
-                            jQuery(".popUpContentBox_materia").css("display","none");
-                            closed();
-                        }
-                                     
-
-                    </script>
-
-
                 </div>
             </div>
             <div class="max">
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Medios de pago</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
-                    <div class="reeadBox" id="mediosPago_edit">
+                    <div class="reeadBox">
                         <div class="addButtonEdit">
-                            <div class="search" onclick="">+ Agregar medio de pago</div>
+                            <div class="search" onclick="addShow('formaPago', formasPago)">+ Agregar medio de pago</div>
                         </div>
-                        {% if instituto.formasPago.all %}
-                            <div class="addButtonEdit">
-                                {% for f in instituto.formasPago.all %}
-                                    <div class="boxBox" id="formasPago_{{ f.id }}">
-                                        <span>{{ f.nombre }}</span>
-                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#formasPago_{{ f.id }}').remove();">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="reeadBoxInfo">
-                                <span>Sin datos ingreados a&uacute;n.</span>
-                            </div>
-                        {% endif %}
+                        <div class="addButtonEdit" id="formaPago_display">
+                            {% for f in instituto.formasPago.all %}
+                                <div class="boxBox" id="formaPago_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem('formaPago', {{ f.id }});">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -332,26 +134,20 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Profesores</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
-                    <div class="reeadBox" id="profesores_edit">
+                    <div class="reeadBox">
                         <div class="addButtonEdit">
-                            <div class="search" onclick="">+ Agregar profe</div>
+                            <div class="search" onclick="addProfeShow();">+ Agregar profe</div>
                         </div>
-                        {% if instituto.profesor_set.all %}
-                            <div class="addButtonEdit">
-                                {% for f in instituto.profesor_set.all %}
-                                    <div class="boxBox" id="profesor_set_{{ f.id }}">
-                                        <span>{{ f.nombre }}</span>
-                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="reeadBoxInfo">
-                                <span>Sin datos ingreados a&uacute;n.</span>
-                            </div>
-                        {% endif %}
+                        <div class="addButtonEdit" id="profesores_display">
+                            {% for f in instituto.profesor_set.all %}
+                                <div class="boxBox" id="profesor_set_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -359,26 +155,20 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Facilidades</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
-                    <div class="reeadBox" id="facilidades_edit">
+                    <div class="reeadBox">
                         <div class="addButtonEdit">
-                            <div class="search" onclick="">+ Agregar facilidad</div>
+                            <div class="search" onclick="addShow('facilidad', facilidades)">+ Agregar facilidad</div>
                         </div>
-                        {% if instituto.facilidades.all %}
-                            <div class="addButtonEdit">
-                                {% for f in instituto.facilidades.all %}
-                                    <div class="boxBox" id="facilidades_{{ f.id }}">
-                                        <span>{{ f.nombre }}</span>
-                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#facilidades_{{ f.id }}').remove();">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="reeadBoxInfo">
-                                <span>Sin datos ingreados a&uacute;n.</span>
-                            </div>
-                        {% endif %}
+                        <div class="addButtonEdit" id="facilidad_display">
+                            {% for f in instituto.facilidades.all %}
+                                <div class="boxBox" id="facilidades_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem('facilidad', {{ f.id }});">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -386,55 +176,301 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Comodidades</h2>
-                        <a href="#">Guardar</a>
+                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
                     </div>
-                    <div class="reeadBox" id="comodidades_edit">
+                    <div class="reeadBox">
                         <div class="addButtonEdit">
-                            <div class="search" onclick="">+ Agregar comodidad</div>
+                            <div class="search" onclick="addShow('comodidad', comodidades)">+ Agregar comodidad</div>
                         </div>
-                        {% if instituto.comodidades.all %}
-                            <div class="addButtonEdit">
-                                {% for f in instituto.comodidades.all %}
-                                    <div class="boxBox" id="comodidades_{{ f.id }}">
-                                        <span>{{ f.nombre }}</span>
-                                        <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#comodidades_{{ f.id }}').remove();">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="reeadBoxInfo">
-                                <span>Sin datos ingreados a&uacute;n.</span>
-                            </div>
-                        {% endif %}
+                        <div class="addButtonEdit" id="comodidad_display">
+                            {% for f in instituto.comodidades.all %}
+                                <div class="boxBox" id="comodidad_{{ f.id }}">
+                                    <span>{{ f.nombre }}</span>
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem('comodidad', {{ f.id }});">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
+
+    
+
+            <select name="centros" required="" id="centros_edit" multiple="" hidden>
+                {% for c in instituto.centros.all %}
+                    <option value="{{ c.id }}" selected=""></option>
+                {% endfor %}
+            </select>
+
+            <select name="materias" required="" id="materias_edit" multiple="" hidden>
+                {% for m in instituto.materias.all %}
+                    <option value="{{ m.id }}" selected=""></option>
+                {% endfor %}
+            </select>
+
+            <select name="facilidades" required="" id="facilidad_edit" multiple="" hidden>
+                {% for m in instituto.facilidades.all %}
+                    <option value="{{ m.id }}" selected=""></option>
+                {% endfor %}
+            </select>
+
+            <select name="formasPago" required="" id="formaPago_edit" multiple="" hidden>
+                {% for m in instituto.formasPago.all %}
+                    <option value="{{ m.id }}" selected=""></option>
+                {% endfor %}
+            </select>
+
+            <select name="comodidades" required="" id="comodidad_edit" multiple="" hidden>
+                {% for m in instituto.comodidades.all %}
+                    <option value="{{ m.id }}" selected=""></option>
+                {% endfor %}
+            </select>
+
+            <select name="profesores" required="" id="profesores_edit" multiple="" hidden>
+                {% for m in instituto.profesor_set.all %}
+                    <option value="{{ m.id }}" selected=""></option>
+                {% endfor %}
+            </select>
         </form>
     </section>
 
 
-        <div class="popUpContentBox_centro">
+        <div class="popUpContentBox_centro" style="position: fixed;">
             <div class="close" id="close" onclick="javascript:closedForSearch('_centro');">&times;</div>
             <h3>Seleccione el centro de estudios</h3>
             <div class="formularioPop">
                 <div>
-                    <select required="" id="centros_list" multiple=""></select>
+                    <select required="" id="centros_list"></select>
+                    <div>&nbsp;</div>
                     <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addCentro()">
                 </div>
             </div>
         </div>
-        <div class="popUpContentBox_materia">
+        <div class="popUpContentBox_materia" style="position: fixed;">
             <div class="close" id="close" onclick="javascript:closedForSearch('_materia');">&times;</div>
             <h3>Seleccione la materia</h3>
             <div class="formularioPop">
                 <div>
-                    <select required="" id="materias_list" multiple=""></select>
+                    <select required="" id="materias_list"></select>
+                    <div>&nbsp;</div>
                     <input id="centro_xxx" hidden>
                     <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addMateria()">
                 </div>
             </div>
         </div>
-        <div class="popUpContent">&nbsp;</div>
+
+        
+        <div class="popUpContentBox_facilidad" style="position: fixed;">
+            <div class="close" id="close" onclick="javascript:closedForSearch('_facilidad');">&times;</div>
+            <h3>Seleccione la facilidad</h3>
+            <div class="formularioPop">
+                <div>
+                    <select required="" id="facilidad_list"></select>
+                    <div>&nbsp;</div>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addItem('facilidad')">
+                </div>
+            </div>
+        </div>
+        
+        <div class="popUpContentBox_formaPago" style="position: fixed;">
+            <div class="close" id="close" onclick="javascript:closedForSearch('_formaPago');">&times;</div>
+            <h3>Seleccione la forma de pago</h3>
+            <div class="formularioPop">
+                <div>
+                    <select required="" id="formaPago_list"></select>
+                    <div>&nbsp;</div>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addItem('formaPago')">
+                </div>
+            </div>
+        </div>
+        
+        <div class="popUpContentBox_comodidad" style="position: fixed;">
+            <div class="close" id="close" onclick="javascript:closedForSearch('_comodidad');">&times;</div>
+            <h3>Seleccione la comodidad</h3>
+            <div class="formularioPop">
+                <div>
+                    <select required="" id="comodidad_list"></select>
+                    <div>&nbsp;</div>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addItem('comodidad')">
+                </div>
+            </div>
+        </div>
+        
+        <div class="popUpContentBox" style="position: fixed;">
+            <div class="close" id="close" onclick="javascript:closedForSearch('');">&times;</div>
+            <h3>Ingrese el nombre del profesor</h3>
+            <div class="formularioPop">
+                <div class="reeadInfo_edit">
+                <div class="reeadBox">
+                <div class="reeadBoxInfo">
+                    <input type="text" id="nombre_profe" class="dir" />
+                </div>
+                </div>
+                </div>
+                    <input value="Agregar" name="add" class="search" id="searchDirPop" onclick="addProfe()">
+            </div>
+        </div>
+        <div class="popUpContent" style="position: fixed;">&nbsp;</div>
+
+
+
+        <script>
+        
+            var centros = [
+                {% for centro in centros %}
+                    { id: "{{ centro.id }}", nombre: "{{ centro.nombre }}" }, 
+                {% endfor %}
+            ];
+
+            var materias = [
+                {% for materia in materias %}
+                    { id: "{{ materia.id }}", centro: "{{ materia.centro.id }}", nombre: "{{ materia.nombre }}" }, 
+                {% endfor %}
+            ];
+
+            var facilidades = [
+                {% for facilidad in facilidades %}
+                    { id: "{{ facilidad.id }}", nombre: "{{ facilidad.nombre }}" }, 
+                {% endfor %}
+            ];
+
+            var formasPago = [
+                {% for formaPago in formasPago %}
+                    { id: "{{ formaPago.id }}", nombre: "{{ formaPago.nombre }}" }, 
+                {% endfor %}
+            ];
+
+            var comodidades = [
+                {% for comodidad in comodidades %}
+                    { id: "{{ comodidad.id }}", nombre: "{{ comodidad.nombre }}" }, 
+                {% endfor %}
+            ];
+
+
+
+            function addSelectedOption(select_id, option_val) {
+                var select = document.getElementById(select_id);
+                var opt = document.createElement('option');
+                opt.value = option_val;
+                opt.setAttribute("selected", "");
+
+                select.appendChild(opt);
+            }
+
+            function addCentroShow() {
+                jQuery('#centros_list').empty();
+
+                var $option;
+                var i;
+                for (i = 0; i < centros.length; i++) {
+                    if (jQuery('#centros_'+centros[i].id).length==0){
+                        $option = jQuery("<option></option>")
+                            .attr("value", centros[i].id)
+                            .text(centros[i].nombre);
+                        jQuery('#centros_list').append($option);
+                    } 
+                }
+                jQuery(".popUpContent").css("display","block");
+                jQuery(".popUpContentBox_centro").css("display","block");
+            }
+            
+            function addCentro() {
+                var centro = jQuery('#centros_list')[0].value;
+                var nombre = jQuery("#centros_list option:selected").text();
+                addSelectedOption('centros_edit', centro);
+
+                var html = '<p id="centros_'+centro+'"><span class="centroEstudio">'+nombre+'</span></p><div class="addButtonEdit"><div class="search" onclick="">+ Agregar materia</div></div><div id="materias_centro_'+centro+'" class="addButtonEdit"></div>';
+                jQuery('#centro_display').append(html);
+                
+                jQuery(".popUpContentBox_centro").css("display","none");
+                closed();
+            }
+            
+
+            function addMateriaShow(centro) {
+                jQuery('#centro_xxx')[0].value = centro; 
+                jQuery('#materias_list').empty();
+
+                var $option;
+                var i;
+                for (i = 0; i < materias.length; i++) {
+                    if (materias[i].centro==centro && jQuery('#materias_'+materias[i].id).length==0){
+                        $option = jQuery("<option></option>")
+                            .attr("value", materias[i].id)
+                            .text(materias[i].nombre);
+                        jQuery('#materias_list').append($option);
+                    } 
+                }
+
+                jQuery(".popUpContent").css("display","block");
+                jQuery(".popUpContentBox_materia").css("display","block");
+            }
+
+            function addMateria() {
+                var centro = jQuery('#centro_xxx')[0].value;
+                var materia = jQuery('#materias_list')[0].value;
+                var nombre = jQuery("#materias_list option:selected").text();
+                addSelectedOption('materias_edit', materia);
+
+                var html = '<div class="boxBox" id="materias_'+materia+'"><span>'+nombre+'</span><img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeMateria(' + materia + ');"></div>'
+                jQuery('#materias_centro_'+centro).append(html);
+                
+                jQuery(".popUpContentBox_materia").css("display","none");
+                closed();
+            }
+
+            function removeMateria(materia) {
+                jQuery('#materias_'+materia).remove();
+                jQuery("#materias_edit option[value='"+materia+"']").remove();
+            }
+
+            function addShow(atributo, list) {
+                jQuery('#'+atributo+'_list').empty();
+
+                var $option;
+                var i;
+                for (i = 0; i < list.length; i++) {
+                    if (jQuery('#'+atributo+'_'+list[i].id).length==0){
+                        $option = jQuery("<option></option>")
+                            .attr("value", list[i].id)
+                            .text(list[i].nombre);
+                        jQuery('#'+atributo+'_list').append($option);
+                    } 
+                }
+
+                jQuery(".popUpContent").css("display","block");
+                jQuery(".popUpContentBox_"+atributo).css("display","block");
+            }
+
+            function addItem(atributo) {
+                var id = jQuery('#'+atributo+'_list')[0].value;
+                var nombre = jQuery("#"+atributo+"_list option:selected").text();
+                addSelectedOption(atributo+'_edit', id);
+
+                var html = '<div class="boxBox" id="'+atributo+'_'+id+'"><span>'+nombre+'</span><img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem(\''+atributo+'\', '+ id + ');"></div>';
+                jQuery('#'+atributo+'_display').append(html);
+                
+                jQuery(".popUpContentBox_"+atributo).css("display","none");
+                closed();
+            }
+
+            function removeItem(atributo, id) {
+                jQuery('#'+atributo+'_'+id).remove();
+                jQuery("#"+atributo+"_edit option[value='"+id+"']").remove();
+            }
+
+            
+            function addProfeShow() {
+                jQuery(".popUpContent").css("display","block");
+                jQuery(".popUpContentBox").css("display","block");
+            }
+
+            function addProfe() {
+                jQuery(".popUpContent").css("display","block");
+                jQuery(".popUpContentBox").css("display","block");
+            }
+        </script>
+
 
 
 {% endblock %}
@@ -443,6 +479,8 @@
 
 {% block initMapScript %}
     <script>
+        var lastMarker = null;
+
         function initMap() {
             var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
 
@@ -454,11 +492,81 @@
                 position: position,
                 map: map
             });
+
+            lastMarker = marker;
+
+            var geocoder = new google.maps.Geocoder();
+
+            document.getElementById('address').addEventListener('change', function() {
+                geocodeAddress(geocoder, map);
+            });
+/*
+            google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(event.latLng);
+            });
+
+            function placeMarker(location) {
+                var marker = new google.maps.Marker({
+                    position: location, 
+                    map: map
+                });
+
+                lastMarker.setMap(null);
+                lastMarker = marker;
+            }
+*/
         }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = document.getElementById('address').value;
+            geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+
+                    lastMarker.setMap(null);
+                    lastMarker = marker;
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    
+        
     </script>
 {% endblock %}
 
 
+
+{% block geocodeAddressScript %}
+    <script>
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = document.getElementById('address').value;
+            geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
+                if (status === 'OK') {
+                    document.getElementById('lat').value = results[0].geometry.location.lat();
+                    document.getElementById('lng').value = results[0].geometry.location.lng();
+
+                    resultsMap.setCenter(results[0].geometry.location);
+                    
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+
+                    lastMarker.setMap(null);
+                    lastMarker = marker;
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    </script>
+{% endblock %}
 
 
 

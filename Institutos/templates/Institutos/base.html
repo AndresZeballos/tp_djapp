@@ -168,6 +168,25 @@
                 }
             </script>
         {% endblock %}
+
+        {% block geocodeAddressScript %}
+            <script>
+                function geocodeAddress(geocoder, elemId) {
+                    var address = document.getElementById(elemId).value;
+                    document.getElementById('direccion').value = address;
+                    geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
+                        if (status === 'OK') {
+                            document.getElementById('lat').value = results[0].geometry.location.lat();
+                            document.getElementById('lng').value = results[0].geometry.location.lng();
+                            if (validateBuscarForm())
+                                document.buscar.submit();
+                        } else {
+                            console.log('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                }
+            </script>
+        {% endblock %}
         
                 
         <script>
@@ -208,21 +227,6 @@
                         navigator.geolocation.getCurrentPosition(show_map);
                     });
                 }
-            }
-
-            function geocodeAddress(geocoder, elemId) {
-                var address = document.getElementById(elemId).value;
-                document.getElementById('direccion').value = address;
-                geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
-                    if (status === 'OK') {
-                        document.getElementById('lat').value = results[0].geometry.location.lat();
-                        document.getElementById('lng').value = results[0].geometry.location.lng();
-                        if (validateBuscarForm())
-                            document.buscar.submit();
-                    } else {
-                        console.log('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
             }
 
             function show_map(position) {

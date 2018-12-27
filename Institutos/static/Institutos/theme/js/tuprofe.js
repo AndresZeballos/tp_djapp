@@ -442,6 +442,9 @@ function closed(){
 	jQuery(".popUpContentBox").css("display","none");
 	jQuery(".popUpContentBox_centro").css("display","none");
 	jQuery(".popUpContentBox_materia").css("display","none");
+	jQuery(".popUpContentBox_facilidad").css("display","none");
+	jQuery(".popUpContentBox_formaPago").css("display","none");
+	jQuery(".popUpContentBox_comodidad").css("display","none");
 	jQuery(".popUpContentBox").css("display","none");
 	jQuery(".popUpContentBox").css("display","none");
 	jQuery(".popUpContentBox").css("display","none");

@@ -599,7 +599,10 @@ aside.home{
 }
 .popUpContentBox,
 .popUpContentBox_centro,
-.popUpContentBox_materia
+.popUpContentBox_materia,
+.popUpContentBox_facilidad,
+.popUpContentBox_formaPago,
+.popUpContentBox_comodidad
 {
 	background-color: #fefefe;
 	margin: auto;
@@ -2009,7 +2012,10 @@ footer .logoSmall {font-size: 22px;}
 	
 	.popUpContentBox,
 	.popUpContentBox_centro,
-	.popUpContentBox_materia
+	.popUpContentBox_materia,
+	.popUpContentBox_facilidad,
+	.popUpContentBox_formaPago,
+	.popUpContentBox_comodidad
 	{
 		background-color: #fefefe;
 		margin: auto;
@@ -2090,7 +2096,10 @@ footer .logoSmall {font-size: 22px;}
 @media screen and (max-width: 680px) {
 	.popUpContentBox,
 	.popUpContentBox_centro,
-	.popUpContentBox_materia
+	.popUpContentBox_materia,
+	.popUpContentBox_facilidad,
+	.popUpContentBox_formaPago,
+	.popUpContentBox_comodidad
 	{
 		height: auto;
 		width: 70%;
