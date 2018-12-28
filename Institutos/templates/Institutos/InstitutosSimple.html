@@ -1,59 +1,189 @@
+{% extends "Institutos/base.html" %}
+
 {% load bootstrap4 %}
 
 {% bootstrap_css %}
 
-{% if institutos %}
-    <div>Resultados</div>
-    <ul>
-    {% for instituto in institutos %}
-        {% include "Institutos/Instituto_Simple.html" with instituto=instituto %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay institutos registrados.</p>
-{% endif %}
+{% block titleH1 %}
+  <h1 class="titleH1">
+    <span>{{ institutos|length }}</span>Profesores contienen: {{ texto }}
+  </h1>
+{% endblock %}
+
+  
 
 
-{% if pager.has_other_pages %}
-<nav aria-label="Page navigation example"></nav>
-  <ul class="pagination">
-    {% if pager.has_previous %}
-      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.previous_page_number }})">Anterior</div></li>
-    {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>
-    {% endif %}
-    {% for i in pager.paginator.page_range %}
-      {% if pager.number == i %}
-        <li class="page-item active">
-          <span class="page-link">
-            {{ i }}
-            <span class="sr-only">(actual)</span>
-          </span>
-        </li>
-      {% else %}
-        <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ i }})">{{ i }}</div></li>
-      {% endif %}
-    {% endfor %}
-    {% if pager.has_next %}
-      <li class="page-item"><div class="page-link" onclick="javascript:callPage({{ pager.next_page_number }})">Siguiente</div></li>
-    {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Siguiente</a></li>
-    {% endif %}
-  </ul>
-</nav>
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">>></span>
+				<span>B&uacute;squeda</span>				
+			</div>
+		</div>
+		
+		<div class="max titleResSearch">
+			<div class="titleRes"></div>
+		</div>
+		
+		<div class="filtrosRes">
+			<div class="max paddTop">
+				<img src="static/Institutos/theme/img/filtro.png">
+				<span>Filtros de b&uacute;squeda</span>
+			</div>
+		</div>
+		<div class="max">
+			<section class="left">
+				<div class="searchFiltros">
+					<div class="">
+						<h2>Filtros seleccionados</h2>
+						<div id="filtros" class="filtros">
+						</div>
+						<!-- Esta frase solo se activa cuando no hay filtros y desaparece al agregar al menos uno.-->
+						<span class="nofiltros">No se ha seleccionado ning&uacute;n filtro de b&uacute;sqeda</span>
+					</div>
+					<button class="accordion">Comodidades</button>
+					<div class="panel">
+            {% for comodidad in comodidades %}
+						  <a class="comodidad_{{ comodidad.id }}" href="#" onclick="javascript:addFilter('comodidad_{{ comodidad.id }}');">{{ comodidad.nombre }}</a>
+            {% endfor %}
+					</div>
+					<button class="accordion">Métodos de pago</button>
+					<div class="panel">
+            {% for forma in formas %}
+						  <a class="forma_{{ forma.id }}" href="#" onclick="javascript:addFilter('forma_{{ forma.id }}');">{{ forma.nombre }}</a>
+            {% endfor %}
+					</div>
+					<button class="accordion">Facilidades</button>
+					<div class="panel">
+            {% for facilidad in facilidades %}
+						  <a class="facilidad_{{ facilidad.id }}" href="#" onclick="javascript:addFilter('facilidad_{{ facilidad.id }}');">{{ facilidad.nombre }}</a>
+            {% endfor %}
+					</div>
+				</div>
+			</section>
+			<section class="right">
+				<div class="actionListResult">
+					<div class="ver">
+						<div class="imageSelect">
+							<img class="tipoResSeleccionado list" src="static/Institutos/theme/img/listado.png" onclick="javascript:showListado();">
+							<img class="map" src="static/Institutos/theme/img/mapa.png" onclick="javascript:showMap();">
+						</div>
+						<span>Ver</span>
+					</div>
+				</div>
+        
+        {% for instituto in institutos %}
+          <div class="listResult">
+            <div class="resultBox">
+              <img src="static/Institutos/theme/img/ex_2.jpg">
+              <div class="rightInfo">
+                <h3><a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a></h3>
+                <span>{{ instituto.direccion }}</span>
+                <div class="bottomInfo">
+                  <div class="search" onclick="javascript:irA('{% url 'instituto' instituto.id %}');">Ver detalle</div>
+                </div>
+              </div>
+            </div>
+            {% for comodidad in instituto.comodidades.all %}
+              <div class="comodidad_{{ comodidad.id }}_i" hidden></div>
+            {% endfor %}
+            {% for forma in instituto.formasPago.all %}
+              <div class="forma_{{ forma.id }}_i" hidden></div>
+            {% endfor %}
+            {% for facilidad in instituto.facilidades.all %}
+              <div class="facilidad_{{ facilidad.id }}_i" hidden></div>
+            {% endfor %}
+				  </div>
+        {% endfor %}
+				<div class="mapResult">
+					<div id="map" style="width:100%; height:450px"></div>
+				</div>
+			</section>
+		</div>
 
 
-<form name="buscar" method="post" action="{% url 'buscarProfe' %}">
-  {% csrf_token %}
-  <input name="texto" value="{{ texto }}" hidden>
-  <input id="page" name="page" type="number" value="1" hidden>
-</form>
+{% endblock %}
+
+
+
+
+{% block scripts %}
 
 <script>
-  function callPage(page) {
-    document.getElementById('page').value = page;
-    document.buscar.submit();
-  }
+    function saveCoockies(ids) {
+      for (var id in ids) {
+        setCookie(id, document.getElementById(id).value, 7);
+      }
+    }
+
+    function retrieveCoockies(ids) {
+      for (var id in ids) {
+        document.getElementById(id).value = getCookie(id);
+      }
+    }
+    
+    //retrieveCoockies(['centro', 'materia', 'direccion', 'lat', 'lng', ]);
+
+    function showAddressDialog() {
+      jQuery(".popUpContent").css("display","block");
+      jQuery(".popUpContentBox").css("display","block");
+    }
+
+
 </script>
 
-{% endif %}
+{% endblock %}
+
+
+{% block initMapScript %}
+    <script>
+      var locations = [
+        {% for instituto in institutos %}
+          ['{{ instituto.nombre }}', {{ instituto.latitud }}, {{ instituto.longitud }}],
+        {% endfor %}
+      ];
+    
+      
+      function initMap() {
+          var geocoder = new google.maps.Geocoder();
+          configureListeners(geocoder);
+
+
+          var position = { lat: -34.899395, lng: -56.15711 };
+
+          var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 13,
+              center: position
+          });
+          /*
+          var marker = new google.maps.Marker({
+              position: position,
+              map: map
+          });
+          */
+
+                
+          var infowindow = new google.maps.InfoWindow();
+
+          var marker, i;
+
+          for (i = 0; i < locations.length; i++) {  
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+              map: map
+            });
+            
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+              return function() {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+              }
+            })(marker, i));
+            
+          }
+      }
+    </script>
+{% endblock %}
+

@@ -5,12 +5,12 @@ from .models import Instituto
 from django.db import models
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='profile_pics/')
+    logo = models.ImageField(upload_to='profile_pics/')
 
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('image', )
+        fields = ('logo', )
 
 class SignUpForm(forms.Form):
     name = forms.CharField(max_length=30, label='Nombre')

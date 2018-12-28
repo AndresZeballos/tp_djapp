@@ -10,7 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 
-from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada, Omnibus, Comodidad, Facilidad, FormaPago
+from .models import Instituto, Mensaje, UsuarioLegado, Centro, Materia, Parada, Omnibus, Comodidad, Facilidad, FormaPago, Profesor
 from .forms import SignUpForm, PerfilForm, ImageForm
 
 from django.contrib.auth.models import User
@@ -117,8 +117,16 @@ def perfil_edit(request):
     if request.user.is_staff:
         return HttpResponseRedirect(reverse('admin:index'))
     if request.method == 'POST':
+        if DEBUG:
+            print('request.POST')
+            print(request.POST)
+            print('request.FILES')
+            print(request.FILES)
         form = PerfilForm(request.POST, request.FILES)
         if form.is_valid():
+            if DEBUG:
+                print('form.cleaned_data')
+                print(form.cleaned_data)
             instituto = Instituto.objects.filter(usuario=request.user)
             instituto.update(**{k:form.cleaned_data[k] for k in ('nombre', \
                 'descripcion', 'telefono', 'direccion', 'latitud', 'longitud', ) if k in form.cleaned_data})
@@ -131,10 +139,23 @@ def perfil_edit(request):
             instituto.updateRelation(instituto.comodidades, form.cleaned_data['comodidades'])
             instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
             instituto.save()
+
+            Profesor.objects.filter(instituto=instituto).delete()
+
+            profesores = [values for key, values in request.POST.lists() if key=='profesores'][0]
+            for profe in profesores:
+                p = Profesor(nombre=profe, instituto=instituto)
+                p.save()
             
             form = ImageForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
+            try: 
+                if form.is_valid():
+                    form.save()
+                else:
+                    print(form.errors)
+            except:
+                pass
+            
         else:
             print(form.errors)
 
@@ -223,6 +244,7 @@ def buscarProfe(request):
     page = int(request.POST.get('page', 1))
 
     institutos = list(Instituto.objects.filter(estado=2).filter(nombre__contains=texto))
+    '''
     paginator = Paginator(institutos, 10)
     
     # Calculo la pagina actual
@@ -234,6 +256,18 @@ def buscarProfe(request):
     except EmptyPage:
         inst_page = paginator.page(paginator.num_pages)
     return render(request, 'Institutos/InstitutosSimple.html', {'institutos': institutos, 'pager': inst_page, 'texto': texto})
+    '''
+
+    
+    flatten = lambda l: list(set([item for sublist in l for item in sublist]))
+
+    comodidades = flatten([list(a.comodidades.all()) for a in institutos])
+    formas = flatten([list(a.formasPago.all()) for a in institutos])
+    facilidades = flatten([list(a.facilidades.all()) for a in institutos])
+
+    return render(request, 'Institutos/InstitutosSimple.html', {'institutos': institutos, 'texto': texto, \
+        'comodidades': comodidades, 'formas': formas, 'facilidades': facilidades, \
+        'api_key': settings.MAPS_API_KEY, 'searchResponsive': True })
 
 def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
@@ -249,7 +283,10 @@ def nuevo_mensaje(request, instituto_id):
         instituto = get_object_or_404(Instituto, pk=instituto_id)
         m.instituto = instituto
     m.save()
+
     if instituto_id != 0:
+        mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
+        send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ])
         return HttpResponseRedirect(reverse('instituto', args=(instituto.id,)))
     else:
         return HttpResponseRedirect(reverse('contacto'))
@@ -319,9 +356,10 @@ def deshabilitarInstituto(request, id):
 
 
 def paradasCoords(request):
-    paradas = list(Parada.objects.filter(latitud=0))
+    paradas = list(Parada.objects.all())#.filter(latitud=0))
     for p in paradas:
         parada = get_object_or_404(Parada, pk=p.id)
+        print('---------------------------------------------------------------------')
         try:
             #parada.calle.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.calle.nombre])
             #parada.esquina.nombre = ''.join([i if ord(i) < 128 else ' ' for i in parada.esquina.nombre])
@@ -329,23 +367,26 @@ def paradasCoords(request):
             parada.esquina.nombre = parada.esquina.nombre.replace('Ã‘', 'Ñ').replace('Â´', "'")
 
 
-            d = (parada.calle.nombre + " y " + parada.esquina.nombre)#.replace(' ', '+')
+            d = (parada.calle.nombre + " y " + parada.esquina.nombre).replace(' ', '%2C')
             
             print(d)
-            query = dict(key=MAPS_API_KEY, address=d+',montevideo,uruguay')
+            query = dict(key=MAPS_API_KEY, address=d+', montevideo, uruguay')
+            print(query)
 
             #req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?key='+MAPS_API_KEY+'&address='+d+',montevideo,uruguay'))
-            req = urllib.request.Request(('https://maps.googleapis.com/maps/api/geocode/json?'+urlencode(query)))
+            url = 'https://maps.googleapis.com/maps/api/geocode/json?'+urlencode(query)
+            print(url)
+            req = urllib.request.Request(url)
         
         
             response = urllib.request.urlopen(req)
-            print('---------------------------------------------------------------------')
             #except Exception as inst:
             #    print (type(inst))     # the exception instanc
             #    print (inst.args )     # arguments stored in .args
             #    print (inst       )
             #if response 
             j = json.loads(response.read())
+            print(j)
             parada.latitud = j['results'][0]['geometry']['location']['lat']
             parada.longitud = j['results'][0]['geometry']['location']['lng']
             
@@ -356,6 +397,7 @@ def paradasCoords(request):
             print (type(inst))     # the exception instanc
             print (inst.args )     # arguments stored in .args
             print (inst       )
+            break
 
     return render(request, 'admin/paradas.html', {'paradas': paradas})
 

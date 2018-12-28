@@ -142,9 +142,9 @@
                         </div>
                         <div class="addButtonEdit" id="profesores_display">
                             {% for f in instituto.profesor_set.all %}
-                                <div class="boxBox" id="profesor_set_{{ f.id }}">
+                                <div class="boxBox" id="profesores_{{ f.nombre }}">
                                     <span>{{ f.nombre }}</span>
-                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="javascript:jQuery('#profesor_set_{{ f.id }}').remove();">
+                                    <img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem('profesores', '{{ f.nombre }}');">
                                 </div>
                             {% endfor %}
                         </div>
@@ -228,7 +228,7 @@
 
             <select name="profesores" required="" id="profesores_edit" multiple="" hidden>
                 {% for m in instituto.profesor_set.all %}
-                    <option value="{{ m.id }}" selected=""></option>
+                    <option value="{{ m.nombre }}" selected=""></option>
                 {% endfor %}
             </select>
         </form>
@@ -466,8 +466,17 @@
             }
 
             function addProfe() {
-                jQuery(".popUpContent").css("display","block");
-                jQuery(".popUpContentBox").css("display","block");
+                var profe = jQuery('#nombre_profe').val();
+                var atributo = 'profesores';
+                
+                addSelectedOption(atributo+'_edit', profe);
+
+                var html = '<div class="boxBox" id="'+atributo+'_'+profe+'"><span>'+profe+'</span><img src="static/Institutos/theme/img/cross_filtro.png" onclick="removeItem(\''+atributo+'\', \''+ profe + '\');"></div>';
+                jQuery('#'+atributo+'_display').append(html);
+                
+                
+                jQuery(".popUpContentBox").css("display","none");
+                closed();
             }
         </script>
 
