@@ -230,8 +230,10 @@
                 var longitude = position.coords.longitude;
                 document.getElementById('lat').value = latitude;
                 document.getElementById('lng').value = longitude;
-                if (validateBuscarForm())
+                document.getElementById('direccion').value = "Posición actual";
+                if (validateBuscarForm()) {
                     document.buscar.submit();
+                }
             }
 
 

@@ -3,7 +3,7 @@
 
 {% block header %}
     <header class="home">
-        <div class="max head headTop" style="padding-bottom: 70px;">
+        <div class="max head headTop" style="padding-bottom: 90px;">
             <div class="logo">
                 <a href="{% url 'index' %}">
                     <span class="logoBig">tuprofe</span><span class="logoSmall">.com.uy</span>
@@ -68,6 +68,10 @@
                             if (item.centro == centro)
                                 jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
                         });
+                    }
+
+                    function getCoords(position) {
+                    // Show a map centered at (position.coords.latitude, position.coords.longitude).
                     }
                 </script>
 

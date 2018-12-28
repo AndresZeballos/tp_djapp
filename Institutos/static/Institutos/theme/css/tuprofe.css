@@ -1773,6 +1773,9 @@ footer .logoSmall {font-size: 22px;}
 	.max{
 		display: block;
 	}
+	.titleResSearch{
+		overflow: hidden;
+	}
 	h1{
 		width: 100%;
 		float: left;
@@ -2185,29 +2188,17 @@ footer .logoSmall {font-size: 22px;}
 		margin: 0;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	.xs-borrable {
+		display: none;
+	}
 	
 }
+
 @media screen and (max-width: 480px) {
 	.full .tree p:nth-child(1) {
 		height: 100px;
 	}
 }
-
-
-
-
-
-
 
 #container {
     /*margin-bottom: 60px;*/

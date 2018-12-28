@@ -392,15 +392,15 @@ function getTitle(){
 function calcularBgHome(){
 	if (jQuery(window).width()<330) {
 		var alto = jQuery(window).height() + 180;
-		alto = 700;
+		alto = 765;
 		jQuery("header.home").css("height",alto);
 	}else if (jQuery(window).width()<980) {
 		var alto = jQuery(window).height() + 100;
-		alto = 650;
+		alto = 730;
 		jQuery("header.home").css("height",alto);
 	}else{
 		var alto = jQuery(window).height();
-		alto = 635;
+		alto = 655;
 		jQuery("header.home").css("height",alto);
 	}
 }
