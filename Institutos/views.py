@@ -142,10 +142,12 @@ def perfil_edit(request):
 
             Profesor.objects.filter(instituto=instituto).delete()
 
-            profesores = [values for key, values in request.POST.lists() if key=='profesores'][0]
-            for profe in profesores:
-                p = Profesor(nombre=profe, instituto=instituto)
-                p.save()
+            prof_list = [values for key, values in request.POST.lists() if key=='profesores']
+            if len(prof_list) > 0:
+                profesores = prof_list[0]
+                for profe in profesores:
+                    p = Profesor(nombre=profe, instituto=instituto)
+                    p.save()
             
             form = ImageForm(request.POST, request.FILES)
             try: 
@@ -335,19 +337,27 @@ def pendientes(request):
     pendientes = list(Instituto.objects.filter(estado=1))
     return render(request, 'admin/Pendientes.html', {'pendientes': pendientes})
 
+def activos(request):
+    activos = list(Instituto.objects.filter(estado=2))
+    return render(request, 'admin/Activos.html', {'activos': activos})
+
+def inactivos(request):
+    inactivos = list(Instituto.objects.filter(estado=3))
+    return render(request, 'admin/Inactivos.html', {'inactivos': inactivos})
+
 
 def habilitarInstituto(request, id):
     m = get_object_or_404(Instituto, pk=id)
     m.estado = 2
     m.save()
-    return render(request, 'admin/Pendientes.html')
+    return HttpResponseRedirect('/admin/')
 
 
 def deshabilitarInstituto(request, id):
     m = get_object_or_404(Instituto, pk=id)
     m.estado = 3
     m.save()
-    return HttpResponseRedirect('admin/Institutos/instituto/')
+    return HttpResponseRedirect('/admin/')
 
 
 

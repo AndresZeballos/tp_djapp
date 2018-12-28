@@ -6,12 +6,14 @@ jQuery(document).ready(function() {
 	ancho = Math.abs(ancho);
 	anchoSearchHome2(ancho);
 	
+	/*
 	//Al hacer click sobre el menu que no se cierre
 	jQuery('.menuHeadResponsive').click(function() {
 		jQuery('.menuHeadResponsive').css("display","block");
 		jQuery(".rightInfo").css("display","block");
 		return false;
 	});
+	*/
 	
 	//Asigo el alto del hover #000000 al  alto del body
 	var altoBody2 = jQuery("body").height()+80;

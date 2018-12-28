@@ -77,7 +77,7 @@
         {% for instituto in institutos %}
           <div class="listResult">
             <div class="resultBox">
-              <img src="static/Institutos/theme/img/ex_2.jpg">
+              <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}">
               <div class="rightInfo">
                 <h3><a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a></h3>
                 <span>{{ instituto.direccion }}</span>

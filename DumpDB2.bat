@@ -1,1 +1,1 @@
-python manage.py dumpdata --natural-foreign --exclude auth.permission --exclude contenttypes --exclude Institutos.image > data.json
+python manage.py dumpdata --natural-foreign --exclude auth.permission --exclude contenttypes --exclude Institutos.image --indent 1 > data.json

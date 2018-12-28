@@ -115,12 +115,12 @@ class Instituto(models.Model):
     modificado = models.DateTimeField(default=datetime.now, null=True)
     posicionamiento = models.IntegerField(default=0)
     esDestacado = models.NullBooleanField(default=False)
-    facilidades = models.ManyToManyField(Facilidad)
-    formasPago = models.ManyToManyField(FormaPago)
-    comodidades = models.ManyToManyField(Comodidad)
-    barrios = models.ManyToManyField(Barrio)
-    centros = models.ManyToManyField(Centro)
-    materias = models.ManyToManyField(Materia)
+    facilidades = models.ManyToManyField(Facilidad, blank=True)
+    formasPago = models.ManyToManyField(FormaPago, blank=True)
+    comodidades = models.ManyToManyField(Comodidad, blank=True)
+    barrios = models.ManyToManyField(Barrio, blank=True)
+    centros = models.ManyToManyField(Centro, blank=True)
+    materias = models.ManyToManyField(Materia, blank=True)
     omnibuses = models.ManyToManyField(Omnibus)
     
     ultima_distancia = 0

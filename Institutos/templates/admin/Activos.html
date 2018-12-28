@@ -7,18 +7,18 @@
 {% endblock %}
 
 
-{% block title %}Registros Pendientes{% endblock %}
+{% block title %}Institutos Activos{% endblock %}
 
 {% block coltype %}flex{% endblock %}
 
 
 {% block content %}
   <div id="content-main">
-      <h1>Registros Pendientes</h1>
+      <h1>Institutos Activos</h1>
       <div id="content-main">
     
         <div class="module" id="changelist">
-          
+    
     <div class="results">
         <table id="result_list">
         <thead>
@@ -57,7 +57,7 @@
         </thead>
         <tbody>
         
-            {% for instituto in pendientes %}
+            {% for instituto in activos %}
                 <tr class="row1">
                     <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ instituto.id }}" class="action-select"></td>
                     <th class="field-__str__"><a href="/admin/Institutos/instituto/{{ instituto.id }}/change/">{{ instituto.id }}</a></th>
@@ -66,9 +66,9 @@
                     <th class="field-__str__"><a href="/admin/Institutos/instituto/{{ instituto.id }}/change/">{{ instituto.usuario.username }}</a></th>
                     <th class="field-__str__"><a href="/admin/Institutos/instituto/{{ instituto.id }}/change/">{{ instituto.usuario.email }}</a></th>
                     <th class="field-__str__">
-                        <form action="{% url 'habilitar_instituto' instituto.id %}" method="post">
+                        <form action="{% url 'deshabilitar_instituto' instituto.id %}" method="post">
                             {% csrf_token %}
-                            <input type="submit" value="Habilitar" />
+                            <input type="submit" value="Deshabilitar" />
                         </form>
                     </th>
                 </tr>

@@ -27,10 +27,18 @@
 
     <div class="module">
         <table summary="{% blocktrans with name="Pendientes" %}Models available in the preferences application.{% endblocktrans %}">
-            <caption><a href="Pendientes" class="section">{% blocktrans with name="preferences" %}Institutos{% endblocktrans %}</a></caption>
+            <caption><a href="/admin/Pendientes" class="section">{% blocktrans with name="preferences" %}Institutos{% endblocktrans %}</a></caption>
             <tr>
-                <th scope="row"><a href="Pendientes">Pendientes</a></th>
-                <td><a href="Pendientes" class="changelink">{% trans 'Change' %}</a></td>
+                <th scope="row"><a href="/admin/Pendientes">Pendientes</a></th>
+                <td><a href="/admin/Pendientes" class="changelink">{% trans 'Change' %}</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="/admin/Activos">Activos</a></th>
+                <td><a href="/admin/Activos" class="changelink">{% trans 'Change' %}</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="/admin/Inactivos">Inactivos</a></th>
+                <td><a href="/admin/Inactivos" class="changelink">{% trans 'Change' %}</a></td>
             </tr>
         </table>
     </div>

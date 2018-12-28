@@ -3,3 +3,16 @@ user=User.objects.create_user('foo', password='bar')
 user.is_superuser=True
 user.is_staff=True
 user.save()
+
+
+>>> from Institutos.models import RedSocial
+>>> r = RedSocial(nombre='Sitio web')
+>>> r.save()
+>>> r = RedSocial(nombre='Facebook')
+>>> r.save()
+>>> r = RedSocial(nombre='Twitter')
+>>> r.save()
+>>> r = RedSocial(nombre='Google')
+>>> r.save()
+>>> r = RedSocial(nombre='LinkedIn')
+>>> r.save()
