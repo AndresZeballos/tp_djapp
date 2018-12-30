@@ -26,6 +26,9 @@ import json
 from decouple import config
 DEBUG = config('DEBUG', cast=bool)
 MAPS_API_KEY = config('MAPS_API_KEY')
+DOMAIN = config('DOMAIN')
+
+EMAIL_HOST_USER = config('EMAIL_ACCOUNT')
 
 def index(request):
     centros = list(Centro.objects.all())
@@ -88,8 +91,8 @@ def registro(request):
             
             i.update_hash()
             send_mail('Verificación de Correo', \
-                'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://127.0.0.1:8000/Activar/' + i.hash_id + '/', \
-                'prueba@tuprofe.com.uy', [username, ])
+                'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/', \
+                EMAIL_HOST_USER, [username, ])
             i.save()
             return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta'})
     else:
@@ -191,13 +194,15 @@ def buscar(request):
     centro = request.POST.get('centro', "")
     materia = request.POST.get('materia', "")
 
-    destacados = list(Instituto.objects.filter(estado=2).filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia))
+    destacados = list(Instituto.objects.filter(estado=2).filter(esDestacado=True).filter(centros__nombre=centro).filter(materias__nombre=materia).distinct())
 
     for i in destacados:
         i.distancia(lat, lng)
 
-    posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia))
+    posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia).distinct())
 
+    print(posicionados)
+    
     for i in posicionados:
         i.distancia(lat, lng)
 
@@ -213,6 +218,8 @@ def buscar(request):
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
     institutos = posicionados + organicos
+
+    print(posicionados)
 
     flatten = lambda l: list(set([item for sublist in l for item in sublist]))
 
@@ -300,7 +307,7 @@ def sobre_nosotros(request):
     return render(request, 'Institutos/Sobre-Nosotros.html')
 
 def prueba_correo(request):
-    send_mail(request.GET['asunto'], request.GET['mensaje'], 'prueba@tuprofe.com.uy', [request.GET['email'], ])
+    send_mail(request.GET['asunto'], request.GET['mensaje'], EMAIL_HOST_USER, [request.GET['email'], ])
     return render(request, 'Institutos/Sobre-Nosotros.html')
 
 

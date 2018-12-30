@@ -1,13 +1,41 @@
-{# block title %}Login{% endblock #}
+{% extends "Institutos/base.html" %}
 
-{% block content %}
-  <h2>Login</h2>
-  <form method="post" action="/Ingresar/">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+{% block titleH1 %}
+  <h1 class="titleH1">
+	Ingreso al sistema
+  </h1>
 {% endblock %}
 
-{# Assumes you setup the password_reset view in your URLconf #}
-{# <p><a href="{% url 'password_reset' %}">Lost password?</a></p> #}
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Ingreso al sistema</span>				
+			</div>
+		</div>
+
+    {% if error_message %}
+        {% include "Institutos/Mensaje.html" with texto=error_message %}
+    {% endif %}
+    
+		<section class="interna">
+			<article class="message">
+				<img src="/static/Institutos/theme/img/login.gif">
+        <form name="login" method="post" action="/Ingresar/">
+          {% csrf_token %}
+					<div class="formularioLogin">
+						<p>Ingreso al sistema</p>
+            <input type="text" name="username" autofocus="" maxlength="254" required="" id="id_username" class="dir" placeholder="Usuario">
+						<input type="password" name="password" class="dir" placeholder="Contraseña" required="" id="id_password">
+						<div class="search" onclick="document.login.submit();">Ingresar</div>
+						<a href="#">¿Olvidó su contraseña?</a>
+					</div>
+				</form>
+			</article>      
+		</section>
+
+{% endblock %}
+

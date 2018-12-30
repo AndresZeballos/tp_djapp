@@ -51,7 +51,7 @@
                             </p>
                             <span>Descripci&oacute;n</span>
                             <p>
-                                <textarea name="descripcion" id="descripcion_edit" rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ instituto.descripcion }}</textarea>
+                                <textarea name="descripcion" id="descripcion_edit" rows="4" cols="50" placeholder="Ingrese su descripción...">{{ instituto.descripcion }}</textarea>
                             </p>
                         </div>
                     </div>
@@ -379,7 +379,7 @@
                 var nombre = jQuery("#centros_list option:selected").text();
                 addSelectedOption('centros_edit', centro);
 
-                var html = '<p id="centros_'+centro+'"><span class="centroEstudio">'+nombre+'</span></p><div class="addButtonEdit"><div class="search" onclick="">+ Agregar materia</div></div><div id="materias_centro_'+centro+'" class="addButtonEdit"></div>';
+                var html = '<p id="centros_'+centro+'"><span class="centroEstudio">'+nombre+'</span></p><div class="addButtonEdit"><div class="search" onclick="addMateriaShow('+centro+')">+ Agregar materia</div></div><div id="materias_centro_'+centro+'" class="addButtonEdit"></div>';
                 jQuery('#centro_display').append(html);
                 
                 jQuery(".popUpContentBox_centro").css("display","none");
