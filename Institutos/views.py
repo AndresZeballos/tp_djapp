@@ -143,6 +143,18 @@ def perfil_edit(request):
             instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
             instituto.save()
 
+            print(len(list(instituto.omnibuses.all())))
+            instituto.omnibuses.clear()
+            paradas = list(Parada.objects.all())
+            for p in paradas:
+                parada = get_object_or_404(Parada, pk=p.id)
+                instituto.distancia(parada.latitud, parada.longitud)
+                if instituto.ultima_distancia <= 0.5:
+                    for l in parada.lineas.all():
+                        instituto.omnibuses.add(Omnibus.objects.get(id=l.id))
+            instituto.save()
+            print(len(list(instituto.omnibuses.all())))
+
             Profesor.objects.filter(instituto=instituto).delete()
 
             prof_list = [values for key, values in request.POST.lists() if key=='profesores']
