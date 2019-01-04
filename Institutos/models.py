@@ -121,7 +121,7 @@ class Instituto(models.Model):
     barrios = models.ManyToManyField(Barrio, blank=True)
     centros = models.ManyToManyField(Centro, blank=True)
     materias = models.ManyToManyField(Materia, blank=True)
-    omnibuses = models.ManyToManyField(Omnibus)
+    omnibuses = models.ManyToManyField(Omnibus, blank=True)
     
     ultima_distancia = 0
 

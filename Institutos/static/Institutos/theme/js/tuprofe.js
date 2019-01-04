@@ -317,7 +317,7 @@ function openCloseSearchResponsive(){
 	if (jQuery(".iconSearch").hasClass("open")) {
 		//alert("abierto");
 		jQuery(".bluePopUpContent").css("display","block");
-		jQuery(".bluePopUpContent").css("z-index","2");
+		jQuery(".bluePopUpContent").css("z-index","4");
 		jQuery("header.interna .max.head.headTop").css("z-index","3");
 		jQuery(".popUpContent").css("display","block");
 		jQuery(".popUpContent").css("z-index","1");

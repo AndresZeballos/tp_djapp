@@ -64,35 +64,40 @@
 				</div>
 			</section>
 			<section class="right">
-				<h2>Profesores destacados</h2>
-				<!-- Carrusel -->
-				<script type="text/javascript">
-						stepcarousel.setup({
-							galleryid: 'mygallery', //id of carousel DIV
-							beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
-							panelclass: 'boxCarrusel', //class of panel DIVs each holding content
-							autostep: {enable:true, moveby:1, pause:3000},
-							panelbehavior: {speed:500, wraparound:true, wrapbehavior:'slide', persist:true},
-							defaultbuttons: {enable: true, moveby: 1, leftnav: ['static/Institutos/theme/img/arrow_left.png', -5, 50], rightnav: ['static/Institutos/theme/img/arrow_right.png', -20, 50]},
-							statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
-							contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
-						})
-				</script>
-				<div id="mygallery" class="stepcarousel">
-					<div class="belt">
-          
-            {% for instituto in destacados %}
-              <div class="boxCarrusel" onclick="javascript:irA('{% url 'instituto' instituto.id %}');" style="cursor: pointer;">
-                <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}">
-                <div class="rightInfo">
-                  <h3>{{ instituto.nombre }}</h3>
-                  <span>{{ instituto.direccion }}</span>
-                  <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+        {% if destacados %}
+          <h2>Profesores destacados</h2>
+          <!-- Carrusel -->
+          <script type="text/javascript">
+              stepcarousel.setup({
+                galleryid: 'mygallery', //id of carousel DIV
+                beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
+                panelclass: 'boxCarrusel', //class of panel DIVs each holding content
+                autostep: {enable:true, moveby:1, pause:3000},
+                panelbehavior: {speed:500, wraparound:true, wrapbehavior:'slide', persist:true},
+                defaultbuttons: {enable: true, moveby: 1, leftnav: ['static/Institutos/theme/img/arrow_left.png', -5, 50], rightnav: ['static/Institutos/theme/img/arrow_right.png', -20, 50]},
+                statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
+                contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
+              })
+          </script>
+          <div id="mygallery" class="stepcarousel">
+            <div class="belt">
+            
+              {% for instituto in destacados %}
+                <div class="boxCarrusel" onclick="javascript:irA('{% url 'instituto' instituto.id %}');" style="cursor: pointer;">
+                  <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}">
+                  <div class="rightInfo">
+                    <h3>{{ instituto.nombre }}</h3>
+                    <span>{{ instituto.direccion }}</span>
+                    <span class="km">{{ instituto.ultima_distancia|floatformat:1 }} Km distancia</span>
+                  </div>
                 </div>
-              </div>
-            {% endfor %}
-					</div>
-				</div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+
+
 				<div class="actionListResult">
 					<div class="ver">
 						<div class="imageSelect">
