@@ -1,0 +1,46 @@
+{% extends "Institutos/base.html" %}
+
+{% block titleH1 %}
+  <h1 class="titleH1">
+	  Registro
+  </h1>
+{% endblock %}
+
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Registro</span>				
+			</div>
+		</div>
+
+    {% if error_message %}
+        {% include "Institutos/Mensaje.html" with texto=error_message %}
+    {% endif %}
+    
+		<section class="interna">
+			<article class="message">
+				<img src="/static/Institutos/theme/img/login.gif">
+        <form name="registro" action="/Registro" method="post">
+          {% csrf_token %}
+					<div class="formularioLogin">
+						<p>Formulario de Registro</p>
+            
+            <input type="text" name="name" maxlength="30" required="" id="id_name" class="dir" placeholder="Nombre" >
+            <input type="text" name="cellphone" maxlength="30" required="" id="id_cellphone" class="dir" placeholder="Teléfono" >
+            <input type="text" name="username" maxlength="254" required="" id="id_username" class="dir" placeholder="E-Mail" >
+            <input type="password" name="password1" required="" id="id_password1" class="dir" placeholder="Contraseña" >
+            <input type="password" name="password2" required="" id="id_password2"class="dir" placeholder="Confirmar Contraseña" >
+
+						<div class="search" onclick="document.registro.submit();">Registrarse</div>
+					</div>
+				</form>
+			</article>      
+		</section>
+
+{% endblock %}
+
+
