@@ -7,13 +7,13 @@
 
 {% block titleH1 %} 
     <div class="fichaPerfilProfe">
-        <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}">
+        <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}" style="border-radius: 5px;">
         <div class="rightInfo">
             <h3>{{ instituto.nombre }}</h3>
-            <span>{{ instituto.direccion }}</span>
+            <span><img src="/static/Institutos/theme/img/pin_address.png" alt="Dirección" style="width: 19px;">{{ instituto.direccion }}</span>
             <div class="bottomInfo">
-                <span class="km"><b>{{ instituto.ultima_distancia }}</b> Km distancia</span>
-                <div id="telefono" class="telefono" style="display: none;">Teléfono: {{ instituto.telefono }}</div><a class="telefono" id="link" href="#" onclick="clickTelefono()">Ver teléfono</a> 
+				<span class="km"><b>{{ instituto.ultima_distancia }}</b> Km distancia</span>
+                <div id="telefono" class="telefono" style="display: none; text-decoration: none; cursor: auto;">Teléfono: {{ instituto.telefono }}</div><a class="telefono" id="link" href="#" onclick="clickTelefono()">Ver teléfono</a> 
             </div>
         </div>
     </div>
@@ -132,7 +132,7 @@
 			</div>
 			<div class="rightMin">
 				<div class="contactoForm">
-					<form name="contacto" action="{% url 'nuevo_mensaje' instituto.id %}" method="post">
+					<form name="contacto" action="{% url 'contacto' instituto.id %}" method="post">
 						{% csrf_token %}
 						<h2>Consultas al profesor</h2>
 						<p>Completá este formulario y el profesor se pondrá en contacto contigo.</p>

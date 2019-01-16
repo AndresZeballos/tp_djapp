@@ -1,0 +1,9 @@
+<section class="interna">
+	<article class="message">
+		<img src="/static/Institutos/theme/img/info.gif">
+		<p> {% autoescape off %}{{ mensaje }}{% endautoescape %} </p>
+		{% if volver %}
+			<div class="search" onclick="javascript:irA('/');">Volver<div>
+		{% endif %}
+	</article>      
+</section>

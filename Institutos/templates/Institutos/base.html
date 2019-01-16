@@ -45,8 +45,8 @@
                                     <a href="{% url 'perfil' %}">Perfil</a>
                                     <a href="{% url 'logout' %}">Salir</a>
                                 {% else %}
-                                    <a href="{% url 'ingresar' %}">Ingresar</a>
-                                    <a href="{% url 'contacto' %}">Contáctenos</a>
+                                    <a href="{% url 'ingresar' %}">Ingresá</a>
+                                    <a href="{% url 'registro' %}">Registrate</a>
                                 {% endif %}
                             </div>
                             
@@ -88,8 +88,10 @@
                             <a href="{% url 'perfil' %}">Perfil</a>
                             <a href="{% url 'logout' %}">Salir</a>
                         {% else %}
-                            <a href="{% url 'ingresar' %}">Ingresar</a>
-                            <a href="{% url 'contacto' %}">Contáctenos</a>
+                            <a href="{% url 'ingresar' %}">Ingresá</a>
+                            <a href="{% url 'registro' %}">Registrate</a>
+                            <a href="{% url 'contacto' %}">Contactáte</a>
+                            <a href="{% url 'nosotros' %}">Nosotros</a>
                         {% endif %}
                     </div>
                 </div>
@@ -155,14 +157,16 @@
                     </div>
                     <div class="menuFoot">
                         <!--<a href="{% url 'nosotros' %}">Nosotros</a>-->
-                        <a href="{% url 'contacto' %}">Contáctenos</a>
-                        {% if not request.user.is_authenticated %}
-                            <a href="{% url 'ingresar' %}">Ingreso</a>
-                            <a href="{% url 'registro' %}">Registro</a>
-                        
-                        {% else %}
+                        <!--<a href="{% url 'contacto' %}">Contáctenos</a>-->
+                        {% if request.user.is_authenticated %}
                             <a href="{% url 'perfil' %}">Perfil</a>
                             <a href="{% url 'logout' %}">Salir</a>
+                        
+                        {% else %}
+                            <a href="{% url 'ingresar' %}">Ingresá</a>
+                            <a href="{% url 'registro' %}">Registrate</a>
+                            <a href="{% url 'contacto' %}">Contactáte</a>
+                            <a href="{% url 'nosotros' %}">Nosotros</a>
 
                         {% endif %}
                     </div>

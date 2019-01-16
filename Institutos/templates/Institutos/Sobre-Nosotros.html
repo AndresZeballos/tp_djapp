@@ -1,12 +1,52 @@
-<h2>Sobre nosotros</h2>
-TuProfe.com.uy no es un sitio web cualquiera...
-Es la página de consulta de los estudiantes que quieren buscar profesores particulares.
-Fue creada por un grupo de alumnos, que como vos, necesitó de la mano de un profe para salvar una materia.
+{% extends "Institutos/base.html" %}
 
-¿Alguna vez guardaste el volante del profesor que justo ahora estás buscando?
-No te preocupes... ¡no los guardes más!
-En TuProfe vas a encontrar lo que estás necesitando: un sencillo y práctico sistema de búsqueda, pensado para garantizar la fácil navegación, el acceso veloz y ordenado a la información las 24 hs del día.
+{% block titleH1 %}
+  <h1 class="titleH1">
+	Nosotros
+  </h1>
+{% endblock %}
 
-Sumate a la búsqueda...
 
-{% include "Institutos/Contacto.html" %}
+{% block content %}
+
+	<div class="breadcrum">
+		<div class="max">
+			<span><a href="/">Inicio</a></span>
+			<span class="separa">&nbsp;>>&nbsp;</span>
+			<span>Nosotros</span>				
+		</div>
+	</div>
+
+
+    
+    <section class="interna">
+        <article class="txt">
+            <div class="max">
+                <div class="titleRes"></div>
+                <span>Es la página de consulta de los estudiantes que quieren buscar profesores particulares.</span>
+                <p>Fue creada por un grupo de alumnos, que como vos, necesitó de la mano de un profe para salvar una materia.</p>
+                <p>En TuProfe vas a encontrar lo que estás necesitando: un sencillo y práctico sistema de búsqueda, pensado para garantizar la fácil navegación, el acceso veloz y ordenado a la información las 24 hs del día.</p>
+                <span class="blue">Sumate a la búsqueda...</span>
+                <!--
+                <div class="buttonGeneric">
+                    <div class="search" onclick="javascript:irA('registro');">Ponete en contacto con nosotros, haciendo click aquí<div>
+                </div>
+                -->
+            </div>
+        </article>      
+    </section>
+<!--
+    <h2>Sobre nosotros</h2>
+    TuProfe.com.uy no es un sitio web cualquiera...
+    Es la página de consulta de los estudiantes que quieren buscar profesores particulares.
+    Fue creada por un grupo de alumnos, que como vos, necesitó de la mano de un profe para salvar una materia.
+
+    ¿Alguna vez guardaste el volante del profesor que justo ahora estás buscando?
+    No te preocupes... ¡no los guardes más!
+    En TuProfe vas a encontrar lo que estás necesitando: un sencillo y práctico sistema de búsqueda, pensado para garantizar la fácil navegación, el acceso veloz y ordenado a la información las 24 hs del día.
+
+    Sumate a la búsqueda...
+-->
+
+
+{% endblock %}

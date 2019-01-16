@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.validators import validate_email
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
@@ -94,7 +95,7 @@ def registro(request):
                 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/', \
                 EMAIL_HOST_USER, [username, ])
             i.save()
-            return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta'})
+            return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
     else:
         form = SignUpForm()
     return render(request, 'registration/registro.html', {'form': form})
@@ -294,25 +295,44 @@ def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
     return render(request, 'Institutos/Instituto.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
 
-def nuevo_mensaje(request, instituto_id):
-    m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
-    m.telefono = request.POST['telefono']
-    m.email = request.POST['email']
-    m.asunto = request.POST['asunto']
-    m.mensaje = request.POST['mensaje']
-    if instituto_id != 0:
-        instituto = get_object_or_404(Instituto, pk=instituto_id)
-        m.instituto = instituto
-    m.save()
+def contacto(request, instituto_id):
+    if request.method == 'POST':
+        m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
+        m.telefono = request.POST['telefono']
+        m.email = request.POST['email']
+        m.asunto = request.POST['asunto']
+        m.mensaje = request.POST['mensaje']
+        if instituto_id != 0:
+            instituto = get_object_or_404(Instituto, pk=instituto_id)
+            m.instituto = instituto
+        errores = ""
+        if m.nombre.strip() == "":
+            errores += "El ingreso del nombre es obligatorio. <br>"
+        if m.email.strip() == "":
+            errores += "El ingreso del correo electrónico es obligatorio. <br>"
+        try:
+            validate_email(request.POST['email'])
+        except:
+            errores += "El correo electrónico ingresado no es válido. <br>"
+        if m.mensaje.strip() == "":
+            errores += "El ingreso del mensaje es obligatorio. <br>"
+        
+        if errores == "":
+            m.save()
+            errores = "El mensaje ha sido enviado correctamente."
+            m = Mensaje()
+        else:
+            print(errores)
 
-    if instituto_id != 0:
-        mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
-        send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ])
-        return HttpResponseRedirect(reverse('instituto', args=(instituto.id,)))
-    else:
-        return HttpResponseRedirect(reverse('contacto'))
-    
-def contacto(request):
+        if instituto_id != 0:
+            mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
+            send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ])
+            return HttpResponseRedirect(reverse('instituto', args=(instituto.id,), kwargs={'mensaje': m, 'errores': errores}))
+        else:
+            #return redirect(reverse('contacto', args=(), {'mensaje': m, 'errores': errores}))
+            return render(request, 'Institutos/Contacto.html', {'mensaje': m, 'errores': errores})
+            #return HttpResponseRedirect(reverse('contacto'), {'mensaje': m, 'errores': errores})
+
     return render(request, 'Institutos/Contacto.html')
 
 def sobre_nosotros(request):

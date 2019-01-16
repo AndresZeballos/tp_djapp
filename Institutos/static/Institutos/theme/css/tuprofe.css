@@ -427,7 +427,7 @@ header .head .fichaPerfilProfe{
 	background-repeat: no-repeat;
 	font-family: Lato-Bold;
 	font-size: 14px;
-	padding: 0 0 0 1rem;
+	padding: 0 0 0 3px;
 }
 .fichaPerfilProfe .rightInfo .bottomInfo{
 	width: 100%;
@@ -716,7 +716,7 @@ span.separa{
 	padding: 0 5% 5% 5%;
 	margin: 7% auto;
 	height: auto;
-	min-height: 200px;
+	/* min-height: 200px; */
 	text-align: center;
 }
 .interna .message img{
