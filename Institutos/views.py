@@ -93,7 +93,7 @@ def registro(request):
             i.update_hash()
             send_mail('Verificación de Correo', \
                 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/', \
-                EMAIL_HOST_USER, [username, ])
+                EMAIL_HOST_USER, [username, ], bcc=[EMAIL_HOST_USER])
             i.save()
             return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
     else:
@@ -320,19 +320,19 @@ def contacto(request, instituto_id):
         if errores == "":
             m.save()
             errores = "El mensaje ha sido enviado correctamente."
+            mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
+            if instituto_id != 0:
+                send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ], bcc=[EMAIL_HOST_USER])
+            else:
+                send_mail(m.asunto, mensaje, m.email, [EMAIL_HOST_USER, ])
             m = Mensaje()
         else:
             print(errores)
 
         if instituto_id != 0:
-            mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
-            send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ])
             return HttpResponseRedirect(reverse('instituto', args=(instituto.id,), kwargs={'mensaje': m, 'errores': errores}))
         else:
-            #return redirect(reverse('contacto', args=(), {'mensaje': m, 'errores': errores}))
             return render(request, 'Institutos/Contacto.html', {'mensaje': m, 'errores': errores})
-            #return HttpResponseRedirect(reverse('contacto'), {'mensaje': m, 'errores': errores})
-
     return render(request, 'Institutos/Contacto.html')
 
 def sobre_nosotros(request):
