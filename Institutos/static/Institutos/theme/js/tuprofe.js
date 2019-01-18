@@ -119,14 +119,14 @@ jQuery(window).resize(function() {
 	
 	calcularAnchoRotadorRes();
 	
+	//calcular altura de los box del perfil de profe - usuarioo logueado
+	calcularAltoBoxPerfilProfe();
+	
 	//Muestro formualrio de contactenos al profe en perfil del profe
 	showFormularioProfeRes();
 	
 	//Calcular los anchos de la ficha en perfil del profe
 	anchoFichaPerfilProfe();
-	
-	//calcular altura de los box del perfil de profe - usuarioo logueado
-	calcularAltoBoxPerfilProfe();
 	
 	//Ajusto alto/ancho de los box
 	//jQuery(".boxBox").css("display","block");
@@ -214,7 +214,7 @@ function anchoFichaPerfilProfe(){
 	if (jQuery(window).width()<1180) {
 		//Obtengo el ancho de max en el head
 		var anchoMax = jQuery(".max").width();
-		jQuery(".fichaPerfilProfe").css("width",anchoMax);
+		//jQuery(".fichaPerfilProfe").css("width",anchoMax);
 		jQuery(".bottomInfo").css("width",anchoMax);
 	}else{
 		
