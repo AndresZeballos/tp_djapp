@@ -326,7 +326,7 @@ def contacto(request, instituto_id=0):
                 email = EmailMessage(m.asunto, mensaje, EMAIL_HOST_USER, [m.instituto.usuario.email, ], [CONTACT_EMAIL], reply_to=[m.email],)
                 email.send()
             else:
-                email = EmailMessage(m.asunto, mensaje, EMAIL_HOST_USER, [m.instituto.usuario.email, ], reply_to=[m.email],)
+                email = EmailMessage(m.asunto, mensaje, EMAIL_HOST_USER, [CONTACT_EMAIL , ], reply_to=[m.email],)
                 email.send()
             m = Mensaje()
         else:
@@ -336,7 +336,7 @@ def contacto(request, instituto_id=0):
             #return HttpResponseRedirect(reverse('instituto', (instituto.id,), {'mensaje': m, 'errores': errores}))
             return render(request, 'Institutos/Contacto.html', {'instituto_id': instituto_id, 'mensaje': m, 'errores': errores})
         else:
-            return render(request, 'Institutos/Contacto.html', {'mensaje': m, 'errores': errores})
+            return render(request, 'Institutos/Contacto.html', {'instituto_id': 0, 'mensaje': m, 'errores': errores})
     return render(request, 'Institutos/Contacto.html', {'instituto_id': instituto_id})
 
 def sobre_nosotros(request):

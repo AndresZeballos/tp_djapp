@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 
+{% load tz %}
 
 {% block extrastyle %}
   {{ block.super }}
@@ -92,7 +93,10 @@
             {% for mensaje in mensajes %}
                 <tr class="row1">
                     <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="8" class="action-select"></td>
-                    <th class="field-__str__"><a href="#">{{ mensaje.fecha }}</a></th>
+                    
+                    {% timezone "America/Montevideo" %}
+                        <th class="field-__str__"><a href="#">{{ mensaje.fecha }}</a></th>
+                    {% endtimezone %}
                     <th class="field-__str__"><a href="#">{{ mensaje.nombre }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.telefono }}</a></th>
                     <th class="field-__str__"><a href="#">{{ mensaje.email }}</a></th>
