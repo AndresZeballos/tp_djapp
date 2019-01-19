@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 
 import urllib.request
 from urllib.parse   import urlencode
@@ -30,6 +30,7 @@ MAPS_API_KEY = config('MAPS_API_KEY')
 DOMAIN = config('DOMAIN')
 
 EMAIL_HOST_USER = config('EMAIL_ACCOUNT')
+CONTACT_EMAIL = config('CONTACT_EMAIL')
 
 def index(request):
     centros = list(Centro.objects.all())
@@ -93,7 +94,7 @@ def registro(request):
             i.update_hash()
             send_mail('Verificación de Correo', \
                 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/', \
-                EMAIL_HOST_USER, [username, ], bcc=[EMAIL_HOST_USER])
+                EMAIL_HOST_USER, [username, ], bcc=[CONTACT_EMAIL])
             i.save()
             return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
     else:
@@ -295,7 +296,7 @@ def instituto(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
     return render(request, 'Institutos/Instituto.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
 
-def contacto(request, instituto_id):
+def contacto(request, instituto_id=0):
     if request.method == 'POST':
         m = Mensaje(nombre=request.POST['nombre'], fecha=timezone.now())
         m.telefono = request.POST['telefono']
@@ -322,18 +323,21 @@ def contacto(request, instituto_id):
             errores = "El mensaje ha sido enviado correctamente."
             mensaje = 'Contacto: ' + m.telefono + ', ' + m.email + '. Mensaje:' + m.mensaje
             if instituto_id != 0:
-                send_mail(m.asunto, mensaje, m.email, [m.instituto.usuario.email, ], bcc=[EMAIL_HOST_USER])
+                email = EmailMessage(m.asunto, mensaje, EMAIL_HOST_USER, [m.instituto.usuario.email, ], [CONTACT_EMAIL], reply_to=[m.email],)
+                email.send()
             else:
-                send_mail(m.asunto, mensaje, m.email, [EMAIL_HOST_USER, ])
+                email = EmailMessage(m.asunto, mensaje, EMAIL_HOST_USER, [m.instituto.usuario.email, ], reply_to=[m.email],)
+                email.send()
             m = Mensaje()
         else:
             print(errores)
 
         if instituto_id != 0:
-            return HttpResponseRedirect(reverse('instituto', args=(instituto.id,), kwargs={'mensaje': m, 'errores': errores}))
+            #return HttpResponseRedirect(reverse('instituto', (instituto.id,), {'mensaje': m, 'errores': errores}))
+            return render(request, 'Institutos/Contacto.html', {'instituto_id': instituto_id, 'mensaje': m, 'errores': errores})
         else:
             return render(request, 'Institutos/Contacto.html', {'mensaje': m, 'errores': errores})
-    return render(request, 'Institutos/Contacto.html')
+    return render(request, 'Institutos/Contacto.html', {'instituto_id': instituto_id})
 
 def sobre_nosotros(request):
     return render(request, 'Institutos/Sobre-Nosotros.html')

@@ -152,13 +152,15 @@ header.interna{
 .internaHeadLeft{
 	width: 60%;
     float: left;
-    height: 180px;
+	/*height: 180px;*/
+	height: auto;
     position: relative;
 }
 .internaHeadRight{
 	width: 40%;
 	float: right;
-	height: 180px;
+	/*height: 180px;*/
+	height: auto;
     position: relative;
 }
 .internaHeadRight .buscador{
@@ -264,8 +266,8 @@ header.interna .head h1{
     float: left;
     font-family: Corbel-Bold;
     font-size: 28px;
-    position: absolute;
-    bottom: 0;
+	position: absolute;
+	top: 110px;
 }
 header.interna .head h1 span{
 	display: inline;
@@ -1962,7 +1964,7 @@ footer .powered-by-me .logo{
 		margin: 0 0 0 0;
 	}
 	header.interna .headTop {
-		height: 70px !important;
+		height: 190px !important;
 	}
 	header.interna .internaHeadLeft,
 	header.interna .internaHeadRight{

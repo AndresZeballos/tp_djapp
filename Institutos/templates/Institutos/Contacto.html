@@ -17,24 +17,27 @@
 		</div>
 	</div>
 	{% if errores %}
-		{% include "Institutos/Mensaje_Show.html" with mensaje=errores %}
+		{% include "Institutos/Mensaje_Show.html" with mensaje=errores instituto_id=instituto_id %}
 	{% endif %}
-	<section class="interna">
-		<article class="message">
-			<img src="/static/Institutos/theme/img/info.gif">
-			<form name="contacto" action="{% url 'contacto' 0 %}" method="post">
-				{% csrf_token %}
-				<div class="formularioContacto">
-					<p>Contactáte</p>
-					<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido" value="{{ mensaje.nombre }}">
-					<input type="text" name="telefono" class="dir" placeholder="Teléfono" value="{{ mensaje.telefono }}">
-					<input type="email" name="email" class="dir" placeholder="Correo electrónico" value="{{ mensaje.email }}">
-					<input type="text" name="asunto" class="dir" placeholder="Asunto" value="{{ mensaje.asunto }}">
-					<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ mensaje.mensaje }}</textarea>
-					<div type="submit" class="search" onclick="javascript:document.contacto.submit();">Enviar</div>
-				</div>
-			</form>
-		</article>      
-	</section>
+	
+	{% if instituto_id != 0 and errores != "El mensaje ha sido enviado correctamente." or instituto_id == 0 %}
+		<section class="interna">
+			<article class="message">
+				<img src="/static/Institutos/theme/img/info.gif">
+				<form name="contacto" action="{% url 'contacto' instituto_id %}" method="post">
+					{% csrf_token %}
+					<div class="formularioContacto">
+						<p>Contactáte</p>
+						<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido" value="{{ mensaje.nombre }}">
+						<input type="text" name="telefono" class="dir" placeholder="Teléfono" value="{{ mensaje.telefono }}">
+						<input type="email" name="email" class="dir" placeholder="Correo electrónico" value="{{ mensaje.email }}">
+						<input type="text" name="asunto" class="dir" placeholder="Asunto" value="{{ mensaje.asunto }}">
+						<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ mensaje.mensaje }}</textarea>
+						<div type="submit" class="search" onclick="javascript:document.contacto.submit();">Enviar</div>
+					</div>
+				</form>
+			</article>      
+		</section>
+	{% endif %}
 
 {% endblock %}
