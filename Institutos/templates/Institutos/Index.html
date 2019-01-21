@@ -46,16 +46,40 @@
             
                 <form name="buscar" method="post" action="{% url 'buscar' %}" onsubmit="return validateBuscarForm()" >
                     {% csrf_token %}
+                    <div class="formulario error-h">
+                        <div class="error-message error-centro" style="">
+                            <div>
+                                <label id="errorMsg">Centro de estudios no válido</label>
+                            </div>
+                        </div>
+                        <div class="error-message error-materia" style="">
+                            <div>
+                                <label id="errorMsg">Materia no válida</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="formulario">
-                        <input list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio" onchange="onCentroChange()">
+                        <div class="error-message error-v" style="">
+                            <div>
+                                <label id="errorMsg">Centro de estudios no válido</label>
+                            </div>
+                        </div>
+                        <input id="centro" list="centros" name="centro" class="boxCombo" placeholder="Centro de estudio" onchange="onCentroChange()">
                         <datalist id="centros">
                             {% for centro in centros %}
                                 <option value="{{ centro.nombre }}"></option>
                             {% endfor %}
                         </datalist>
-                        <input list="materias" name="materia" class="boxCombo" placeholder="Materia">
+
+                        <div class="error-message error-v" style="">
+                            <div>
+                                <label id="errorMsg">Materia no válida</label>
+                            </div>
+                        </div>
+                        <input id="materia" list="materias" name="materia" class="boxCombo" placeholder="Materia">
                         <datalist id="materias">
                         </datalist>
+
                         <input id="direccion" type="text" name="dir" class="dir" placeholder="Dirección - Ej: Rio Negro 1234">
 
                         <input id="lat" name="lat" type="number" value="" hidden>
@@ -66,6 +90,11 @@
                 </form>
 
                 <script>
+                    var centros = [
+                        {% for centro in centros %}
+                            { centro: "{{ centro.nombre }}" }, 
+                        {% endfor %}
+                    ];
                     var materias = [
                         {% for materia in materias %}
                             { centro: "{{ materia.centro.nombre }}", materia: "{{ materia.nombre }}" }, 
@@ -81,6 +110,8 @@
                                 jQuery("#materias").append(jQuery("<option>").attr('value', item.materia).text(item.materia));
                         });
                     }
+
+                    onCentroChange();
 
                     function getCoords(position) {
                     // Show a map centered at (position.coords.latitude, position.coords.longitude).

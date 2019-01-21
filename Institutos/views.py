@@ -266,7 +266,7 @@ def buscarProfe(request):
     texto = request.POST['texto']
     page = int(request.POST.get('page', 1))
 
-    institutos = list(Instituto.objects.filter(estado=2).filter(nombre__contains=texto))
+    institutos = list(Instituto.objects.filter(estado=2).filter(nombre__icontains=texto))
     '''
     paginator = Paginator(institutos, 10)
     

@@ -390,6 +390,10 @@ function getTitle(){
 }
 
 function calcularBgHome(){
+	var alto_aux = jQuery('.error-h').outerHeight();
+	if(!jQuery('.error-h').is(':visible')){
+		alto_aux = 0;
+	}
 	if (jQuery(window).width()<330) {
 		var alto = jQuery(window).height() + 180;
 		alto = 765;
@@ -400,7 +404,7 @@ function calcularBgHome(){
 		jQuery("header.home").css("height",alto);
 	}else{
 		var alto = jQuery(window).height();
-		alto = 655;
+		alto = 655 + alto_aux;
 		jQuery("header.home").css("height",alto);
 	}
 }
@@ -411,13 +415,16 @@ function anchoSearchHome(){
 	var anchoBoxDir = jQuery(".dir").outerWidth();
 	var ancho = anchoTotal - anchoBox1 - anchoBox1 - anchoBoxDir;
 	ancho = ancho - 40; /* le resto el padding-left*/
+	
+	jQuery(".formulario .search").css("width", "28%");
+	/*
 	if (jQuery(window).width()>1180) {
 		jQuery(".formulario .search").css("width", ancho);
 		return ancho;
 	}else{
 		jQuery(".formulario .search").css("width", ancho);
 		return ancho;
-	}
+	}*/
 }
 
 
@@ -435,7 +442,52 @@ function anchoSearchHome2(search){
 	jQuery(".formulario2 .search").css("width", "50%");
 }
 
+
+function checkcentros() {
+	var value = jQuery("#centro")[0].value;
+	var status = false;
+
+	for(var i=0; i<centros.length; i++){
+	  if(centros[i].centro == value){
+		status = true;
+		break;
+	  }
+	}
+	return status;
+}
+
+function checkmaterias() {
+	var centro = jQuery("#centro")[0].value;
+	var value = jQuery("#materia")[0].value;
+	var status = false;
+
+	for(var i=0; i<materias.length; i++){
+	  if(materias[i].centro == centro && materias[i].materia == value){
+		status = true;
+		break;
+	  }
+	}
+	return status;
+}
+
 function popUp(){
+	jQuery(".error-centro").css("display","none");
+	jQuery(".error-materia").css("display","none");
+	jQuery(".error-h").css("display","none");
+	var ch_centros = checkcentros();
+	var ch_materias = checkmaterias();
+	if (!ch_centros) {
+		jQuery(".error-centro").css("display","block");
+	}
+	if (!ch_materias) {
+		jQuery(".error-materia").css("display","block");
+	}
+	if (!ch_centros || !ch_materias) {
+		jQuery(".error-h").css("display","block");
+		calcularBgHome();
+		return;
+	}
+	calcularBgHome();
 	if (jQuery("#direccion")[0].value == "") {
 		jQuery(".popUpContent").css("display","block");
 		jQuery(".popUpContentBox").css("display","block");

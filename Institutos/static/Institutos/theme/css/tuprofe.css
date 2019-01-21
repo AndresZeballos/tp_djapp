@@ -165,7 +165,7 @@ header.interna{
 }
 .internaHeadRight .buscador{
 	position: absolute;
-    bottom: 10%;
+    top: 140px;
     right: 0;
 	width: 100%;
 	text-align: right;
@@ -735,6 +735,32 @@ span.separa{
     float: none;
 	width: 50%;
 }
+
+.error-message {
+	color: #E8362C;
+    background-color: #fef3cf;
+    font-weight: bold;
+	z-index: 3;
+	width: 100%;
+    margin: 0 0 0.3rem 0;
+	border-radius: 5px;
+	float: left;
+	font-family: Gadugi-Regular;
+	font-size: 18px;
+	padding: .4em 0;
+	
+}
+
+.error-h {
+	display: none;
+	height: auto;
+	margin: 0;
+}
+
+.error-v {
+	display: none;
+}
+
 section.left{
 	width: 270px;
 	margin: 0 25px 5rem 0;
@@ -1821,6 +1847,11 @@ footer .powered-by-me .logo{
 	.interna .message img{
 		margin-top: -10%;
 	}
+
+	.error-h .error-message {
+		width: 96%;
+	}
+
 	section.left {
 		width: 100%;
 		margin: 0 0 2rem 0;
@@ -2031,6 +2062,9 @@ footer .powered-by-me .logo{
 	}
 	.formulario2 .search{
 		height: 30px !important;
+	}
+	.error-h {
+		display: none;
 	}
 	
 	.popUpContentBox,
