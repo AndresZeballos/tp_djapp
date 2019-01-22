@@ -712,7 +712,7 @@ span.separa{
 	float: left;
 	padding: .1rem 0;
 }
-.interna .message{
+.interna .message {
 	width: 40%;
 	background-color: #F8F8F8;
 	padding: 0 5% 5% 5%;
@@ -721,6 +721,13 @@ span.separa{
 	/* min-height: 200px; */
 	text-align: center;
 }
+
+.interna .message #message {
+	font-family: Lato-Bold;
+    color: red;
+    margin: 10 0;
+}
+
 .interna .message img{
 	margin-top: -10%;
 }
@@ -2177,7 +2184,7 @@ footer .powered-by-me .logo{
 		font-size: 30px;
 	}
 	.resultBox .rightInfo span {
-		margin-bottom: 3rem;
+		margin-bottom: 1rem;
 	}
 	.reeadBox{
 		text-align: center;

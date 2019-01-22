@@ -1,0 +1,66 @@
+{% extends "Institutos/base.html" %}
+
+{% block titleH1 %}
+  <h1 class="titleH1">
+	Recuperar Contraseña
+  </h1>
+{% endblock %}
+
+
+{% block content %}
+
+		<div class="breadcrum">
+			<div class="max">
+				<span><a href="/">Inicio</a></span>
+				<span class="separa">&nbsp;>>&nbsp;</span>
+				<span>Recuperar Contraseña</span>				
+			</div>
+		</div>
+
+    {% if error_message %}
+        {% include "Institutos/Mensaje.html" with texto=error_message %}
+    {% endif %}
+    
+		{% if validlink %}
+			<section class="interna">
+				<article class="message">
+					<img src="/static/Institutos/theme/img/login.gif">
+					<form name="login" method="post" action="/Recuperar/{{ hash_id }}/">
+						{% csrf_token %}
+						<div class="formularioLogin">
+							<p>Ingresar Nueva Contraseña</p>
+							<input type="password" name="password1" class="dir" placeholder="Contraseña" required="" id="id_password1">
+							<input type="password" name="password2" class="dir" placeholder="Confirmar Contraseña" required="" id="id_password2">
+							<div id='message'></div>
+							<div class="search" onclick="document.login.submit();">Cambiar Contraseña</div>
+						</div>
+					</form>
+				</article>
+			</section>
+
+			<script>
+				jQuery('#id_password1, #id_password2').on('keyup', function () {
+					if (jQuery('#id_password2').val() != "") {
+						if (jQuery('#id_password1').val() == jQuery('#id_password2').val()) 
+							jQuery('#message').html('');
+						else 
+							jQuery('#message').html('Las contraseñas ingresadas no coinciden');
+					}
+				});
+			</script>
+
+		{% else %}
+
+			
+			<section class="interna">
+				<article class="message">
+					<p>
+						El link ha expirado, posiblemente ya fue utilizado. <br/>
+						Si desea resetear la contraseña, por favor solicitelo nuevamente.
+					</p>
+				</article>
+			</section>
+		{% endif %}
+
+{% endblock %}
+

@@ -39,6 +39,7 @@ def index(request):
 
 def login(request):
     if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         legado = UsuarioLegado.objects.filter(username=username).first()
@@ -50,23 +51,31 @@ def login(request):
                 print(legado.is_active())
                 print(legado.check_password(password))
             print(user)
-        if legado == None and user != None:
+        if legado == None or (legado is not None and legado.migrado):
             # Si es un usuario nuevo, realizo el login
-            auth_login(request, user)
-            return on_login(request)
-        if legado != None and legado.migrado:
             # Si es un usuario ya migrado, realizo el login
-            auth_login(request, user)
-            return on_login(request)
-        if legado != None and legado.is_active() and legado.check_password(password) and not legado.migrado:
+            user = authenticate(username=username, password=password)
+            if user is not None and user.is_active:
+                auth_login(request, user)
+                return on_login(request)
+            else:
+                return render(request, 'registration/login.html', {'form': form, 'error': 'Usuario o contraseña no válidos'})
+        if legado is not None and not legado.migrado:
             # Si es un usuario migrado, activo el usuario y seteo la password
-            user.set_password(password)
-            user.is_active = True
-            user.save()
-            legado.migrado = True
-            legado.save()
-            auth_login(request, user)
-            return on_login(request)
+            if legado.check_password(password) and legado.is_active() :
+                user.set_password(password)
+                user.is_active = True
+                user.save()
+                legado.migrado = True
+                legado.save()
+                user = authenticate(username=username, password=password)
+                if user is not None and user.is_active:
+                    auth_login(request, user)
+                    return on_login(request)
+                else:
+                    return render(request, 'registration/login.html', {'form': form, 'error': 'Usuario o contraseña no válidos'})
+            else:
+                return render(request, 'registration/login.html', {'form': form, 'error': 'Usuario o contraseña no válidos'})
     form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
 
@@ -79,7 +88,41 @@ def on_login(request):
     else:
         return HttpResponseRedirect(reverse('login'))
 
+def password_reset(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        user = User.objects.filter(username=username).first()
+        if user != None:
+            i = Instituto.objects.get(usuario=user)
+            if i != None:
+                i.update_hash_pass()
+                i.save()
+                mensaje = 'Por favor ingrese al siguiente enlace para resetear la contraseña: http://' + DOMAIN + '/Recuperar/' + i.hash_id + '/'
+                email = EmailMessage('Recuperar contraseña', mensaje, EMAIL_HOST_USER, [user.email, ], [CONTACT_EMAIL], reply_to=[user.email],)
+                email.send()
+        return render(request, 'Institutos/Mensaje.html', {'instituto_id': 0, 'titulo': 'Resetear Contraseña', 'mensaje': 'Se ha enviado un correo para resetear la contraseña', 'volver': True})
+    return render(request, 'Institutos/Contrasena.html')
+
+def password_confirm(request, hash_id):
+    lista = list(Instituto.objects.filter(hash_id=hash_id))
+    if len(lista) == 0:
+        return render(request, 'Institutos/Recuperar.html', {'validlink': False})
+    i = lista[0]
+    
+    if request.method == 'POST':
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        # Seteear la pass
+        if i != None:
+            i.usuario.set_password(password1)
+            i.usuario.save()
+            i.update_hash_pass()
+            i.save()
+            return render(request, 'Institutos/Mensaje.html', {'instituto_id': 0, 'titulo': 'Se recuperó la contraseña', 'mensaje': 'Se recuperó la contraseña', 'volver': True})
+    return render(request, 'Institutos/Recuperar.html', {'validlink': True, 'hash_id': hash_id})
+
 def registro(request):
+    form = SignUpForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -92,13 +135,14 @@ def registro(request):
             i.telefono = request.POST['cellphone']
             
             i.update_hash()
-            send_mail('Verificación de Correo', \
-                'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/', \
-                EMAIL_HOST_USER, [username, ], bcc=[CONTACT_EMAIL])
             i.save()
-            return render(request, 'Institutos/Mensaje.html', {'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
-    else:
-        form = SignUpForm()
+
+            mensaje = 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/'
+            email = EmailMessage('Verificación de Correo', mensaje, EMAIL_HOST_USER, [user.email, ], [CONTACT_EMAIL], reply_to=[user.email],)
+            email.send()
+            return render(request, 'Institutos/Mensaje.html', {'instituto_id': 0, 'titulo': 'Registrate', 'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
+        else:
+            return render(request, 'registration/registro.html', {'form': form})
     return render(request, 'registration/registro.html', {'form': form})
 
 def activar(request, hash_id):
@@ -214,8 +258,6 @@ def buscar(request):
         i.distancia(lat, lng)
 
     posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia).distinct())
-
-    print(posicionados)
     
     for i in posicionados:
         i.distancia(lat, lng)

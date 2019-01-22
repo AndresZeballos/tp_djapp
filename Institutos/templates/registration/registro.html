@@ -33,13 +33,26 @@
             <input type="text" name="cellphone" maxlength="30" required="" id="id_cellphone" class="dir" placeholder="Teléfono" >
             <input type="text" name="username" maxlength="254" required="" id="id_username" class="dir" placeholder="E-Mail" >
             <input type="password" name="password1" required="" id="id_password1" class="dir" placeholder="Contraseña" >
-            <input type="password" name="password2" required="" id="id_password2"class="dir" placeholder="Confirmar Contraseña" >
+            <input type="password" name="password2" required="" id="id_password2" class="dir" placeholder="Confirmar Contraseña" >
+						
+						<div id='message'></div>
 
 						<div class="search" onclick="document.registro.submit();">Registrarse</div>
 					</div>
 				</form>
 			</article>      
 		</section>
+
+		<script>
+			jQuery('#id_password1, #id_password2').on('keyup', function () {
+				if (jQuery('#id_password2').val() != "") {
+					if (jQuery('#id_password1').val() == jQuery('#id_password2').val()) 
+						jQuery('#message').html('');
+					else 
+						jQuery('#message').html('Las contraseñas ingresadas no coinciden');
+				}
+			});
+		</script>
 
 {% endblock %}
 

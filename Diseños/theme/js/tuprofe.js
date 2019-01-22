@@ -210,6 +210,7 @@ function calcularAltoBoxPerfilProfe(){
 
 
 function anchoFichaPerfilProfe(){
+	/*
 	if (jQuery(window).width()<1180) {
 		//Obtengo el ancho de max en el head
 		var anchoMax = jQuery(".max").width();
@@ -218,7 +219,7 @@ function anchoFichaPerfilProfe(){
 	}else{
 		
 	}
-	
+	*/
 }
 
 

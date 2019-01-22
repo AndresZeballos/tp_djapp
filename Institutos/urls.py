@@ -3,11 +3,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('Ingresar/', views.login, name='ingresar'),
     path('on_login', views.on_login, name='on_login'),
+    
+    path('RecuperarPassword/', views.password_reset, name='password_reset'),
+    path('Recuperar/<hash_id>/', views.password_confirm, name='password_confirm'),
+    #path(r'^password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
+    #path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
+    #path(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+
     path('Registro', views.registro, name='registro'),
     path('Perfil', views.perfil, name='perfil'),
     path('Perfil_edit', views.perfil_edit, name='perfil_edit'),

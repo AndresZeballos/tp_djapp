@@ -2,7 +2,7 @@
 
 {% block titleH1 %}
   <h1 class="titleH1">
-	Ingresá al sistema
+	Olvidó su Contraseña
   </h1>
 {% endblock %}
 
@@ -13,7 +13,7 @@
 			<div class="max">
 				<span><a href="/">Inicio</a></span>
 				<span class="separa">&nbsp;>>&nbsp;</span>
-				<span>Ingresá al sistema</span>				
+				<span>Olvidó su Contraseña</span>				
 			</div>
 		</div>
 
@@ -24,18 +24,12 @@
 		<section class="interna">
 			<article class="message">
 				<img src="/static/Institutos/theme/img/login.gif">
-        <form name="login" method="post" action="/Ingresar/">
+        <form name="login" method="post" action="/RecuperarPassword/">
           {% csrf_token %}
 					<div class="formularioLogin">
-						<p>Ingresá al sistema</p>
-						
-						<div id='message'>{{ error }}</div>
-            
-						<input type="text" name="username" autofocus="" maxlength="254" required="" id="id_username" class="dir" placeholder="Usuario">
-						<input type="password" name="password" class="dir" placeholder="Contraseña" required="" id="id_password">
-						<div class="search" onclick="document.login.submit();">Ingresar</div>
-						
-						<a href="{% url 'password_reset' %}">¿Olvidó su contraseña?</a>
+						<p>Olvidó su Contraseña</p>
+            <input type="text" name="username" autofocus="" maxlength="254" required="" id="id_username" class="dir" placeholder="Usuario">
+						<div class="search" onclick="document.login.submit();">Enviar</div>
 					</div>
 				</form>
 			</article>      

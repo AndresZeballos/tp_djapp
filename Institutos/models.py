@@ -148,6 +148,14 @@ class Instituto(models.Model):
         m.update(self.nombre.encode('utf-8'))
         self.hash_id = m.hexdigest()
 
+    def update_hash_pass(self):
+        m = hashlib.md5()
+        if self.hash_id == None:
+            m.update(self.nombre.encode('utf-8'))
+            self.hash_id = m.hexdigest()
+        m.update((self.hash_id + self.nombre).encode('utf-8'))
+        self.hash_id = m.hexdigest()
+
     def __str__(self):
         return "%s - %s" % (self.id, self.nombre)
 
