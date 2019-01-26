@@ -1109,7 +1109,7 @@ img.tipoResSeleccionado{
 	font-family: Lato-Bold;
 	font-size: 18px;
 	color: #434A52;
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 	width: 100%;
 	float: left;
 }
@@ -1154,15 +1154,15 @@ img.tipoResSeleccionado{
 .boxBox{
 	background-color: #F2F6FB;
     font-family: Gadugi-Regular;
-    font-size: 15px;
+    font-size: 16px;
     color: #545454;
-    padding: 2%;
+    padding: 8px;
     float: left;
     border-radius: 5px;
-    margin: 2% 2% 0 0;
+    margin: 10 10 0 0;
     cursor: default;
-	width: auto;
-	display: inherit;
+    width: auto;
+    display: inherit;
 }
 .perfilBox p.buses span:hover,
 .boxBox:hover{
