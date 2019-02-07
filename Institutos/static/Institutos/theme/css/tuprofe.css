@@ -47,15 +47,6 @@
          url('../fonts/Gadugi-Bold.svg#Gadugi-Bold') format('svg');
 }
 @font-face{
-	font-family: YuGothM;
-	src: url('../fonts/YuGothicUI-Regular.otf'),
-		 url('../fonts/YuGothicUI-Regular.eot?') format('eot'),
-         url('../fonts/YuGothicUI-Regular.otf')  format('opentype'),
-         url('../fonts/YuGothicUI-Regular.woff') format('woff'),
-         url('../fonts/YuGothicUI-Regular.ttf')  format('truetype'),
-         url('../fonts/YuGothicUI-Regular.svg#YuGothicUI-Regular') format('svg');
-}
-@font-face{
 	font-family: Lato-BoldItalic;
 	src: url('../fonts/Lato-BoldItalic.otf'),
 		 url('../fonts/Lato-BoldItalic.eot?') format('eot'),
@@ -257,7 +248,7 @@ header.interna .internaHeadRight .menuHead{
 header .head h1{
 	width: 100%;
 	float: left;
-	font-family: YuGothM;
+	font-family: Muli-Bold;
 	font-size: 45px;
 	font-style: italic;
 }
@@ -1137,10 +1128,10 @@ img.tipoResSeleccionado{
     font-family: Gadugi-Regular;
     font-size: 15px;
     color: #535353;
-    padding: 2%;
+    padding: 8px;
     float: left;
     border-radius: 5px;
-    margin: 2% 2% 0 0;
+    margin: 10 10 0 0;
     cursor: default;
 	width: auto;
 } 
@@ -1828,7 +1819,7 @@ footer .powered-by-me .logo{
 	h1{
 		width: 100%;
 		float: left;
-		font-family: YuGothM;
+		font-family: Muli-Bold;
 		font-size: 28px;
 		font-style: italic;
 		margin-top: 0;
