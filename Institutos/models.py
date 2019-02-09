@@ -100,6 +100,7 @@ class Instituto(models.Model):
     referencia = models.IntegerField(default=0, null=True)
     logo =  models.ImageField(upload_to='profile_pics/', default = 'profile_pics/blank-profile.jpg')
     nombre = models.CharField(max_length=50, default='')
+    slug = models.CharField(max_length=50, default='')
     subtitulo = models.CharField(max_length=500, default='')
     descripcion = models.CharField(max_length=2000, default='')
     descripcion_corta = models.CharField(max_length=500, default='')

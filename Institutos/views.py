@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, reverse, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -334,9 +334,17 @@ def buscarProfe(request):
         'comodidades': comodidades, 'formas': formas, 'facilidades': facilidades, \
         'api_key': settings.MAPS_API_KEY, 'searchResponsive': True })
 
-def instituto(request, instituto_id):
+def institutoByID(request, instituto_id):
     instituto = get_object_or_404(Instituto, pk=instituto_id)
     return render(request, 'Institutos/Instituto.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
+
+
+def instituto(request, nombre):
+    institutos = list(Instituto.objects.filter(slug=nombre))
+    if institutos != []:
+        instituto = institutos[0]
+        return render(request, 'Institutos/Instituto.html', {'instituto': instituto, 'api_key': settings.MAPS_API_KEY})
+    return HttpResponseNotFound('<h1>Página no encontrada</h1>')
 
 def contacto(request, instituto_id=0):
     if request.method == 'POST':
@@ -513,4 +521,18 @@ def cargarParadas(request):
                 print(str(instituto.id) + " - " + str(len(instituto.omnibuses.all())))
 
     return render(request, 'admin/paradas.html', {'paradas': paradas})
+
+
+def generarSlugs(request):
+    institutos = list(Instituto.objects.filter(estado=2))
+    for i in institutos:
+        instituto = get_object_or_404(Instituto, pk=i.id)
+        nombre = instituto.nombre
+        instituto.slug = instituto.nombre.replace('.', ' ').replace('(', " ").replace(')', " ").replace('&', " y ") \
+            .replace(' ', "-").replace('--', "-").replace('--', "-").replace('--', "-") \
+            .replace('á', "a").replace('Á', "A").replace('é', "e").replace('É', "E").replace('í', "i").replace('Í', "I").replace('ó', "o").replace('Ó', "O").replace('ú', "u").replace('Ú', "U")
+        print(str(instituto.id) + " - " + str(nombre) + " - " + str(instituto.slug))
+
+        instituto.save()
+    return render(request, 'admin/index.html')
 

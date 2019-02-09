@@ -21,7 +21,8 @@ urlpatterns = [
     path('Perfil_edit', views.perfil_edit, name='perfil_edit'),
     path('Buscar', views.buscar, name='buscar'),
     path('BuscarProfe', views.buscarProfe, name='buscarProfe'),
-    path('Instituto/<int:instituto_id>/', views.instituto, name='instituto'),
+    path('Instituto/<int:instituto_id>/', views.institutoByID, name='instituto'),
+    path('Instituto/<slug:nombre>/', views.instituto, name='instituto'),
     #path('Instituto/<int:instituto_id>/Nuevo-Mensaje', views.nuevo_mensaje, name='nuevo_mensaje'),
     path('Contacto/', views.contacto, name='contacto'),
     path('Contacto/<int:instituto_id>/', views.contacto, name='contacto'),
@@ -39,6 +40,7 @@ urlpatterns = [
     path('admin/cargarParadas', views.cargarParadas, name='cargar_paradas'),
     path('Activar/<hash_id>/', views.activar, name='activar'),
     path('admin/paradasCoords/', views.paradasCoords, name='paradasCoords'),
+    path('admin/generarSlugs/', views.generarSlugs, name='generarSlugs'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
