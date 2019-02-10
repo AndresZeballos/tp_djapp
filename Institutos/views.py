@@ -41,6 +41,7 @@ def login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         username = request.POST['username']
+        print(username)
         password = request.POST['password']
         legado = UsuarioLegado.objects.filter(username=username).first()
         user = User.objects.filter(username=username).first()
@@ -55,6 +56,8 @@ def login(request):
             # Si es un usuario nuevo, realizo el login
             # Si es un usuario ya migrado, realizo el login
             user = authenticate(username=username, password=password)
+            print("user:" + str(user))
+
             if user is not None and user.is_active:
                 auth_login(request, user)
                 return on_login(request)
@@ -62,7 +65,7 @@ def login(request):
                 return render(request, 'registration/login.html', {'form': form, 'error': 'Usuario o contraseña no válidos'})
         if legado is not None and not legado.migrado:
             # Si es un usuario migrado, activo el usuario y seteo la password
-            if legado.check_password(password) and legado.is_active() :
+            if legado.check_password(password) and legado.is_active():
                 user.set_password(password)
                 user.is_active = True
                 user.save()
