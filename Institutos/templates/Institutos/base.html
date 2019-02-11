@@ -248,20 +248,31 @@
                         geocodeAddress(geocoder, 'addressPop');
                     });
                     document.getElementById('searchPop').addEventListener('click', function() {
-                        navigator.geolocation.getCurrentPosition(show_map);
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(show_map, geoFail);
+                        }
                     });
                 }
             }
+                        
+            function geoFail() {
+                console.log("Geolocalización no soportada");
+            };
 
             function show_map(position) {
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
+                console.log(latitude);
+                console.log(longitude);
+
                 document.getElementById('lat').value = latitude;
                 document.getElementById('lng').value = longitude;
                 document.getElementById('direccion').value = "Posición actual";
                 if (validateBuscarForm()) {
                     document.buscar.submit();
                 }
+                else 
+                    alert('Faltan completar campos en el formulario');
             }
 
 
