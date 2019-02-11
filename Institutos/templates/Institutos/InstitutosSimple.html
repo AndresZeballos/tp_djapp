@@ -79,10 +79,10 @@
             <div class="resultBox">
               <img src="{{ MEDIA_URL }}profile_pics/{{ instituto.logo }}">
               <div class="rightInfo">
-                <h3><a href="{% url 'instituto' instituto.id %}">{{ instituto.nombre }}</a></h3>
+                <h3><a href="{% url 'instituto_nombre' instituto.slug %}">{{ instituto.nombre }}</a></h3>
                 <span>{{ instituto.direccion }}</span>
                 <div class="bottomInfo">
-                  <div class="search xs-borrable" onclick="javascript:irA('{% url 'instituto' instituto.id %}');">Ver detalle</div>
+                  <div class="search xs-borrable" onclick="javascript:irA('{% url 'instituto_nombre' instituto.slug %}');">Ver detalle</div>
                 </div>
               </div>
             </div>
