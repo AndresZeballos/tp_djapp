@@ -131,17 +131,24 @@
 				</div>
 			</div>
 			<div class="rightMin">
-				<div class="contactoForm">
+				<div class="contactoForm profePage">
 					<form name="contacto" action="{% url 'contacto' instituto.id %}" method="post">
 						{% csrf_token %}
 						<h2>Consultas al profesor</h2>
 						<p>Completá este formulario y el profesor se pondrá en contacto contigo.</p>
+						
+						<div id='err_nombre' class="error" hidden>El ingreso del nombre es obligatorio.</div>
 						<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido">
 						<input type="text" name="telefono" class="dir" placeholder="Telefono (opcional)">
+						
+						<div id='err_email' class="error" hidden>El ingreso del correo electrónico es obligatorio.</div>
+						<div id='err_email2' class="error" hidden>El correo electrónico ingresado no es válido.</div>
 						<input type="email" name="email" class="dir" placeholder="Correo electrónico">
 						<input type="text" name="asunto" class="dir" placeholder="Asunto">
+						
+						<div id='err_mensaje' class="error" hidden>El ingreso del mensaje es obligatorio.</div>
 						<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje..."></textarea>
-						<input type="submit" class="dir" onclick="javascript:document.contacto.submit();" value="Enviar consulta">
+						<div type="submit" class="dir" onclick="javascript:validateContactoForm(true);">Enviar consulta</div>
 					</form>
 				</div>
 			</div>

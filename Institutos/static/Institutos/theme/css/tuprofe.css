@@ -713,7 +713,7 @@ span.separa{
 	text-align: center;
 }
 
-.interna .message #message {
+.interna .message .error {
 	font-family: Lato-Bold;
     color: red;
     margin: 10 0;
@@ -1200,9 +1200,14 @@ img.tipoResSeleccionado{
 .contactoForm textarea{
 	margin-bottom: 1rem;
 }
-.contactoForm input[type=submit]{
-	width: auto;
-    float: none;
+.contactoForm div[type=submit]{
+
+	
+    width: 80%;
+    float: left;
+    font-family: Gadugi-Regular;
+	
+
     background-color: #2F6CA4;
     border: 1px solid #999999;
     font-family: Gadugi-Bold;
@@ -1239,6 +1244,17 @@ img.tipoResSeleccionado{
 	margin-top: 3rem;
 	border-radius: 5px;
 }
+
+.profePage .error {
+	font-family: Lato-Bold;
+	font-size: 13px;
+    color: red;
+    margin: 10 0;
+}
+
+
+
+
 /** EDICION DEL PERFIL DEL PROFE **/
 .reeadInfo{
 	width: 530px;

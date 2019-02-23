@@ -28,12 +28,19 @@
 					{% csrf_token %}
 					<div class="formularioContacto">
 						<p>Contactáte</p>
+
+						<div id='err_nombre' class="error" hidden>El ingreso del nombre es obligatorio.</div>
 						<input type="text" name="nombre" class="dir" placeholder="Nombre y Apellido" value="{{ mensaje.nombre }}">
 						<input type="text" name="telefono" class="dir" placeholder="Teléfono" value="{{ mensaje.telefono }}">
+
+						<div id='err_email' class="error" hidden>El ingreso del correo electrónico es obligatorio.</div>
+						<div id='err_email2' class="error" hidden>El correo electrónico ingresado no es válido.</div>
 						<input type="email" name="email" class="dir" placeholder="Correo electrónico" value="{{ mensaje.email }}">
 						<input type="text" name="asunto" class="dir" placeholder="Asunto" value="{{ mensaje.asunto }}">
+
+						<div id='err_mensaje' class="error" hidden>El ingreso del mensaje es obligatorio.</div>
 						<textarea name="mensaje" rows="4" cols="50" placeholder="Ingrese su mensaje...">{{ mensaje.mensaje }}</textarea>
-						<div type="submit" class="search" onclick="javascript:document.contacto.submit();">Enviar</div>
+						<div type="submit" class="search" onclick="javascript:validateContactoForm();">Enviar</div>
 					</div>
 				</form>
 			</article>      

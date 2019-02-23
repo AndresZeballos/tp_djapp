@@ -233,6 +233,53 @@
                 }
                 return true;
             }
+
+            function is_email(email){      
+                var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailReg.test(email); 
+            } 
+            
+            function validateContactoForm(inlineBlock) {
+                var isValid = true;
+
+			    jQuery('#err_nombre').hide();
+                jQuery('#err_email').hide();
+                jQuery('#err_email2').hide();
+                jQuery('#err_mensaje').hide();
+                
+                var x = document.forms["contacto"]["nombre"].value;
+                if (x == "") {
+                    jQuery('#err_nombre').show();
+                    isValid = false;
+                    if (inlineBlock)
+                        document.getElementById("err_nombre").style.display = 'inline-block';
+                }
+                x = document.forms["contacto"]["email"].value;
+                if (x == "") {
+                    jQuery('#err_email').show();
+                    isValid = false;
+                    if (inlineBlock)
+                        document.getElementById("err_email").style.display = 'inline-block';
+                } else {
+                    if (!is_email(x)) {
+                        jQuery('#err_email2').show();
+                        isValid = false;
+                        if (inlineBlock)
+                            document.getElementById("err_email2").style.display = 'inline-block';
+                    }
+                }
+                x = document.forms["contacto"]["mensaje"].value;
+                if (x == "") {
+                    jQuery('#err_mensaje').show();
+                    isValid = false;
+                    if (inlineBlock)
+                        document.getElementById("err_mensaje").style.display = 'inline-block';
+                }
+                if (isValid) {
+                    document.contacto.submit();
+                }
+            }
+
             function configureListeners(geocoder) {
                 var aux = document.getElementById('popUpSearch1');
                 if (aux !== null) {
@@ -248,15 +295,13 @@
                         geocodeAddress(geocoder, 'addressPop');
                     });
                     document.getElementById('searchPop').addEventListener('click', function() {
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(show_map, geoFail);
-                        }
+                        navigator.geolocation.getCurrentPosition(show_map, geoFail);
                     });
                 }
             }
                         
             function geoFail() {
-                console.log("Geolocalización no soportada");
+                alert("Ocurrió un error al buscar la ubicación actual");
             };
 
             function show_map(position) {
