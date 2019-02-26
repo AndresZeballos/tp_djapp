@@ -64,18 +64,21 @@
                         </div>
                         {% if direccion %}
                             <div class="buscador">
-                                <form name="buscarH" method="post" action="{% url 'buscar' %}">
-                                    <input list="centros" id="centro1" name="centro" class="centroestudioCombo" placeholder="Centro de estudio" value="{{ centro }}" onchange="onCentroChange(true)">
+                                <form name="buscarH" method="post" action="{% url 'buscar' %}" style="display: flex; float: right;">
+                                    <input list="centros" id="centro1" name="centro" class="centroestudioCombo" style="margin-right: 3px;" placeholder="Centro de estudio" value="{{ centro }}" onchange="onCentroChange(true)">
                                     <datalist id="centros">
                                     {% for centro in centros %}
                                         <option value="{{ centro.nombre }}"></option>
                                     {% endfor %}
                                     </datalist>
-                                    <input list="materias" id="materia1" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
+                                    <input list="materias" id="materia1" name="materia" class="centroestudioCombo" style="margin-right: 3px;" placeholder="Materia" value="{{ materia }}">
                                     <datalist id="materias">
                                     </datalist>
                                     <input id="address" type="text" name="dir" class="dir" value="{{ direccion }}" hidden>
 
+                                    <div id="searchB1" class="searchButton">
+                                        <img src="/static/Institutos/theme/img/lupa.png" id="iconSearch">
+                                    </div>
                                 </form>
                             </div>
                         {% endif %}
@@ -112,6 +115,8 @@
                                     <input list="materias" id="materia2" name="materia" class="centroestudioCombo" placeholder="Materia" value="{{ materia }}">
                                     <datalist id="materias">
                                     </datalist>
+                                    
+                                    <input id="searchB2" class="centroestudioCombo" type="button" value="Buscar" style="background-color: white;">
 
                                 </form>
                             </div>

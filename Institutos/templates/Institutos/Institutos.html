@@ -209,13 +209,23 @@
     jQuery("#materia1").change(function() {
       document.getElementById('centro').value = document.getElementById('centro1').value;
       document.getElementById('materia').value = document.getElementById('materia1').value;
-      callPage(1);
     });
     jQuery("#materia2").change(function() {
       document.getElementById('centro').value = document.getElementById('centro2').value;
       document.getElementById('materia').value = document.getElementById('materia2').value;
+    });
+    jQuery("#searchB1").click(function() {
+      document.getElementById('centro').value = document.getElementById('centro1').value;
+      document.getElementById('materia').value = document.getElementById('materia1').value;
       callPage(1);
     });
+    jQuery("#searchB2").click(function() {
+      document.getElementById('centro').value = document.getElementById('centro2').value;
+      document.getElementById('materia').value = document.getElementById('materia2').value;
+      callPage(1);
+    });
+
+    
 
     function callPage(page) {
       document.getElementById('page').value = page;

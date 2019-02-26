@@ -1252,6 +1252,11 @@ img.tipoResSeleccionado{
     margin: 10 0;
 }
 
+.searchButton {
+	background-color: #EEEEEE;
+	padding: 6px 8px;
+	cursor: pointer;
+}
 
 
 

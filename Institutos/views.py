@@ -55,6 +55,7 @@ def login(request):
         if legado == None or (legado is not None and legado.migrado):
             # Si es un usuario nuevo, realizo el login
             # Si es un usuario ya migrado, realizo el login
+            print("user:" + str(user))
             user = authenticate(username=username, password=password)
             print("user:" + str(user))
 
@@ -140,13 +141,27 @@ def registro(request):
             i.update_hash()
             i.save()
 
-            mensaje = 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + i.hash_id + '/'
+            mensaje = mailVerificacion(i)
             email = EmailMessage('Verificación de Correo', mensaje, EMAIL_HOST_USER, [user.email, ], [CONTACT_EMAIL], reply_to=[user.email],)
             email.send()
             return render(request, 'Institutos/Mensaje.html', {'instituto_id': 0, 'titulo': 'Registrate', 'mensaje': 'Se ha enviado a su email un correo de verificación de la cuenta', 'volver': True})
         else:
             return render(request, 'registration/registro.html', {'form': form})
     return render(request, 'registration/registro.html', {'form': form})
+
+def mailVerificacion(instituto):
+    #mensaje = 'Por favor ingrese al siguiente enlace para verificar su dirección de correo: http://' + DOMAIN + '/Activar/' + instituto.hash_id + '/'
+    mensaje = 'Hola ' + instituto.nombre + ',\n\n' + \
+            'Te damos la bienvenida a TuProfe.com.uy,\n' + \
+            'Te estás sumando a la mayor comunidad de profesores particulares del Uruguay.\n' + \
+            'Para poder continuar con el proceso de registro, es necesario que verifiquemos tu casilla de correo electrónico.\n' + \
+            'Es tan simple como darle click a este link:: http://' + DOMAIN + '/Activar/' + instituto.hash_id + '/\n' + \
+            '\n' + \
+            'Al ingresar a tu perfil podrás editar tus datos.\n' + \
+            '\n' + \
+            'Muchas gracias por confiar en nosotros.\n' + \
+            'Equipo TuProfe.\n' 
+    return mensaje
 
 def activar(request, hash_id):
     m = list(Instituto.objects.filter(estado=0).filter(hash_id=hash_id))[0]
