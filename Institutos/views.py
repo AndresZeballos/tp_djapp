@@ -275,12 +275,12 @@ def buscar(request):
     for i in destacados:
         i.distancia(lat, lng)
 
-    posicionados = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia).distinct())
+    posicionados_sf = list(Instituto.objects.filter(estado=2).filter(posicionamiento__gt=0).filter(centros__nombre=centro).filter(materias__nombre=materia).distinct())
     
-    for i in posicionados:
+    for i in posicionados_sf:
         i.distancia(lat, lng)
 
-    posicionados = list(filter(lambda i: i.ultima_distancia <= 1.5, posicionados))
+    posicionados = list(filter(lambda i: i.ultima_distancia <= 1.5, posicionados_sf))
     posicionados.sort(key=lambda instituto: instituto.ultima_distancia)
     posicionados.sort(key=lambda instituto: instituto.posicionamiento, reverse=True)
     
@@ -288,6 +288,11 @@ def buscar(request):
 
     for i in organicos:
         i.distancia(lat, lng)
+    
+    # posicionamiento: Son los que están en el radio. Si están acá, no salen en orgánico. Si no entran en radio, van en orgánico. - 29/03/19
+    posicionados_o = list(filter(lambda i: i.ultima_distancia > 1.5, posicionados_sf))
+    organicos = organicos + posicionados_o
+
     # El filtro de radio de 1 km no aplica a los resultados organicos - 30/07/18
     organicos.sort(key=lambda instituto: instituto.ultima_distancia)
 
