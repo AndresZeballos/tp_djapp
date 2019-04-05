@@ -856,6 +856,11 @@ if (materias == 0) {
         <rename>estado</rename>
         <update>Y</update>
       </value>
+      <value>
+        <name>slug</name>
+        <rename>slug</rename>
+        <update>Y</update>
+      </value>
     </lookup>
     <cluster_schema />
     <remotesteps>
@@ -1022,6 +1027,18 @@ if (materias == 0) {
         <decimal />
         <group />
         <nullif>0</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>slug</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>-</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
