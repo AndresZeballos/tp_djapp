@@ -17,6 +17,8 @@ class UsuarioLegado(models.Model):
     def check_password(self, password):
         m = hashlib.md5()
         m.update(password.encode('utf-8'))
+        print(self.password)
+        print(m.hexdigest())
         return self.password==m.hexdigest()
 
     def is_active(self):

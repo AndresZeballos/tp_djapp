@@ -43,8 +43,8 @@ def login(request):
         username = request.POST['username']
         print(username)
         password = request.POST['password']
-        legado = UsuarioLegado.objects.filter(username=username).first()
-        user = User.objects.filter(username=username).first()
+        legado = UsuarioLegado.objects.filter(email=username).first()
+        user = User.objects.filter(email=username).first()
         if DEBUG:
             print(legado)
             if legado != None:
@@ -52,11 +52,15 @@ def login(request):
                 print(legado.is_active())
                 print(legado.check_password(password))
             print(user)
-        if legado == None or (legado is not None and legado.migrado):
+        if (legado == None and user is not None) or (legado is not None and legado.migrado):
+            print('if 1')
             # Si es un usuario nuevo, realizo el login
             # Si es un usuario ya migrado, realizo el login
             print("user:" + str(user))
-            user = authenticate(username=username, password=password)
+            if legado == None:
+                user = authenticate(username=user.username, password=password)
+            else:
+                user = authenticate(username=legado.username, password=password)
             print("user:" + str(user))
 
             if user is not None and user.is_active:
@@ -65,8 +69,10 @@ def login(request):
             else:
                 return render(request, 'registration/login.html', {'form': form, 'error': 'Usuario o contraseña no válidos'})
         if legado is not None and not legado.migrado:
+            print('if 2')
             # Si es un usuario migrado, activo el usuario y seteo la password
             if legado.check_password(password) and legado.is_active():
+                print('if 3')
                 user.set_password(password)
                 user.is_active = True
                 user.save()
