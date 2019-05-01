@@ -558,7 +558,8 @@ def generarSlugs(request):
         instituto = get_object_or_404(Instituto, pk=i.id)
         nombre = instituto.nombre
         instituto.slug = instituto.nombre.replace('.', ' ').replace('(', " ").replace(')', " ").replace('&', " y ") \
-            .replace(' ', "-").replace('--', "-").replace('--', "-").replace('--', "-") \
+            .replace(' ', "-").replace('–', "-") \
+            .replace('--', "-").replace('--', "-").replace('--', "-").replace('--', "-").replace('--', "-") \
             .replace('á', "a").replace('Á', "A").replace('é', "e").replace('É', "E").replace('í', "i").replace('Í', "I").replace('ó', "o").replace('Ó', "O").replace('ú', "u").replace('Ú', "U")
         print(str(instituto.id) + " - " + str(nombre) + " - " + str(instituto.slug))
 
