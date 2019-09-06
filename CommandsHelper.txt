@@ -1,1 +1,6 @@
 source newenv/bin/activate
+
+
+git update-index --assume-unchanged .env
+git update-index --no-assume-unchanged .env
+
