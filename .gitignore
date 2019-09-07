@@ -6,7 +6,8 @@
 *.sqlite3
 
 # Se omiten los .env para evitar subir datos sensibles a github
-.env
+.env*
+newenv/
 
 # C extensions
 *.so

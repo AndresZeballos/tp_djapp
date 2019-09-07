@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 from decouple import config
 import os
-import django_heroku
+
+ENV = config('ENV')
+if (ENV == 'PROD'):
+    import django_heroku
 
 MAPS_API_KEY = config('MAPS_API_KEY')
 
@@ -143,4 +146,5 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-django_heroku.settings(locals())
+if (ENV == 'PROD'):
+    django_heroku.settings(locals())
