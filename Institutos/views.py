@@ -213,7 +213,6 @@ def perfil_edit(request):
             instituto.updateRelation(instituto.materias, form.cleaned_data['materias'])
             instituto.save()
 
-            print(len(list(instituto.omnibuses.all())))
             instituto.omnibuses.clear()
             paradas = list(Parada.objects.all())
             for p in paradas:
@@ -223,7 +222,6 @@ def perfil_edit(request):
                     for l in parada.lineas.all():
                         instituto.omnibuses.add(Omnibus.objects.get(id=l.id))
             instituto.save()
-            print(len(list(instituto.omnibuses.all())))
 
             Profesor.objects.filter(instituto=instituto).delete()
 
@@ -234,7 +232,8 @@ def perfil_edit(request):
                     p = Profesor(nombre=profe, instituto=instituto)
                     p.save()
             
-            form = ImageForm(request.POST, request.FILES)
+            if (len(request.FILES) > 0):
+                form = ImageForm(request.POST, request.FILES)
             try: 
                 if form.is_valid():
                     form.save()

@@ -21,13 +21,13 @@
         <div class="titleRes ajusteMargin"></div>
     </div>
     <section class="interna">
-        <form action="/Perfil_edit" method="post" enctype="multipart/form-data">
+        <form name="edit" action="/Perfil_edit" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="max">
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Información b&aacute;sica</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     
                     <div class="reeadBox" id="infoBasca_edit">
@@ -47,7 +47,10 @@
                             </p>
                             <span>Email de contacto</span>
                             <p>
-                                <input type="email" name="email" id="email_edit" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}" />
+                                <input type="email" name="email" id="email_edit" class="dir" placeholder="Correo electrónico" value="{{ instituto.usuario.email }}" hidden/>
+                            </p>
+                            <p>
+                                {{ instituto.usuario.email }}
                             </p>
                             <span>Descripci&oacute;n</span>
                             <p>
@@ -61,7 +64,7 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Ubicaci&oacute;n</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox" id="ubicacion_edit">
                         <div class="readLeftUbicacion">
@@ -85,7 +88,7 @@
                 <div class="reeadInfo_edit full">
                     <div class="title">
                         <h2>Materias</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox" id="centro_display">
                         <div class="search" onclick="addCentroShow()">+ Agregar nuevo centro de estudio</div>
@@ -113,7 +116,7 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Medios de pago</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox">
                         <div class="addButtonEdit">
@@ -134,7 +137,7 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Profesores</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox">
                         <div class="addButtonEdit">
@@ -155,7 +158,7 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Facilidades</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox">
                         <div class="addButtonEdit">
@@ -176,7 +179,7 @@
                 <div class="reeadInfo_edit">
                     <div class="title">
                         <h2>Comodidades</h2>
-                        <a href="#" onclick="jQuery('form')[0].submit();">Guardar</a>
+                        <a href="#" onclick="validateEditProfeForm();">Guardar</a>
                     </div>
                     <div class="reeadBox">
                         <div class="addButtonEdit">
@@ -478,6 +481,52 @@
                 jQuery(".popUpContentBox").css("display","none");
                 closed();
             }
+
+            
+            function validateEditProfeForm() {
+                var status = true;
+                var x = document.forms["edit"]["nombre"];
+                x.style.borderColor = '#ddd';
+                if (x.value == "") {
+                    x.style.borderColor = 'red';
+                    status = false;
+                }
+                x = document.forms["edit"]["telefono"];
+                x.style.borderColor = '#ddd';
+                if (x.value == "") {
+                    x.style.borderColor = 'red';
+                    status = false;
+                }
+                x = document.forms["edit"]["email"];
+                x.style.borderColor = '#ddd';
+                if (x.value == "") {
+                    x.style.borderColor = 'red';
+                    status = false;
+                }
+                x = document.forms["edit"]["descripcion"];
+                x.style.borderColor = '#ddd';
+                if (x.value == "") {
+                    x.style.borderColor = 'red';
+                    status = false;
+                }
+                x = document.forms["edit"]["direccion"];
+                x.style.borderColor = '#ddd';
+                if (x.value == "") {
+                    x.style.borderColor = 'red';
+                    status = false;
+                }
+                
+                x = document.forms["edit"]["lat"];
+                if (x.value == "") {
+                    status = false;
+                }
+                x = document.forms["edit"]["lng"];
+                if (x.value == "") {
+                    status = false;
+                }
+                if (status)
+                    jQuery('form')[0].submit();
+            }
         </script>
 
 
@@ -576,127 +625,3 @@
         }
     </script>
 {% endblock %}
-
-
-
-
-
-
-
-        
-
-
-
-{% block title %}Pagina con el perfil del intituto{% endblock %}
-
-<div>En esta página se mostrará la información del istituto para su modificación y otros datos que se definan en el diseño</div>
-
-<h3>Mensajes</h3>
-<ul>
-{% for m in instituto.mensaje_set.all %}
-    <li>{{ m.fecha|date:"d/M/Y H:i" }} - {{ m.nombre }} - {{ m.telefono }} - {{ m.email }} - {{ m.mensaje }}</li>
-{% endfor %}
-</ul>
-
-
-<form action="/Perfil" method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        
-        {% comment %}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% endcomment %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Guardar</button>
-  </form>
-
-
-<h2>Dirección</h2>
-
-<input id="lat" value="{{ instituto.latitud }}" type="number" hidden>
-<input id="lng" value="{{ instituto.longitud }}" type="number" hidden>
-
-<div id="floating-panel">
-    <input id="address" type="textbox" value="">
-    <input id="submit" type="button" value="Buscar dirección">
-</div>
-
-<br />
-
-<div id="map" style="height: 600px; width: 800px;"></div>
-
-<script>
-    var lastMarker = null;
-
-    function initMap() {
-        var position = { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) };
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: position
-        });
-        var marker = new google.maps.Marker({
-            position: position,
-            map: map
-        });
-
-        lastMarker = marker;
-
-        var geocoder = new google.maps.Geocoder();
-
-        document.getElementById('submit').addEventListener('click', function() {
-            geocodeAddress(geocoder, map);
-        });
-
-        google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
-
-        function placeMarker(location) {
-            var marker = new google.maps.Marker({
-                position: location, 
-                map: map
-            });
-
-            lastMarker.setMap(null);
-            lastMarker = marker;
-        }
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address + ', Montevideo, Uruguay'}, function(results, status) {
-            if (status === 'OK') {
-                resultsMap.setCenter(results[0].geometry.location);
-                
-                var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                });
-
-                lastMarker.setMap(null);
-                lastMarker = marker;
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-</script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap">
-</script>
-
-<br />
-
-<div>
-    <a href="{% url 'logout' %}">Salir</a>
-</div>
